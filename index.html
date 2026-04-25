@@ -4,377 +4,258 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Location Audio Quote Calculator</title>
-<meta name="description" content="Instant pricing calculator for location audio services — boom, lavs, timecode, IFBs and more.">
+<meta name="description" content="Free quote calculator for location audio freelancers. Know your market rate. Hold the line.">
 <style>
 :root {
   --bg: #0d0d12;
   --surface: #16161f;
   --surface2: #1e1e2a;
+  --surface3: #252535;
   --border: #2a2a38;
   --text: #e8e8f0;
   --muted: #6b6b85;
   --accent: #4f8ef7;
   --gold: #f5c842;
   --green: #3dba7a;
+  --red: #e05c5c;
   --radius: 8px;
   --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
 }
-
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font);
-  font-size: 14px;
-  line-height: 1.5;
-  min-height: 100vh;
-}
+body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.5; min-height: 100vh; }
 
 /* ── Layout ── */
-.app {
-  display: grid;
-  grid-template-columns: 430px 1fr;
-  grid-template-rows: 60px 1fr 44px;
-  height: 100vh;
-  grid-template-areas: "hdr hdr" "form quote" "foot foot";
-}
+.app { display: grid; grid-template-columns: 430px 1fr; grid-template-rows: 60px 1fr 44px; height: 100vh; grid-template-areas: "hdr hdr" "form quote" "foot foot"; }
 
 /* ── Header ── */
-header {
-  grid-area: hdr;
-  background: var(--surface);
-  border-bottom: 1px solid var(--border);
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-.hdr-logo {
-  font-size: 19px;
-  font-weight: 700;
-  color: var(--gold);
-  letter-spacing: -0.3px;
-}
-.hdr-sub { font-size: 12px; color: var(--muted); }
-.hdr-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+header { grid-area: hdr; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; gap: 12px; }
+.hdr-logo { font-size: 18px; font-weight: 700; color: var(--gold); letter-spacing: -0.3px; }
+.hdr-sub { font-size: 11px; color: var(--muted); }
+.hdr-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
 
 /* ── Form Panel ── */
-.form-panel {
-  grid-area: form;
-  background: var(--surface);
-  border-right: 1px solid var(--border);
-  overflow-y: auto;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
+.form-panel { grid-area: form; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 
 /* ── Quote Panel ── */
-.quote-panel {
-  grid-area: quote;
-  overflow-y: auto;
-  padding: 20px;
-  background: var(--bg);
-}
+.quote-panel { grid-area: quote; overflow-y: auto; padding: 20px; background: var(--bg); }
 
 /* ── Sections ── */
-.section {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  overflow: hidden;
-}
-.section-hdr {
-  padding: 9px 14px;
-  background: rgba(255,255,255,0.025);
-  border-bottom: 1px solid var(--border);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.9px;
-  color: var(--muted);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.section-body {
-  padding: 12px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-}
+.section { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.section-hdr { padding: 9px 13px; background: rgba(255,255,255,0.025); border-bottom: 1px solid var(--border); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: var(--muted); display: flex; align-items: center; justify-content: space-between; }
+.section-body { padding: 12px 13px; display: flex; flex-direction: column; gap: 9px; }
 
 /* ── Fields ── */
 .field { display: flex; flex-direction: column; gap: 3px; }
-.field label {
-  font-size: 11px;
-  color: var(--muted);
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-.field input {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text);
-  font-family: var(--font);
-  font-size: 14px;
-  padding: 7px 10px;
-  outline: none;
-  transition: border-color 0.15s;
-  width: 100%;
-}
-.field input:focus { border-color: var(--accent); }
+.field label { font-size: 11px; color: var(--muted); font-weight: 500; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.field input, .field select { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font); font-size: 14px; padding: 7px 10px; outline: none; transition: border-color 0.15s; width: 100%; }
+.field input:focus, .field select:focus { border-color: var(--accent); }
 .field input[type="number"] { font-family: var(--mono); }
+.field select option { background: var(--surface2); }
 .field-hint { font-size: 10px; color: var(--muted); opacity: 0.7; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
 /* ── Badges ── */
-.badge {
-  display: inline-flex; align-items: center;
-  font-size: 9px; font-weight: 700;
-  padding: 2px 5px; border-radius: 3px;
-  text-transform: uppercase; letter-spacing: 0.4px;
-}
+.badge { display: inline-flex; align-items: center; font-size: 9px; font-weight: 700; padding: 2px 5px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.4px; }
 .badge-in  { background: rgba(61,186,122,0.12); color: var(--green); border: 1px solid rgba(61,186,122,0.25); }
 .badge-ex  { background: rgba(245,200,66,0.1);  color: var(--gold);  border: 1px solid rgba(245,200,66,0.25); }
+.badge-t1  { background: rgba(79,142,247,0.15); color: var(--accent); border: 1px solid rgba(79,142,247,0.3); }
+.badge-t2  { background: rgba(245,200,66,0.1);  color: var(--gold);  border: 1px solid rgba(245,200,66,0.25); }
+.badge-t3  { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
 
 /* ── Rates ── */
-.rate-row {
-  display: grid;
-  grid-template-columns: 1fr 88px;
-  gap: 8px;
-  align-items: center;
-}
+.rate-row { display: grid; grid-template-columns: 1fr 88px; gap: 8px; align-items: center; }
 .rate-label { font-size: 12px; color: var(--text); }
 .rate-sub   { font-size: 10px; color: var(--muted); }
-.rate-input {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--gold);
-  font-family: var(--mono);
-  font-size: 13px;
-  padding: 5px 8px;
-  text-align: right;
-  outline: none;
-  width: 100%;
-}
+.rate-input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--gold); font-family: var(--mono); font-size: 13px; padding: 5px 8px; text-align: right; outline: none; width: 100%; }
 .rate-input:focus { border-color: var(--gold); }
-.rates-saved-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--green);
-  display: inline-block;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.rates-saved-dot.show { opacity: 1; }
+.saved-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; opacity: 0; transition: opacity 0.3s; }
+.saved-dot.show { opacity: 1; }
 
 /* ── Buttons ── */
-.btn {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 7px 12px; border-radius: 6px; border: none;
-  font-family: var(--font); font-size: 12px; font-weight: 500;
-  cursor: pointer; transition: all 0.15s; outline: none;
-  white-space: nowrap;
-}
+.btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 6px; border: none; font-family: var(--font); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; outline: none; white-space: nowrap; }
 .btn-primary { background: var(--accent); color: #fff; }
 .btn-primary:hover { background: #6fa3ff; }
-.btn-ghost {
-  background: transparent; color: var(--muted);
-  border: 1px solid var(--border);
-}
+.btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
 .btn-ghost:hover { background: var(--surface2); color: var(--text); }
-.btn kbd {
-  font-family: var(--mono); font-size: 10px;
-  background: rgba(255,255,255,0.1); padding: 1px 4px;
-  border-radius: 3px; margin-left: 2px;
-}
-
-/* ── Collapsible rates toggle ── */
-.toggle-link {
-  font-size: 10px; color: var(--accent);
-  cursor: pointer; text-decoration: none;
-  background: none; border: none; font-family: var(--font);
-  padding: 0;
-}
+.btn-market { background: rgba(61,186,122,0.1); color: var(--green); border: 1px solid rgba(61,186,122,0.25); }
+.btn-market:hover { background: rgba(61,186,122,0.2); }
+.btn kbd { font-family: var(--mono); font-size: 10px; background: rgba(255,255,255,0.1); padding: 1px 4px; border-radius: 3px; margin-left: 2px; }
+.toggle-link { font-size: 10px; color: var(--accent); cursor: pointer; background: none; border: none; font-family: var(--font); padding: 0; }
 .toggle-link:hover { text-decoration: underline; }
 
 /* ── Quote Card ── */
-.quote-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  max-width: 680px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-.quote-card-hdr {
-  background: var(--surface2);
-  border-bottom: 1px solid var(--border);
-  padding: 12px 18px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
+.quote-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); max-width: 700px; margin: 0 auto; overflow: hidden; }
+.quote-card-hdr { background: var(--surface2); border-bottom: 1px solid var(--border); padding: 12px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 .quote-card-title { font-size: 14px; font-weight: 700; }
 .quote-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .quote-body { padding: 22px; }
 
 /* ── Live Quote Blocks ── */
 .q-block { margin-bottom: 20px; }
-.q-block-title {
-  font-size: 10px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.9px; color: var(--muted);
-  padding-bottom: 6px; border-bottom: 1px solid var(--border);
-  margin-bottom: 8px;
-}
-.q-line {
-  display: flex; justify-content: space-between; align-items: flex-start;
-  padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
-  gap: 12px;
-}
+.q-block-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: var(--muted); padding-bottom: 6px; border-bottom: 1px solid var(--border); margin-bottom: 8px; }
+.q-recordist { margin-bottom: 18px; padding-bottom: 16px; border-bottom: 2px solid var(--border); }
+.q-recordist-name { font-size: 18px; font-weight: 700; color: var(--gold); letter-spacing: -0.3px; }
+.q-recordist-co { font-size: 13px; color: var(--text); margin-top: 1px; }
+.q-recordist-contact { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.q-line { display: flex; justify-content: space-between; align-items: flex-start; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.03); gap: 12px; }
 .q-line:last-child { border-bottom: none; }
-.q-line-left  { flex: 1; min-width: 0; }
-.q-line-name  { font-size: 13px; color: var(--text); }
-.q-line-sub   { font-size: 11px; color: var(--muted); margin-top: 1px; }
-.q-line-amt   { font-family: var(--mono); font-size: 13px; font-weight: 600; flex-shrink: 0; }
+.q-line-left { flex: 1; min-width: 0; }
+.q-line-name { font-size: 13px; color: var(--text); }
+.q-line-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.q-line-amt { font-family: var(--mono); font-size: 13px; font-weight: 600; flex-shrink: 0; }
 .q-included .q-line-amt { color: var(--muted); }
-.q-extra    .q-line-amt { color: var(--gold); }
-
-.q-total {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 12px 0 4px; border-top: 2px solid var(--border); margin-top: 10px;
-  font-size: 16px; font-weight: 700;
-}
+.q-extra .q-line-amt { color: var(--gold); }
+.q-kit .q-line-amt { color: var(--accent); }
+.q-subtotal { display: flex; justify-content: space-between; padding: 6px 0; font-size: 11px; color: var(--muted); border-top: 1px solid var(--border); margin-top: 4px; }
+.q-total { display: flex; justify-content: space-between; align-items: center; padding: 12px 0 4px; border-top: 2px solid var(--border); margin-top: 10px; font-size: 16px; font-weight: 700; }
 .q-total .amt { color: var(--green); font-family: var(--mono); }
 .q-perday { text-align: right; font-size: 11px; color: var(--muted); margin-top: 4px; }
-
-/* Gear manifest */
-.gear-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 3px 0; font-size: 12px; color: var(--muted);
-}
-.gear-item::before { content: '▸'; font-size: 9px; color: var(--accent); flex-shrink: 0; }
+.q-terms { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); line-height: 1.8; }
+.q-terms strong { color: var(--text); }
+.gear-item { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 12px; color: var(--muted); }
+.gear-item::before { content: '⸬'; font-size: 9px; color: var(--accent); flex-shrink: 0; }
 .gear-extra { color: var(--text); }
 .gear-extra::before { color: var(--gold); }
-.gear-tag {
-  font-size: 9px; font-weight: 700;
-  background: rgba(245,200,66,0.12); color: var(--gold);
-  border: 1px solid rgba(245,200,66,0.2);
-  padding: 1px 4px; border-radius: 3px;
-  text-transform: uppercase; letter-spacing: 0.3px;
-}
-
-/* Empty state */
-.empty-state {
-  text-align: center; padding: 60px 20px; color: var(--muted);
-}
+.gear-tag { font-size: 9px; font-weight: 700; background: rgba(245,200,66,0.12); color: var(--gold); border: 1px solid rgba(245,200,66,0.2); padding: 1px 4px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.3px; }
+.empty-state { text-align: center; padding: 60px 20px; color: var(--muted); }
 .empty-state .icon { font-size: 52px; margin-bottom: 14px; opacity: 0.2; }
 .empty-state p { font-size: 13px; line-height: 1.8; }
 
+/* ── Email Compose Modal ── */
+.compose-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: none; align-items: center; justify-content: center; z-index: 400; padding: 20px; }
+.compose-overlay.visible { display: flex; }
+.compose-modal { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; width: 100%; max-width: 620px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 24px 80px rgba(0,0,0,0.7); overflow: hidden; }
+.compose-topbar { background: var(--surface2); border-bottom: 1px solid var(--border); padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; }
+.compose-topbar-title { font-size: 14px; font-weight: 700; }
+.compose-topbar-sub { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.compose-close { background: none; border: none; color: var(--muted); font-size: 18px; cursor: pointer; padding: 0; line-height: 1; }
+.compose-close:hover { color: var(--text); }
+.compose-fields { padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; border-bottom: 1px solid var(--border); }
+.compose-row { display: grid; grid-template-columns: 52px 1fr; align-items: center; gap: 10px; }
+.compose-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.compose-input { background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--text); font-family: var(--font); font-size: 13px; padding: 5px 4px; outline: none; width: 100%; transition: border-color 0.15s; }
+.compose-input:focus { border-color: var(--accent); }
+.compose-body-wrap { flex: 1; overflow-y: auto; padding: 16px 18px; display: flex; flex-direction: column; gap: 10px; min-height: 0; }
+.compose-intro-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); }
+.compose-intro { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font); font-size: 13px; line-height: 1.6; padding: 10px 12px; outline: none; resize: vertical; min-height: 100px; width: 100%; }
+.compose-intro:focus { border-color: var(--accent); }
+.compose-quote-preview { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.6; max-height: 180px; overflow-y: auto; white-space: pre-wrap; }
+.compose-footer { padding: 14px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; background: var(--surface2); }
+.compose-footer-hint { font-size: 11px; color: var(--muted); flex: 1; }
+.compose-send { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 9px 20px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.compose-send:hover { background: #6fa3ff; }
+
+/* ── Market Rate Modal ── */
+.market-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: none; align-items: flex-start; justify-content: flex-end; z-index: 300; }
+.market-overlay.visible { display: flex; }
+.market-panel { background: var(--surface); border-left: 1px solid var(--border); width: 520px; max-width: 100vw; height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+.market-panel-hdr { padding: 18px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; position: sticky; top: 0; z-index: 1; }
+.market-panel-title { font-size: 16px; font-weight: 700; }
+.market-panel-sub { font-size: 12px; color: var(--muted); margin-top: 2px; line-height: 1.5; }
+.market-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; padding: 0; line-height: 1; }
+.market-close:hover { color: var(--text); }
+.market-body { padding: 18px 20px; display: flex; flex-direction: column; gap: 16px; flex: 1; }
+.market-select-wrap .field label { font-size: 12px; }
+.market-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
+.market-card-hdr { padding: 12px 16px; background: rgba(255,255,255,0.025); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.market-city-name { font-size: 15px; font-weight: 700; }
+.market-card-body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+.rate-range-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.rate-range-cell { background: var(--surface3); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; text-align: center; }
+.rate-range-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); margin-bottom: 4px; }
+.rate-range-val { font-family: var(--mono); font-size: 15px; font-weight: 700; }
+.rate-floor { color: var(--red); }
+.rate-std { color: var(--gold); }
+.rate-top { color: var(--green); }
+.union-note { font-size: 11px; color: var(--accent); background: rgba(79,142,247,0.08); border: 1px solid rgba(79,142,247,0.2); border-radius: 5px; padding: 7px 10px; }
+.market-notes { font-size: 12px; color: var(--muted); line-height: 1.6; }
+.tips-list { display: flex; flex-direction: column; gap: 6px; }
+.tip-item { display: flex; gap: 8px; font-size: 12px; color: var(--text); }
+.tip-item::before { content: '💪'; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+.apply-btn-wrap { padding-top: 4px; }
+.market-empty { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; }
+
 /* ── Shortcuts Overlay ── */
-.shortcuts-overlay {
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,0.65);
-  display: none; align-items: center; justify-content: center;
-  z-index: 200;
-}
+.shortcuts-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; align-items: center; justify-content: center; z-index: 200; }
 .shortcuts-overlay.visible { display: flex; }
-.shortcuts-box {
-  background: var(--surface2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 22px 26px;
-  min-width: 290px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-}
-.shortcuts-box h3 {
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.8px; color: var(--muted); margin-bottom: 16px;
-}
-.sk-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 5px 0; font-size: 13px; gap: 20px;
-}
-.sk-row kbd {
-  font-family: var(--mono); font-size: 11px;
-  background: var(--bg); border: 1px solid var(--border);
-  padding: 2px 8px; border-radius: 4px; color: var(--gold); white-space: nowrap;
-}
+.shortcuts-box { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 26px; min-width: 290px; box-shadow: 0 20px 60px rgba(0,0,0,0.7); }
+.shortcuts-box h3 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 16px; }
+.sk-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 13px; gap: 20px; }
+.sk-row kbd { font-family: var(--mono); font-size: 11px; background: var(--bg); border: 1px solid var(--border); padding: 2px 8px; border-radius: 4px; color: var(--gold); white-space: nowrap; }
 .sk-footer { margin-top: 14px; font-size: 11px; color: var(--muted); text-align: center; }
 
 /* ── Footer ── */
-footer {
-  grid-area: foot;
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  flex-wrap: wrap;
-}
+footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .sk-hint { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
-.sk-hint kbd {
-  font-family: var(--mono); font-size: 10px;
-  background: var(--surface2); border: 1px solid var(--border);
-  padding: 1px 5px; border-radius: 3px; color: var(--muted);
-}
+.sk-hint kbd { font-family: var(--mono); font-size: 10px; background: var(--surface2); border: 1px solid var(--border); padding: 1px 5px; border-radius: 3px; color: var(--muted); }
 
 /* ── Toast ── */
-.toast {
-  position: fixed; bottom: 54px; left: 50%;
-  transform: translateX(-50%) translateY(6px);
-  background: var(--green); color: #fff;
-  padding: 7px 16px; border-radius: 20px;
-  font-size: 13px; font-weight: 500;
-  opacity: 0; transition: all 0.2s;
-  pointer-events: none; z-index: 300;
-}
+.toast { position: fixed; bottom: 54px; left: 50%; transform: translateX(-50%) translateY(6px); background: var(--green); color: #fff; padding: 7px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; opacity: 0; transition: all 0.2s; pointer-events: none; z-index: 500; }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ── Responsive ── */
-@media (max-width: 800px) {
+@media (max-width: 860px) {
   .app {
     grid-template-columns: 1fr;
-    grid-template-rows: 60px auto auto 44px;
-    grid-template-areas: "hdr" "form" "quote" "foot";
+    grid-template-rows: 56px auto auto auto;
     height: auto;
-    min-height: 100vh;
+    min-height: 100svh;
+    grid-template-areas: "hdr" "form" "quote" "foot";
   }
-  .quote-panel { padding: 16px; }
+  .hdr-sub { display: none; }
+  .hdr-logo { font-size: 16px; }
+  .hdr-right { gap: 4px; }
+  .btn-market { font-size: 11px; padding: 6px 8px; }
+  .btn-ghost { font-size: 12px; padding: 6px 8px; }
+  .btn kbd { display: none; }
+  .form-panel {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-y: visible;
+    padding: 12px;
+  }
+  .quote-panel { padding: 12px; }
+  .field input, .field select { font-size: 16px; min-height: 44px; padding: 10px 12px; }
+  .btn { min-height: 44px; }
+  .rate-input { font-size: 16px; min-height: 40px; padding: 8px 10px; }
+  .compose-input { font-size: 16px; }
+  .compose-intro { font-size: 16px; }
+  footer { display: none; }
+  .market-panel { width: 100vw; height: 100svh; }
+  .compose-overlay { padding: 0; align-items: flex-end; }
+  .compose-modal { max-height: 92svh; border-radius: 16px 16px 0 0; width: 100%; }
+  .toast { bottom: 20px; }
+}
+
+@media (max-width: 480px) {
+  .field-row { grid-template-columns: 1fr; }
+  .rate-range-grid { grid-template-columns: 1fr 1fr; }
+  .quote-actions .btn { font-size: 11px; padding: 6px 8px; min-height: 38px; }
+  .quote-actions .btn kbd { display: none; }
+  .hdr-logo { font-size: 14px; }
+  .quote-body { padding: 14px; }
 }
 
 /* ── Print ── */
 @media print {
-  header .hdr-right, .form-panel, footer,
-  .shortcuts-overlay, .toast, .quote-actions { display: none !important; }
+  header .hdr-right, .form-panel, footer, .market-overlay, .shortcuts-overlay, .toast, .quote-actions { display: none !important; }
   body { background: #fff; color: #000; }
   .app { display: block; }
   .quote-panel { padding: 0; }
-  .quote-card { border: none; box-shadow: none; max-width: 100%; }
+  .quote-card { border: none; max-width: 100%; }
   .quote-card-hdr { background: #f5f5f5; border-bottom: 2px solid #000; }
-  .quote-card-title { color: #000; font-size: 16px; }
-  .quote-body { padding: 20px 0; }
-  .q-block-title { color: #555; border-color: #ccc; }
-  .q-line-name { color: #000; }
-  .q-line-sub { color: #666; }
-  .q-included .q-line-amt { color: #888; }
-  .q-extra .q-line-amt { color: #000; font-weight: 700; }
-  .q-total .amt { color: #000; }
-  .gear-item { color: #555; }
-  .gear-extra { color: #000; }
-  .gear-tag { border: 1px solid #999; color: #333; background: #eee; }
+  .quote-card-title, .quote-body * { color: #000 !important; }
+  .q-recordist-name { color: #000 !important; }
+  .q-line-amt { color: #000 !important; }
+  .q-total .amt { color: #000 !important; font-weight: 900; }
+  .q-block-title { color: #555 !important; border-color: #ccc !important; }
+  .q-recordist { border-color: #ccc !important; }
+  .q-total { border-color: #999 !important; }
+  .gear-item { color: #444 !important; }
+  .q-terms { border-color: #ccc !important; color: #555 !important; }
+  .q-terms strong { color: #000 !important; }
+  .union-note, .badge { display: none; }
 }
 </style>
 </head>
@@ -385,16 +266,55 @@ footer {
 <header>
   <div>
     <div class="hdr-logo">🎙 Location Audio</div>
-    <div class="hdr-sub">Quote &amp; Gear Calculator</div>
+    <div class="hdr-sub">Quote &amp; Gear Calculator — Know your worth. Hold the line.</div>
   </div>
   <div class="hdr-right">
-    <button class="btn btn-ghost" onclick="resetForm()">↺ Reset <kbd>⌘⌫</kbd></button>
+    <button class="btn btn-market" onclick="openMarket()">📊 Market Rates</button>
+    <button class="btn btn-ghost" onclick="resetForm()">↺ <kbd>⌘⌫</kbd></button>
     <button class="btn btn-ghost" onclick="toggleShortcuts()">⌨ <kbd>?</kbd></button>
   </div>
 </header>
 
 <!-- ── Left: Form Panel ── -->
 <div class="form-panel">
+
+  <!-- Your Profile -->
+  <div class="section">
+    <div class="section-hdr">
+      👤 Your Profile
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="saved-dot" id="profileDot"></span>
+        <button class="toggle-link" onclick="toggleSection('profileBody','profileToggle')"><span id="profileToggle">show</span></button>
+      </div>
+    </div>
+    <div class="section-body" id="profileBody" style="display:none">
+      <div style="font-size:10px;color:var(--muted)">Saved to your browser. Shows on every quote you generate.</div>
+      <div class="field">
+        <label>Your Name</label>
+        <input type="text" id="yourName" placeholder="e.g. Randy Sinclair" oninput="saveProfile();recalc()">
+      </div>
+      <div class="field">
+        <label>Company Name <span style="font-size:10px;color:var(--muted)">(optional)</span></label>
+        <input type="text" id="yourCompany" placeholder="e.g. Sinclair Audio" oninput="saveProfile();recalc()">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" id="yourPhone" placeholder="(555) 000-0000" oninput="saveProfile();recalc()">
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="yourEmail" placeholder="you@email.com" oninput="saveProfile();recalc()">
+        </div>
+      </div>
+      <div class="field">
+        <label>Your Market / City</label>
+        <select id="yourCity" onchange="saveProfile();recalc()">
+          <option value="">— Select your market —</option>
+        </select>
+      </div>
+    </div>
+  </div>
 
   <!-- Client Info -->
   <div class="section">
@@ -429,67 +349,60 @@ footer {
   <div class="section">
     <div class="section-hdr">🎛 Gear Needs</div>
     <div class="section-body">
-
       <div class="field">
         <label>Recorders / Mixers <span class="badge badge-in">1 included</span></label>
         <input type="number" id="recorders" value="1" min="1" oninput="recalc()">
       </div>
-
       <div class="field">
         <label>Wireless Boom Mics <span class="badge badge-in">1 included</span></label>
         <input type="number" id="booms" value="1" min="0" oninput="recalc()">
       </div>
-
       <div class="field">
         <label>Talent to Wire — max in scene <span class="badge badge-in">2 lavs included</span></label>
         <input type="number" id="lavCount" value="2" min="0" oninput="recalc()">
-        <span class="field-hint">Base kit = 3 wireless channels total. Each extra channel is billed separately.</span>
+        <span class="field-hint">Base = 3 wireless channels (1 boom + 2 lavs). Each extra channel billed separately.</span>
       </div>
-
       <div class="field">
         <label>Cameras Needing TC Box <span class="badge badge-in">2 included</span></label>
         <input type="number" id="tcBoxes" value="2" min="0" oninput="recalc()">
       </div>
-
       <div class="field">
         <label>Cameras Needing Audio Hop / Scratch Track <span class="badge badge-ex">extra</span></label>
         <input type="number" id="audioHops" value="0" min="0" oninput="recalc()">
         <span class="field-hint">IFB hop TX to camera for on-set scratch track</span>
       </div>
-
       <div class="field">
         <label>IFB Headsets — Video Village <span class="badge badge-ex">extra</span></label>
         <input type="number" id="ifbCount" value="0" min="0" oninput="recalc()">
       </div>
-
       <div class="field">
         <label>Timecode Slates <span class="badge badge-in">1 digital slate included</span></label>
         <input type="number" id="slateCount" value="1" min="0" oninput="recalc()">
       </div>
-
     </div>
   </div>
 
-  <!-- Rates — collapsible, saved to localStorage -->
+  <!-- Rates -->
   <div class="section">
     <div class="section-hdr">
       💰 My Rates
       <div style="display:flex;align-items:center;gap:8px">
-        <span class="rates-saved-dot" id="savedDot"></span>
-        <button class="toggle-link" onclick="toggleRates()">
-          <span id="ratesToggleLabel">show</span>
-        </button>
+        <span class="saved-dot" id="ratesDot"></span>
+        <button class="toggle-link" onclick="toggleSection('ratesBody','ratesToggle')"><span id="ratesToggle">show</span></button>
       </div>
     </div>
     <div class="section-body" id="ratesBody" style="display:none">
-      <div style="font-size:10px;color:var(--muted);margin-bottom:2px">Saved automatically in your browser.</div>
-
+      <div style="font-size:10px;color:var(--muted)">Saved to your browser. Use <strong style="color:var(--green)">Market Rates</strong> to see what's fair in your city.</div>
       <div class="rate-row">
-        <div>
-          <div class="rate-label">Day Rate (10hr)</div>
-          <div class="rate-sub">Full base kit included</div>
-        </div>
-        <input class="rate-input" type="number" id="rateDay" value="950" oninput="saveRates();recalc()">
+        <div><div class="rate-label">Labor Rate (10hr day)</div><div class="rate-sub">Your time &amp; expertise</div></div>
+        <input class="rate-input" type="number" id="rateLabor" value="950" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row">
+        <div><div class="rate-label">Kit / Sound Package Rental</div><div class="rate-sub">Your gear — always billable</div></div>
+        <input class="rate-input" type="number" id="rateKit" value="650" oninput="saveRates();recalc()">
+      </div>
+      <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.15);border-radius:5px;padding:7px 10px;font-size:11px;color:var(--muted)">
+        Combined day rate: <span id="dayRateTotal" style="color:var(--gold);font-family:var(--mono);font-weight:700">$950</span>
       </div>
       <div class="rate-row">
         <div class="rate-label">Additional Recorder/Mixer</div>
@@ -538,7 +451,8 @@ footer {
     <div class="quote-body" id="quoteLive">
       <div class="empty-state">
         <div class="icon">🎙</div>
-        <p>Fill in the form on the left.<br>Your quote builds live as you type.</p>
+        <p>Fill in the form above.<br>Your quote builds live as you type.<br><br>
+        <span style="font-size:12px">Tap <strong style="color:var(--green)">📊 Market Rates</strong> to see<br>what's fair in your city.</span></p>
       </div>
     </div>
   </div>
@@ -556,6 +470,68 @@ footer {
 
 </div><!-- .app -->
 
+<!-- ── Email Compose Modal ── -->
+<div class="compose-overlay" id="composeOverlay" onclick="if(event.target===this)closeCompose()">
+  <div class="compose-modal">
+    <div class="compose-topbar">
+      <div>
+        <div class="compose-topbar-title">✉ Send Quote</div>
+        <div class="compose-topbar-sub">Opens in your mail app — ready to send</div>
+      </div>
+      <button class="compose-close" onclick="closeCompose()">✕</button>
+    </div>
+
+    <div class="compose-fields">
+      <div class="compose-row">
+        <span class="compose-label">To</span>
+        <input class="compose-input" id="composeTo" type="email" placeholder="coordinator@production.com">
+      </div>
+      <div class="compose-row">
+        <span class="compose-label">Subject</span>
+        <input class="compose-input" id="composeSubject" type="text">
+      </div>
+    </div>
+
+    <div class="compose-body-wrap">
+      <div class="compose-intro-label">Your intro message — edit freely</div>
+      <textarea class="compose-intro" id="composeIntro" rows="5"></textarea>
+      <div class="compose-intro-label">Quote attached below (included automatically)</div>
+      <div class="compose-quote-preview" id="composeQuotePreview"></div>
+    </div>
+
+    <div class="compose-footer">
+      <div class="compose-footer-hint">Opens in Mail, Gmail, or your default email app.</div>
+      <button class="compose-send" onclick="sendCompose()">✉ Open in Mail App</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Market Rate Guide Panel ── -->
+<div class="market-overlay" id="marketOverlay" onclick="if(event.target===this)closeMarket()">
+  <div class="market-panel">
+    <div class="market-panel-hdr">
+      <div>
+        <div class="market-panel-title">📊 Market Rate Guide</div>
+        <div class="market-panel-sub">Community rate benchmarks by city.<br>Know the floor. Don't work below it.</div>
+      </div>
+      <button class="market-close" onclick="closeMarket()">✕</button>
+    </div>
+    <div class="market-body">
+      <div class="market-select-wrap">
+        <div class="field">
+          <label style="font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.6px">Select a Market</label>
+          <select id="marketCitySelect" onchange="renderMarketCard()" style="font-size:14px">
+            <option value="">— Choose a city —</option>
+          </select>
+        </div>
+      </div>
+      <div id="marketCardWrap">
+        <div class="market-empty">Select a city above to see rate guidance and hold-the-line tips.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- ── Shortcuts Overlay ── -->
 <div class="shortcuts-overlay" id="shortcutsOverlay" onclick="if(event.target===this)toggleShortcuts()">
   <div class="shortcuts-box">
@@ -564,57 +540,313 @@ footer {
     <div class="sk-row"><span>Copy quote as plain text</span><kbd>⌘ ⇧ C</kbd></div>
     <div class="sk-row"><span>Email to client</span><kbd>⌘ E</kbd></div>
     <div class="sk-row"><span>Print / Save as PDF</span><kbd>⌘ P</kbd></div>
+    <div class="sk-row"><span>Market Rate Guide</span><kbd>⌘ M</kbd></div>
     <div class="sk-row"><span>Reset entire form</span><kbd>⌘ ⌫</kbd></div>
     <div class="sk-row"><span>Toggle this panel</span><kbd>?</kbd></div>
-    <div class="sk-row"><span>Close panel</span><kbd>Esc</kbd></div>
+    <div class="sk-row"><span>Close panels</span><kbd>Esc</kbd></div>
     <div class="sk-footer">Tab / Shift+Tab to move between fields</div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
 const $ = id => document.getElementById(id);
 const fmt = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const fmtK = n => n >= 1000 ? '$' + (n/1000).toFixed(n%1000===0?0:1) + 'k' : '$' + n;
 
-// ── localStorage rate persistence ──
-const RATE_KEYS = ['rateDay','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate'];
-const DEFAULTS  = { rateDay:950, rateRecorder:250, rateWireless:85, rateHop:65, rateIFB:35, rateTCBox:55, rateSlate:125 };
+// ── Market Data ──
+const MARKETS = [
+  {
+    id: 'los-angeles', name: 'Los Angeles, CA', tier: 1, tierLabel: 'Major Market',
+    floor: 1200, std: 1600, top: 2500,
+    laborFloor: 750, laborStd: 950, kitFloor: 450, kitStd: 650,
+    union: 'IATSE Local 695 — union scale $2,200–$3,000+/day (labor + kit)',
+    notes: 'Largest production market in the US. Streaming, studio, and commercial money is real. $1,600/day is a solid working rate here — don\'t apologize for it. Indie productions that can\'t meet market rate are not your problem.',
+    tips: ['$1,200/day is the absolute floor — anything below is leaving money on the table', 'Kit rental is always a separate line item on union and studio work', 'Boom op is a separate hire on scripted productions — don\'t absorb that cost', 'OT after 10hrs is non-negotiable — get it in writing before call time']
+  },
+  {
+    id: 'new-york', name: 'New York City, NY', tier: 1, tierLabel: 'Major Market',
+    floor: 1100, std: 1500, top: 2400,
+    laborFloor: 700, laborStd: 900, kitFloor: 400, kitStd: 600,
+    union: 'IATSE Local 52 — union scale $2,000–$2,800+/day (labor + kit)',
+    notes: 'Commercial, narrative, and documentary market with strong union presence. NYC producers know what things cost — hold your rate. Out-of-town productions come here because they have the budget.',
+    tips: ['Commercial rates regularly exceed $1,800/day — know when to push', 'Kit rental is always separate on union and studio jobs', 'Parking, transport, and per diem outside the boroughs are billable', 'Don\'t discount for "short days" — your gear came out regardless']
+  },
+  {
+    id: 'atlanta', name: 'Atlanta, GA', tier: 2, tierLabel: 'Growth Market',
+    floor: 900, std: 1200, top: 1800,
+    laborFloor: 550, laborStd: 750, kitFloor: 350, kitStd: 450,
+    union: 'IATSE Local 479 — active on major studio and streaming productions',
+    notes: 'Georgia tax incentives bring real studio money. Marvel, Netflix, HBO — they all shoot here. If a production has a GA tax credit, they have a full budget. The "we\'re a small production" pitch is usually a negotiating tactic.',
+    tips: ['Studio and streaming productions in ATL have LA-level budgets — charge accordingly', 'GA tax credit productions: if they qualified, they have the money', 'Reality TV is heavy here — know your day rate before they lock you in', 'Out-of-town crews can\'t replace your local knowledge — price that in']
+  },
+  {
+    id: 'chicago', name: 'Chicago, IL', tier: 2, tierLabel: 'Established Market',
+    floor: 950, std: 1250, top: 1800,
+    laborFloor: 575, laborStd: 775, kitFloor: 375, kitStd: 475,
+    union: 'IATSE Local 476',
+    notes: 'Strong commercial and narrative market. Chicago has a professional crew community — the rate culture reflects that. Midwest producers sometimes push back on rates as a reflex, not because the budget isn\'t there.',
+    tips: ['Commercial work here is well-funded — don\'t negotiate against yourself', 'Pushback on rates is often a tactic — ask for the budget before discounting', 'Chicago winters mean kill fees are essential — put them in every deal memo', 'Streaming productions shooting in IL pay at or near LA rate']
+  },
+  {
+    id: 'new-orleans', name: 'New Orleans, LA', tier: 2, tierLabel: 'Incentive Market',
+    floor: 850, std: 1100, top: 1600,
+    laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
+    union: 'IATSE Local 478',
+    notes: 'Louisiana tax incentives drive major studio production year-round. Out-of-town productions cannot replace your local knowledge — permits, locations, contacts, and climate. That expertise has real value.',
+    tips: ['If they flew a producer down from LA, they have a LA-sized budget', 'Local knowledge of NOLA locations and logistics is genuinely irreplaceable — price it', 'Heat, humidity, and location access are real cost factors', 'Don\'t race to the bottom to beat out-of-town crews — you know this city, they don\'t']
+  },
+  {
+    id: 'san-francisco', name: 'San Francisco / Bay Area', tier: 2, tierLabel: 'Tech Market',
+    floor: 1100, std: 1500, top: 2200,
+    laborFloor: 675, laborStd: 925, kitFloor: 425, kitStd: 575,
+    union: 'IATSE Local 16',
+    notes: 'One of the highest costs of living in the country. Tech company video budgets are a rounding error compared to their operating budgets. "Startup" is not an excuse — they have investor money. Charge LA rates minimum.',
+    tips: ['Tech clients spend more on lunch than your day rate — don\'t undercharge', '"We\'re a startup" does not mean no budget — they have Series A or B funding', 'SF cost of living demands LA-tier rates — don\'t settle for less', 'Corporate and branded content dominates — these clients pay well']
+  },
+  {
+    id: 'austin', name: 'Austin, TX', tier: 2, tierLabel: 'Growing Market',
+    floor: 850, std: 1100, top: 1600,
+    laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
+    union: 'Mostly non-union — some IATSE work on larger productions',
+    notes: 'Austin is no longer a cheap market. Cost of living has risen sharply and your rates should reflect that. SXSW, F1, and tech brands bring real money. Music industry clients will always push for low — that\'s their culture, not your problem.',
+    tips: ['SXSW and F1 season: charge premium rates — demand is at its peak', 'Tech and branded content clients in Austin have real budgets', 'Music industry low-ball offers are a culture, not a budget constraint — you can say no', 'Austin costs have risen — your rates should too']
+  },
+  {
+    id: 'dallas', name: 'Dallas / Fort Worth, TX', tier: 3, tierLabel: 'Regional Market',
+    floor: 800, std: 1050, top: 1500,
+    laborFloor: 500, laborStd: 650, kitFloor: 300, kitStd: 400,
+    union: 'Mostly non-union market',
+    notes: 'Strong corporate and commercial market. DFW has some of the largest corporate HQs in the country — those companies have real video production budgets. Many producers here aren\'t used to seeing itemized audio quotes. Educate them.',
+    tips: ['Corporate HQ clients have real budgets — don\'t guess low', 'An itemized quote showing labor + kit teaches producers what they\'re actually paying for', 'Commercial work pays better than corporate event video — prioritize it', 'Out-of-town studio productions should match their home market rate, not the local corporate floor']
+  },
+  {
+    id: 'miami', name: 'Miami / South Florida', tier: 3, tierLabel: 'Regional Market',
+    floor: 850, std: 1100, top: 1600,
+    laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
+    union: 'IATSE Local 500',
+    notes: 'Miami is a gateway market for Latin American and international productions. Those productions often have solid budgets and are accustomed to paying professional rates. Music video work trends low — know the difference.',
+    tips: ['International productions coming through Miami often have real budgets — hold your rate', 'Spanish-language production is a major part of the market — understand the landscape', 'Music video will always push for less — kit rental is your floor, minimum', 'Reality TV production in Miami is heavy — lock in your rate before you\'re locked in']
+  },
+  {
+    id: 'seattle', name: 'Seattle, WA', tier: 3, tierLabel: 'Regional Market',
+    floor: 950, std: 1250, top: 1800,
+    laborFloor: 575, laborStd: 775, kitFloor: 375, kitStd: 475,
+    union: 'IATSE Local 488',
+    notes: 'Seattle has a high cost of living and a strong tech economy. Amazon, Microsoft, and outdoor brands are the primary clients — all well-funded. Streaming productions (especially Amazon) pay at or above LA rates.',
+    tips: ['Amazon and streaming productions pay LA scale — hold that rate', 'Tech clients spend more on equipment than your day rate — don\'t undersell', 'Outdoor and adventure work involves real risk and terrain — price it accordingly', 'Don\'t let Pacific Northwest indie culture drive your rate below what the market supports']
+  },
+  {
+    id: 'nashville', name: 'Nashville, TN', tier: 3, tierLabel: 'Regional Market',
+    floor: 750, std: 950, top: 1400,
+    laborFloor: 475, laborStd: 600, kitFloor: 275, kitStd: 350,
+    union: 'Mostly non-union market',
+    notes: 'Nashville is growing fast and rates should reflect it. The music industry has always pushed for low budgets — that\'s a culture, not a financial reality. Branded content, corporate, and TV production pay better. Pick your clients accordingly.',
+    tips: ['Music industry low-ball is a habit, not a budget constraint — you can walk', 'Branded content and corporate clients in Nashville pay significantly better', 'Nashville growth means demand for professional crew is up — use that leverage', 'Don\'t normalize music-industry rates as your standard — they\'re the exception']
+  },
+  {
+    id: 'boston', name: 'Boston, MA', tier: 3, tierLabel: 'Regional Market',
+    floor: 950, std: 1250, top: 1800,
+    laborFloor: 575, laborStd: 775, kitFloor: 375, kitStd: 475,
+    union: 'IATSE Local 481',
+    notes: 'Boston has a strong academic, medical, and commercial production ecosystem. Pharma and biotech clients have substantial video budgets. New England productions often pull from the Boston crew base — your local availability has value.',
+    tips: ['Pharma and biotech clients have real budgets and take production quality seriously', 'Academic work pays lower — know when a project is worth your rate', 'New England weather is genuinely unpredictable — kill fees belong in every deal', 'Boston is a regional hub — your crew availability has leverage']
+  },
+  {
+    id: 'philadelphia', name: 'Philadelphia, PA', tier: 3, tierLabel: 'Regional Market',
+    floor: 850, std: 1100, top: 1600,
+    laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
+    union: 'IATSE Local 752',
+    notes: 'Productions choose Philly over NYC to save on location costs — not crew costs. That location saving doesn\'t come out of your rate. Pharma and medical clients are a strong, well-funded segment of this market.',
+    tips: ['A production saving money on Philly locations still has a full crew budget', 'You are not subsidizing their location decision — hold your rate', 'Pharma and medical production is strong and reliable in this market', 'Proximity to NYC means you can compete for NYC-rate productions — don\'t undersell']
+  },
+  {
+    id: 'denver', name: 'Denver / Colorado', tier: 3, tierLabel: 'Regional Market',
+    floor: 800, std: 1050, top: 1500,
+    laborFloor: 500, laborStd: 650, kitFloor: 300, kitStd: 400,
+    union: 'Mostly non-union market',
+    notes: 'Outdoor brands, ski industry, adventure sports, and a growing tech scene. Colorado productions often involve remote locations and challenging conditions — that difficulty has a price and you should charge it.',
+    tips: ['Outdoor and adventure brands pay well for authentic on-location expertise', 'Altitude, terrain, extreme weather, and remote access are all billable factors', 'Denver\'s tech scene is growing — corporate and branded content pays well', 'Travel time to mountain locations is work time — bill it']
+  },
+  {
+    id: 'hawaii', name: 'Hawaii', tier: 2, tierLabel: 'Premium Location Market',
+    floor: 1200, std: 1600, top: 2400,
+    laborFloor: 750, laborStd: 950, kitFloor: 450, kitStd: 650,
+    union: 'IATSE Local 665',
+    notes: 'If a production is shooting in Hawaii, they have the budget. Period. Your local knowledge of locations, permits, vendors, and logistics is genuinely irreplaceable — no mainland crew can substitute for it. That scarcity is your leverage and you should use it.',
+    tips: ['Charge a location premium — you are not interchangeable with mainland crew', 'Gear transport costs from the mainland often exceed your day rate — remind them of that', 'Local permits access, vendor relationships, and climate knowledge have real value', 'If they\'re shooting in Hawaii, they budgeted for Hawaii — hold your rate']
+  },
+];
+
+// ── Populate city selects ──
+function populateCitySelects() {
+  const tiers = [
+    { label: 'Tier 1 — Major Markets', ids: ['los-angeles','new-york'] },
+    { label: 'Tier 2 — Growth & Specialty Markets', ids: ['atlanta','san-francisco','new-orleans','austin','hawaii'] },
+    { label: 'Tier 3 — Regional Markets', ids: ['chicago','seattle','miami','boston','dallas','philadelphia','nashville','denver'] },
+  ];
+
+  [['yourCity', '— Select your market —'], ['marketCitySelect', '— Choose a city —']].forEach(([selId, placeholder]) => {
+    const sel = $(selId);
+    sel.innerHTML = `<option value="">${placeholder}</option>`;
+    tiers.forEach(tier => {
+      const grp = document.createElement('optgroup');
+      grp.label = tier.label;
+      tier.ids.forEach(id => {
+        const m = MARKETS.find(x => x.id === id);
+        if (m) {
+          const opt = document.createElement('option');
+          opt.value = m.id;
+          opt.textContent = m.name;
+          grp.appendChild(opt);
+        }
+      });
+      sel.appendChild(grp);
+    });
+  });
+}
+
+// ── Market card render ──
+function renderMarketCard() {
+  const id = $('marketCitySelect').value;
+  const wrap = $('marketCardWrap');
+  if (!id) { wrap.innerHTML = '<div class="market-empty">Select a city above to see rate guidance and hold-the-line tips.</div>'; return; }
+  const m = MARKETS.find(x => x.id === id);
+  if (!m) return;
+  const tierClass = m.tier === 1 ? 'badge-t1' : m.tier === 2 ? 'badge-t2' : 'badge-t3';
+
+  wrap.innerHTML = `
+    <div class="market-card">
+      <div class="market-card-hdr">
+        <div class="market-city-name">${m.name}</div>
+        <span class="badge ${tierClass}">${m.tierLabel}</span>
+      </div>
+      <div class="market-card-body">
+
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);margin-bottom:8px">Package Day Rate (Labor + Kit)</div>
+          <div class="rate-range-grid">
+            <div class="rate-range-cell">
+              <div class="rate-range-label">Floor — Do Not Go Below</div>
+              <div class="rate-range-val rate-floor">${fmtK(m.floor)}</div>
+            </div>
+            <div class="rate-range-cell">
+              <div class="rate-range-label">Standard Rate</div>
+              <div class="rate-range-val rate-std">${fmtK(m.std)}</div>
+            </div>
+            <div class="rate-range-cell">
+              <div class="rate-range-label">Top of Market</div>
+              <div class="rate-range-val rate-top">${fmtK(m.top)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rate-range-grid">
+          <div class="rate-range-cell" style="grid-column:span 1">
+            <div class="rate-range-label">Labor Floor</div>
+            <div class="rate-range-val" style="color:var(--text);font-size:13px">${fmtK(m.laborFloor)}</div>
+          </div>
+          <div class="rate-range-cell" style="grid-column:span 1">
+            <div class="rate-range-label">Labor Standard</div>
+            <div class="rate-range-val" style="color:var(--text);font-size:13px">${fmtK(m.laborStd)}</div>
+          </div>
+          <div class="rate-range-cell" style="grid-column:span 1">
+            <div class="rate-range-label">Kit Floor</div>
+            <div class="rate-range-val" style="color:var(--text);font-size:13px">${fmtK(m.kitFloor)}–${fmtK(m.kitStd)}</div>
+          </div>
+        </div>
+
+        <div class="union-note">🎬 ${m.union}</div>
+        <div class="market-notes">${m.notes}</div>
+
+        <div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);margin-bottom:8px">Hold the Line 💪</div>
+          <div class="tips-list">
+            ${m.tips.map(t => `<div class="tip-item">${t}</div>`).join('')}
+          </div>
+        </div>
+
+        <div class="apply-btn-wrap">
+          <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="applyMarketRates('${m.id}')">
+            ✓ Apply Standard Rates to My Calculator
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function applyMarketRates(id) {
+  const m = MARKETS.find(x => x.id === id);
+  if (!m) return;
+  $('rateLabor').value = m.laborStd;
+  $('rateKit').value   = m.kitStd;
+  updateDayRateTotal();
+  saveRates();
+  recalc();
+  const body = $('ratesBody');
+  if (body.style.display === 'none') toggleSection('ratesBody', 'ratesToggle');
+  closeMarket();
+  showToast(`${m.name} standard rates applied`);
+}
+
+function openMarket() {
+  const city = $('yourCity').value;
+  if (city) { $('marketCitySelect').value = city; renderMarketCard(); }
+  $('marketOverlay').classList.add('visible');
+}
+function closeMarket() { $('marketOverlay').classList.remove('visible'); }
+
+// ── localStorage ──
+const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate'];
+const RATE_DEFS = { rateLabor:950, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:65, rateIFB:35, rateTCBox:55, rateSlate:125 };
 
 function saveRates() {
-  const obj = {};
-  RATE_KEYS.forEach(k => obj[k] = $(k).value);
+  const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
   localStorage.setItem('aq_rates', JSON.stringify(obj));
-  const dot = $('savedDot');
-  dot.classList.add('show');
-  clearTimeout(dot._t);
-  dot._t = setTimeout(() => dot.classList.remove('show'), 1800);
+  updateDayRateTotal();
+  flashDot('ratesDot');
 }
-
 function loadRates() {
   try {
-    const saved = JSON.parse(localStorage.getItem('aq_rates') || '{}');
-    RATE_KEYS.forEach(k => {
-      if (saved[k] !== undefined) $(k).value = saved[k];
-      else $(k).value = DEFAULTS[k];
-    });
-  } catch(e) {
-    RATE_KEYS.forEach(k => $(k).value = DEFAULTS[k]);
-  }
+    const s = JSON.parse(localStorage.getItem('aq_rates') || '{}');
+    RATE_KEYS.forEach(k => $(k).value = s[k] !== undefined ? s[k] : RATE_DEFS[k]);
+  } catch(e) { RATE_KEYS.forEach(k => $(k).value = RATE_DEFS[k]); }
+  updateDayRateTotal();
+}
+function updateDayRateTotal() {
+  const l = parseFloat($('rateLabor').value) || 0;
+  const k = parseFloat($('rateKit').value)   || 0;
+  $('dayRateTotal').textContent = fmt(l + k);
 }
 
-function toggleRates() {
-  const body  = $('ratesBody');
-  const label = $('ratesToggleLabel');
-  const open  = body.style.display !== 'none';
-  body.style.display  = open ? 'none' : 'flex';
-  label.textContent   = open ? 'show' : 'hide';
+const PROFILE_KEYS = ['yourName','yourCompany','yourPhone','yourEmail','yourCity'];
+function saveProfile() {
+  const obj = {}; PROFILE_KEYS.forEach(k => obj[k] = $(k).value);
+  localStorage.setItem('aq_profile', JSON.stringify(obj));
+  flashDot('profileDot');
+}
+function loadProfile() {
+  try {
+    const s = JSON.parse(localStorage.getItem('aq_profile') || '{}');
+    PROFILE_KEYS.forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; });
+  } catch(e) {}
 }
 
-// ── Read all form values ──
+function flashDot(id) {
+  const d = $(id); d.classList.add('show');
+  clearTimeout(d._t); d._t = setTimeout(() => d.classList.remove('show'), 1800);
+}
+
+// ── Form values ──
 function getVals() {
   return {
+    yourName:    $('yourName').value.trim(),
+    yourCompany: $('yourCompany').value.trim(),
+    yourPhone:   $('yourPhone').value.trim(),
+    yourEmail:   $('yourEmail').value.trim(),
+    yourCity:    $('yourCity').value,
     clientName:  $('clientName').value.trim(),
     clientEmail: $('clientEmail').value.trim(),
     projectName: $('projectName').value.trim(),
@@ -627,147 +859,114 @@ function getVals() {
     audioHops:   Math.max(0, parseInt($('audioHops').value)  || 0),
     ifbs:        Math.max(0, parseInt($('ifbCount').value)   || 0),
     slates:      Math.max(0, parseInt($('slateCount').value) || 0),
-    rateDay:      parseFloat($('rateDay').value)      || DEFAULTS.rateDay,
-    rateRecorder: parseFloat($('rateRecorder').value) || DEFAULTS.rateRecorder,
-    rateWireless: parseFloat($('rateWireless').value) || DEFAULTS.rateWireless,
-    rateHop:      parseFloat($('rateHop').value)      || DEFAULTS.rateHop,
-    rateIFB:      parseFloat($('rateIFB').value)      || DEFAULTS.rateIFB,
-    rateTCBox:    parseFloat($('rateTCBox').value)    || DEFAULTS.rateTCBox,
-    rateSlate:    parseFloat($('rateSlate').value)    || DEFAULTS.rateSlate,
+    rateLabor:    parseFloat($('rateLabor').value)    || RATE_DEFS.rateLabor,
+    rateKit:      parseFloat($('rateKit').value)      || RATE_DEFS.rateKit,
+    rateRecorder: parseFloat($('rateRecorder').value) || RATE_DEFS.rateRecorder,
+    rateWireless: parseFloat($('rateWireless').value) || RATE_DEFS.rateWireless,
+    rateHop:      parseFloat($('rateHop').value)      || RATE_DEFS.rateHop,
+    rateIFB:      parseFloat($('rateIFB').value)      || RATE_DEFS.rateIFB,
+    rateTCBox:    parseFloat($('rateTCBox').value)    || RATE_DEFS.rateTCBox,
+    rateSlate:    parseFloat($('rateSlate').value)    || RATE_DEFS.rateSlate,
   };
 }
 
-// ── Calculate line items ──
+// ── Calc ──
 function calcLines(v) {
   const totalWireless  = v.booms + v.lavs;
   const extraWireless  = Math.max(0, totalWireless - 3);
   const extraTC        = Math.max(0, v.tcBoxes   - 2);
   const extraSlates    = Math.max(0, v.slates    - 1);
   const extraRecorders = Math.max(0, v.recorders - 1);
+  const dayRate        = v.rateLabor + v.rateKit;
 
   const lines = [];
+  lines.push({ name: 'Sound Mixer — Labor (10hr day)', sub: 'Your expertise and time on set', qty: v.days, unitRate: v.rateLabor, total: v.rateLabor * v.days, kind: 'labor' });
+  lines.push({ name: 'Sound Package — Kit Rental', sub: 'Recorder/Mixer · Wireless Boom · 2× Lav · 2× TC Box · Slate', qty: v.days, unitRate: v.rateKit, total: v.rateKit * v.days, kind: 'kit' });
+  if (extraRecorders > 0) lines.push({ name: `Additional Recorder/Mixer ×${extraRecorders}`, sub: `${v.recorders} total — 1 in base kit`, qty: extraRecorders, days: v.days, unitRate: v.rateRecorder, total: extraRecorders * v.rateRecorder * v.days, kind: 'extra' });
+  if (extraWireless > 0)  lines.push({ name: `Additional Wireless Channel ×${extraWireless}`, sub: `${totalWireless} total channels (${v.booms} boom + ${v.lavs} lav) — 3 in base`, qty: extraWireless, days: v.days, unitRate: v.rateWireless, total: extraWireless * v.rateWireless * v.days, kind: 'extra' });
+  if (extraTC > 0)        lines.push({ name: `Additional Timecode Box ×${extraTC}`, sub: `${v.tcBoxes} cameras — 2 in base`, qty: extraTC, days: v.days, unitRate: v.rateTCBox, total: extraTC * v.rateTCBox * v.days, kind: 'extra' });
+  if (v.audioHops > 0)   lines.push({ name: `Audio Hop / Scratch Track ×${v.audioHops}`, sub: 'IFB hop TX to camera', qty: v.audioHops, days: v.days, unitRate: v.rateHop, total: v.audioHops * v.rateHop * v.days, kind: 'extra' });
+  if (v.ifbs > 0)        lines.push({ name: `IFB Headset — Video Village ×${v.ifbs}`, qty: v.ifbs, days: v.days, unitRate: v.rateIFB, total: v.ifbs * v.rateIFB * v.days, kind: 'extra' });
+  if (extraSlates > 0)   lines.push({ name: `Additional TC Slate ×${extraSlates}`, qty: extraSlates, days: v.days, unitRate: v.rateSlate, total: extraSlates * v.rateSlate * v.days, kind: 'extra' });
 
-  lines.push({
-    name: 'Location Audio Package — 10hr Day Rate',
-    sub:  'Recorder/Mixer · Wireless Boom · 2× Wireless Lav · 2× TC Box · Digital Slate',
-    qty: v.days, unitRate: v.rateDay,
-    total: v.rateDay * v.days,
-    kind: 'base',
-  });
-
-  if (extraRecorders > 0) lines.push({
-    name: `Additional Recorder/Mixer ×${extraRecorders}`,
-    sub: `${v.recorders} total, 1 in base`,
-    qty: extraRecorders, days: v.days, unitRate: v.rateRecorder,
-    total: extraRecorders * v.rateRecorder * v.days, kind: 'extra',
-  });
-
-  if (extraWireless > 0) lines.push({
-    name: `Additional Wireless Channel ×${extraWireless}`,
-    sub: `${totalWireless} total (${v.booms} boom + ${v.lavs} lav) — 3 in base`,
-    qty: extraWireless, days: v.days, unitRate: v.rateWireless,
-    total: extraWireless * v.rateWireless * v.days, kind: 'extra',
-  });
-
-  if (extraTC > 0) lines.push({
-    name: `Additional Timecode Box ×${extraTC}`,
-    sub: `${v.tcBoxes} cameras — 2 in base`,
-    qty: extraTC, days: v.days, unitRate: v.rateTCBox,
-    total: extraTC * v.rateTCBox * v.days, kind: 'extra',
-  });
-
-  if (v.audioHops > 0) lines.push({
-    name: `Audio Hop / Scratch Track ×${v.audioHops}`,
-    sub: 'IFB hop TX to camera',
-    qty: v.audioHops, days: v.days, unitRate: v.rateHop,
-    total: v.audioHops * v.rateHop * v.days, kind: 'extra',
-  });
-
-  if (v.ifbs > 0) lines.push({
-    name: `IFB Headset — Video Village ×${v.ifbs}`,
-    qty: v.ifbs, days: v.days, unitRate: v.rateIFB,
-    total: v.ifbs * v.rateIFB * v.days, kind: 'extra',
-  });
-
-  if (extraSlates > 0) lines.push({
-    name: `Additional TC Slate ×${extraSlates}`,
-    sub: `${v.slates} total — 1 in base`,
-    qty: extraSlates, days: v.days, unitRate: v.rateSlate,
-    total: extraSlates * v.rateSlate * v.days, kind: 'extra',
-  });
-
-  return {
-    lines,
-    grandTotal: lines.reduce((s, l) => s + l.total, 0),
-    extraWireless, extraTC, extraSlates, extraRecorders, totalWireless,
-  };
+  return { lines, grandTotal: lines.reduce((s, l) => s + l.total, 0), extraWireless, extraTC, extraSlates, extraRecorders, totalWireless, dayRate };
 }
 
-// ── Build gear manifest ──
 function buildGear(v, c) {
   const items = [];
-  items.push({ label: `${v.recorders}× Recorder / Mixer`,           extra: c.extraRecorders > 0 });
-  if (v.booms > 0)    items.push({ label: `${v.booms}× Wireless Boom Mic`,         extra: v.booms > 1 });
-  if (v.lavs > 0)     items.push({ label: `${v.lavs}× Wireless Lav (talent)`,      extra: v.lavs > 2 });
-  if (v.tcBoxes > 0)  items.push({ label: `${v.tcBoxes}× Timecode Box`,             extra: c.extraTC > 0 });
-  if (v.slates > 0)   items.push({ label: `${v.slates}× Timecode Slate (digital)`,  extra: c.extraSlates > 0 });
+  items.push({ label: `${v.recorders}× Recorder / Mixer`, extra: c.extraRecorders > 0 });
+  if (v.booms > 0)    items.push({ label: `${v.booms}× Wireless Boom Mic`, extra: v.booms > 1 });
+  if (v.lavs > 0)     items.push({ label: `${v.lavs}× Wireless Lav (talent)`, extra: v.lavs > 2 });
+  if (v.tcBoxes > 0)  items.push({ label: `${v.tcBoxes}× Timecode Box`, extra: c.extraTC > 0 });
+  if (v.slates > 0)   items.push({ label: `${v.slates}× Timecode Slate (digital)`, extra: c.extraSlates > 0 });
   if (v.audioHops > 0) items.push({ label: `${v.audioHops}× Audio Hop TX (scratch to cam)`, extra: true });
-  if (v.ifbs > 0)     items.push({ label: `${v.ifbs}× IFB Headset (video village)`,           extra: true });
+  if (v.ifbs > 0)     items.push({ label: `${v.ifbs}× IFB Headset (video village)`, extra: true });
   return items;
 }
 
-// ── Render live quote ──
+// ── Render ──
 function renderQuote(v, calc) {
-  const { lines, grandTotal } = calc;
-  const dateStr = v.shootDate
-    ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-    : '—';
+  const { lines, grandTotal, dayRate } = calc;
+  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const market = MARKETS.find(m => m.id === v.yourCity);
 
   let h = '';
 
-  // Client
-  h += `<div class="q-block">
-    <div class="q-block-title">Client</div>
-    <div class="q-line">
-      <div class="q-line-left">
-        <div class="q-line-name">${esc(v.clientName || '—')}</div>
-        <div class="q-line-sub">${esc(v.clientEmail || '')}</div>
-      </div>
-    </div>
-    <div class="q-line">
-      <div class="q-line-left">
-        <div class="q-line-name">${esc(v.projectName || 'Untitled Project')}</div>
-        <div class="q-line-sub">${dateStr}${v.days > 1 ? ' · ' + v.days + '-day production' : ''}</div>
-      </div>
-    </div>
+  if (v.yourName || v.yourCompany) {
+    h += `<div class="q-recordist">
+      ${v.yourName ? `<div class="q-recordist-name">${esc(v.yourName)}</div>` : ''}
+      ${v.yourCompany ? `<div class="q-recordist-co">${esc(v.yourCompany)}</div>` : ''}
+      <div class="q-recordist-contact">${[v.yourPhone, v.yourEmail, market ? market.name : ''].filter(Boolean).join('  ·  ')}</div>
+    </div>`;
+  }
+
+  h += `<div class="q-block"><div class="q-block-title">Prepared For</div>
+    <div class="q-line"><div class="q-line-left"><div class="q-line-name">${esc(v.clientName || '—')}</div><div class="q-line-sub">${esc(v.clientEmail || '')}</div></div></div>
+    <div class="q-line"><div class="q-line-left"><div class="q-line-name">${esc(v.projectName || 'Untitled Project')}</div><div class="q-line-sub">${dateStr}${v.days > 1 ? ' · ' + v.days + '-day production' : ''}</div></div></div>
   </div>`;
 
-  // Services
-  h += `<div class="q-block"><div class="q-block-title">Services</div>`;
-  for (const ln of lines) {
-    const qtyStr = ln.kind === 'base'
-      ? `${ln.qty} day${ln.qty > 1 ? 's' : ''} × ${fmt(ln.unitRate)}`
-      : `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
-    h += `<div class="q-line ${ln.kind === 'base' ? 'q-included' : 'q-extra'}">
-      <div class="q-line-left">
-        <div class="q-line-name">${esc(ln.name)}</div>
-        ${ln.sub ? `<div class="q-line-sub">${esc(ln.sub)}</div>` : ''}
-        <div class="q-line-sub">${qtyStr}</div>
-      </div>
+  h += `<div class="q-block"><div class="q-block-title">Services &amp; Equipment</div>`;
+  const laborLine = lines.find(l => l.kind === 'labor');
+  const kitLine   = lines.find(l => l.kind === 'kit');
+  const extras    = lines.filter(l => l.kind === 'extra');
+
+  if (laborLine) h += `<div class="q-line q-included">
+    <div class="q-line-left"><div class="q-line-name">${esc(laborLine.name)}</div><div class="q-line-sub">${laborLine.qty}d × ${fmt(laborLine.unitRate)}</div></div>
+    <div class="q-line-amt">${fmt(laborLine.total)}</div>
+  </div>`;
+  if (kitLine) h += `<div class="q-line q-kit">
+    <div class="q-line-left"><div class="q-line-name">${esc(kitLine.name)}</div><div class="q-line-sub">${esc(kitLine.sub)}</div><div class="q-line-sub">${kitLine.qty}d × ${fmt(kitLine.unitRate)}</div></div>
+    <div class="q-line-amt">${fmt(kitLine.total)}</div>
+  </div>`;
+
+  if (laborLine && kitLine && v.days > 0) {
+    h += `<div class="q-subtotal"><span>Day Rate (Labor + Kit) × ${v.days} day${v.days>1?'s':''}</span><span style="font-family:var(--mono)">${fmt(dayRate)}/day</span></div>`;
+  }
+
+  for (const ln of extras) {
+    const qStr = `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
+    h += `<div class="q-line q-extra">
+      <div class="q-line-left"><div class="q-line-name">${esc(ln.name)}</div>${ln.sub ? `<div class="q-line-sub">${esc(ln.sub)}</div>` : ''}<div class="q-line-sub">${qStr}</div></div>
       <div class="q-line-amt">${fmt(ln.total)}</div>
     </div>`;
   }
-  h += `<div class="q-total"><span>Project Total</span><span class="amt">${fmt(grandTotal)}</span></div>`;
+
+  h += `<div class="q-total"><span>Total</span><span class="amt">${fmt(grandTotal)}</span></div>`;
   if (v.days > 1) h += `<div class="q-perday">${fmt(grandTotal / v.days)}/day × ${v.days} days</div>`;
   h += `</div>`;
 
-  // Gear manifest
   const gear = buildGear(v, calc);
   h += `<div class="q-block"><div class="q-block-title">Gear Manifest</div>`;
-  for (const g of gear) {
-    h += `<div class="gear-item ${g.extra ? 'gear-extra' : ''}">${esc(g.label)} ${g.extra ? '<span class="gear-tag">add\'l</span>' : ''}</div>`;
-  }
+  for (const g of gear) h += `<div class="gear-item ${g.extra ? 'gear-extra' : ''}">${esc(g.label)} ${g.extra ? '<span class="gear-tag">add\'l</span>' : ''}</div>`;
   h += `</div>`;
+
+  h += `<div class="q-terms">
+    <strong>Terms</strong><br>
+    50% deposit required to confirm booking. Balance due on wrap day.<br>
+    <strong>Cancellation:</strong> 100% of agreed rate within 48 hours of shoot. 50% within 7 days.<br>
+    <strong>Overtime:</strong> Hours 11–12 at 1.5×. Hours 12+ at 2×.<br>
+    All rates are per 10-hour day. Kit rental is non-negotiable — this is professional equipment maintained at the mixer's expense.
+  </div>`;
 
   $('quoteLive').innerHTML = h;
 }
@@ -776,118 +975,142 @@ function recalc() {
   const v = getVals();
   renderQuote(v, calcLines(v));
 }
-
 function recalcFocus() {
   recalc();
   document.querySelector('.quote-panel').scrollIntoView({ behavior: 'smooth' });
   showToast('Quote updated');
 }
 
-// ── Plain-text for copy / email ──
+// ── Plain text ──
 function buildPlainText() {
   const v = getVals();
   const calc = calcLines(v);
   const { lines, grandTotal } = calc;
   const gear = buildGear(v, calc);
-  const dateStr = v.shootDate
-    ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-    : '—';
+  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
   const D = '─'.repeat(54);
+  const market = MARKETS.find(m => m.id === v.yourCity);
 
-  let t = `LOCATION AUDIO SERVICES — QUOTE\n${D}\n`;
-  t += `Client:   ${v.clientName  || '—'}\n`;
-  t += `Email:    ${v.clientEmail || '—'}\n`;
-  t += `Project:  ${v.projectName || '—'}\n`;
-  t += `Date:     ${dateStr}\n`;
-  t += `Days:     ${v.days}\n${D}\n\nSERVICES\n\n`;
+  let t = '';
+  if (v.yourName)    t += `${v.yourName}\n`;
+  if (v.yourCompany) t += `${v.yourCompany}\n`;
+  const contact = [v.yourPhone, v.yourEmail, market?.name].filter(Boolean).join('  ·  ');
+  if (contact) t += `${contact}\n`;
+  t += `\nLOCATION AUDIO SERVICES — QUOTE\n${D}\n`;
+  t += `Client:   ${v.clientName || '—'}\nEmail:    ${v.clientEmail || '—'}\nProject:  ${v.projectName || '—'}\nDate:     ${dateStr}\nDays:     ${v.days}\n${D}\n\nSERVICES\n\n`;
 
   for (const ln of lines) {
-    const qtyStr = ln.kind === 'base'
-      ? `${ln.qty}d × ${fmt(ln.unitRate)}`
-      : `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
+    const qStr = ln.kind === 'labor' || ln.kind === 'kit' ? `${ln.qty}d × ${fmt(ln.unitRate)}` : `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
     const space = Math.max(2, 40 - ln.name.length);
     t += `${ln.name}${' '.repeat(space)}${fmt(ln.total)}\n`;
     if (ln.sub) t += `  ${ln.sub}\n`;
-    t += `  (${qtyStr})\n\n`;
+    t += `  (${qStr})\n\n`;
   }
 
-  t += `${D}\n${'PROJECT TOTAL'.padEnd(40)}${fmt(grandTotal)}\n`;
+  t += `${D}\n${'TOTAL'.padEnd(40)}${fmt(grandTotal)}\n`;
   if (v.days > 1) t += `${'Per day'.padEnd(40)}${fmt(grandTotal / v.days)}\n`;
   t += `${D}\n\nGEAR MANIFEST\n`;
   for (const g of gear) t += `  • ${g.label}${g.extra ? '  [additional]' : ''}\n`;
-  t += `\n${D}\nTerms: 50% deposit to confirm booking. Balance due on wrap.\n`;
-
+  t += `\n${D}\nTERMS\n50% deposit required to confirm booking. Balance due on wrap day.\nCancellation: 100% within 48hrs. 50% within 7 days.\nOT: Hours 11-12 at 1.5x. Hours 12+ at 2x.\nKit rental is non-negotiable professional equipment.\n`;
   return t;
 }
 
 function copyQuote() {
   const text = buildPlainText();
-  navigator.clipboard.writeText(text)
-    .then(() => showToast('Quote copied!'))
-    .catch(() => {
-      const ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta);
-      ta.select(); document.execCommand('copy'); ta.remove();
-      showToast('Quote copied!');
-    });
+  navigator.clipboard.writeText(text).then(() => showToast('Quote copied!')).catch(() => {
+    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); showToast('Quote copied!');
+  });
 }
 
 function emailQuote() {
-  const v = getVals();
-  const to = encodeURIComponent(v.clientEmail || '');
-  const subject = encodeURIComponent(`Location Audio Quote — ${v.projectName || 'Your Project'}`);
-  const body = encodeURIComponent(buildPlainText());
-  window.open(`mailto:${to}?subject=${subject}&body=${body}`);
+  const v    = getVals();
+  const market = MARKETS.find(m => m.id === v.yourCity);
+  const name   = v.yourName    || 'Your Name';
+  const city   = market ? market.name : (v.yourCity || 'your city');
+  const project = v.projectName || 'your production';
+  const date    = v.shootDate
+    ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    : '';
+
+  $('composeTo').value = v.clientEmail || '';
+  $('composeSubject').value = `Location Audio Quote — ${project}`;
+
+  const intro = [
+    `Hi${v.clientName ? ' ' + v.clientName.split(' ')[0] : ''},`,
+    ``,
+    `My name is ${name}${v.yourCompany ? ' with ' + v.yourCompany : ''}, a Location Sound Mixer based in ${city}. I'm reaching out to quote for ${project}${date ? ' on ' + date : ''}.`,
+    ``,
+    `I've put together the quote below covering everything your production will need — recorder, boom, wireless lavs, timecode, and any additional channels or IFBs. My kit is professional grade and maintained for reliable on-set performance.`,
+    ``,
+    `Happy to talk through the details or adjust for your specific setup. Looking forward to working together.`,
+    ``,
+    `Best,`,
+    name,
+    v.yourPhone || '',
+    v.yourEmail || '',
+  ].filter(l => l !== null && (l !== '' || true)).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+
+  $('composeIntro').value = intro;
+  $('composeQuotePreview').textContent = buildPlainText();
+  $('composeOverlay').classList.add('visible');
+}
+
+function closeCompose() { $('composeOverlay').classList.remove('visible'); }
+
+function sendCompose() {
+  const to      = $('composeTo').value.trim();
+  const subject = $('composeSubject').value.trim();
+  const intro   = $('composeIntro').value.trim();
+  const quote   = buildPlainText();
+  const body    = intro + '\n\n' + '─'.repeat(54) + '\n\n' + quote;
+  window.open(`mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+  closeCompose();
+  showToast('Opening in your mail app…');
+}
+
+function toggleSection(bodyId, labelId) {
+  const body = $(bodyId), label = $(labelId);
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'flex';
+  label.textContent  = open ? 'show' : 'hide';
 }
 
 function resetForm() {
   if (!confirm('Reset the form?')) return;
   ['clientName','clientEmail','projectName'].forEach(id => $(id).value = '');
   $('shootDate').value = new Date().toISOString().split('T')[0];
-  $('shootDays').value = '1';
-  $('recorders').value = '1';
-  $('booms').value = '1';
-  $('lavCount').value = '2';
-  $('tcBoxes').value = '2';
-  $('audioHops').value = '0';
-  $('ifbCount').value = '0';
-  $('slateCount').value = '1';
-  $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form on the left.<br>Your quote builds live as you type.</p></div>`;
+  $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
+  $('lavCount').value='2'; $('tcBoxes').value='2'; $('audioHops').value='0';
+  $('ifbCount').value='0'; $('slateCount').value='1';
+  $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
   showToast('Form reset');
 }
 
 function toggleShortcuts() { $('shortcutsOverlay').classList.toggle('visible'); }
-
-function showToast(msg, dur = 2200) {
-  const t = $('toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t = setTimeout(() => t.classList.remove('show'), dur);
+function showToast(msg, dur=2200) {
+  const t=$('toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),dur);
 }
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-function esc(s) {
-  return String(s)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ── Keyboard shortcuts ──
+// ── Keys ──
 const MOD = /Mac|iPhone|iPod|iPad/.test(navigator.platform) ? 'metaKey' : 'ctrlKey';
-
 document.addEventListener('keydown', e => {
-  const typing = ['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
-  if (e.key === '?' && !typing)        { e.preventDefault(); toggleShortcuts(); return; }
-  if (e.key === 'Escape')              { $('shortcutsOverlay').classList.remove('visible'); return; }
+  const typing = ['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName);
+  if (e.key==='?' && !typing)         { e.preventDefault(); toggleShortcuts(); return; }
+  if (e.key==='Escape')               { $('shortcutsOverlay').classList.remove('visible'); closeMarket(); closeCompose(); return; }
   if (!e[MOD]) return;
-  if (e.key === 'Enter')               { e.preventDefault(); recalcFocus(); return; }
-  if ((e.key === 'C') && e.shiftKey)   { e.preventDefault(); copyQuote(); return; }
-  if ((e.key === 'e'||e.key === 'E') && !e.shiftKey) { e.preventDefault(); emailQuote(); return; }
-  if (e.key === 'Backspace' && !typing){ e.preventDefault(); resetForm(); return; }
+  if (e.key==='Enter')                { e.preventDefault(); recalcFocus(); return; }
+  if (e.key==='C' && e.shiftKey)      { e.preventDefault(); copyQuote(); return; }
+  if ((e.key==='e'||e.key==='E') && !e.shiftKey) { e.preventDefault(); emailQuote(); return; }
+  if ((e.key==='m'||e.key==='M'))     { e.preventDefault(); openMarket(); return; }
+  if (e.key==='Backspace' && !typing) { e.preventDefault(); resetForm(); return; }
 });
 
 // ── Init ──
+populateCitySelects();
 loadRates();
+loadProfile();
 $('shootDate').value = new Date().toISOString().split('T')[0];
 recalc();
 </script>
