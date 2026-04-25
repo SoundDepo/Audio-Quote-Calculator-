@@ -367,6 +367,10 @@ footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(
         <input type="number" id="tcBoxes" value="2" min="0" oninput="recalc()">
       </div>
       <div class="field">
+        <label>Timecode Slates <span class="badge badge-in">1 digital slate included</span></label>
+        <input type="number" id="slateCount" value="1" min="0" oninput="recalc()">
+      </div>
+      <div class="field">
         <label>Cameras Needing Audio Hop / Scratch Track <span class="badge badge-ex">extra</span></label>
         <input type="number" id="audioHops" value="0" min="0" oninput="recalc()">
         <span class="field-hint">IFB hop TX to camera for on-set scratch track</span>
@@ -374,10 +378,6 @@ footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(
       <div class="field">
         <label>IFB Headsets — Video Village <span class="badge badge-ex">extra</span></label>
         <input type="number" id="ifbCount" value="0" min="0" oninput="recalc()">
-      </div>
-      <div class="field">
-        <label>Timecode Slates <span class="badge badge-in">1 digital slate included</span></label>
-        <input type="number" id="slateCount" value="1" min="0" oninput="recalc()">
       </div>
     </div>
   </div>
