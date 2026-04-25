@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Location Audio Quote Calculator</title>
+<meta name="description" content="Instant pricing calculator for location audio services — boom, lavs, timecode, IFBs and more.">
+<style>
+:root {
+  --bg: #0d0d12;
+  --surface: #16161f;
+  --surface2: #1e1e2a;
+  --border: #2a2a38;
+  --text: #e8e8f0;
+  --muted: #6b6b85;
+  --accent: #4f8ef7;
+  --gold: #f5c842;
+  --green: #3dba7a;
+  --radius: 8px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── Layout ── */
+.app {
+  display: grid;
+  grid-template-columns: 430px 1fr;
+  grid-template-rows: 60px 1fr 44px;
+  height: 100vh;
+  grid-template-areas: "hdr hdr" "form quote" "foot foot";
+}
+
+/* ── Header ── */
+header {
+  grid-area: hdr;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hdr-logo {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: -0.3px;
+}
+.hdr-sub { font-size: 12px; color: var(--muted); }
+.hdr-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+
+/* ── Form Panel ── */
+.form-panel {
+  grid-area: form;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ── Quote Panel ── */
+.quote-panel {
+  grid-area: quote;
+  overflow-y: auto;
+  padding: 20px;
+  background: var(--bg);
+}
+
+/* ── Sections ── */
+.section {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.section-hdr {
+  padding: 9px 14px;
+  background: rgba(255,255,255,0.025);
+  border-bottom: 1px solid var(--border);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.9px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+/* ── Fields ── */
+.field { display: flex; flex-direction: column; gap: 3px; }
+.field label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.field input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  padding: 7px 10px;
+  outline: none;
+  transition: border-color 0.15s;
+  width: 100%;
+}
+.field input:focus { border-color: var(--accent); }
+.field input[type="number"] { font-family: var(--mono); }
+.field-hint { font-size: 10px; color: var(--muted); opacity: 0.7; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ── Badges ── */
+.badge {
+  display: inline-flex; align-items: center;
+  font-size: 9px; font-weight: 700;
+  padding: 2px 5px; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: 0.4px;
+}
+.badge-in  { background: rgba(61,186,122,0.12); color: var(--green); border: 1px solid rgba(61,186,122,0.25); }
+.badge-ex  { background: rgba(245,200,66,0.1);  color: var(--gold);  border: 1px solid rgba(245,200,66,0.25); }
+
+/* ── Rates ── */
+.rate-row {
+  display: grid;
+  grid-template-columns: 1fr 88px;
+  gap: 8px;
+  align-items: center;
+}
+.rate-label { font-size: 12px; color: var(--text); }
+.rate-sub   { font-size: 10px; color: var(--muted); }
+.rate-input {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: 13px;
+  padding: 5px 8px;
+  text-align: right;
+  outline: none;
+  width: 100%;
+}
+.rate-input:focus { border-color: var(--gold); }
+.rates-saved-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  display: inline-block;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.rates-saved-dot.show { opacity: 1; }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 7px 12px; border-radius: 6px; border: none;
+  font-family: var(--font); font-size: 12px; font-weight: 500;
+  cursor: pointer; transition: all 0.15s; outline: none;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #6fa3ff; }
+.btn-ghost {
+  background: transparent; color: var(--muted);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { background: var(--surface2); color: var(--text); }
+.btn kbd {
+  font-family: var(--mono); font-size: 10px;
+  background: rgba(255,255,255,0.1); padding: 1px 4px;
+  border-radius: 3px; margin-left: 2px;
+}
+
+/* ── Collapsible rates toggle ── */
+.toggle-link {
+  font-size: 10px; color: var(--accent);
+  cursor: pointer; text-decoration: none;
+  background: none; border: none; font-family: var(--font);
+  padding: 0;
+}
+.toggle-link:hover { text-decoration: underline; }
+
+/* ── Quote Card ── */
+.quote-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  max-width: 680px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+.quote-card-hdr {
+  background: var(--surface2);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.quote-card-title { font-size: 14px; font-weight: 700; }
+.quote-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+.quote-body { padding: 22px; }
+
+/* ── Live Quote Blocks ── */
+.q-block { margin-bottom: 20px; }
+.q-block-title {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.9px; color: var(--muted);
+  padding-bottom: 6px; border-bottom: 1px solid var(--border);
+  margin-bottom: 8px;
+}
+.q-line {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+  gap: 12px;
+}
+.q-line:last-child { border-bottom: none; }
+.q-line-left  { flex: 1; min-width: 0; }
+.q-line-name  { font-size: 13px; color: var(--text); }
+.q-line-sub   { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.q-line-amt   { font-family: var(--mono); font-size: 13px; font-weight: 600; flex-shrink: 0; }
+.q-included .q-line-amt { color: var(--muted); }
+.q-extra    .q-line-amt { color: var(--gold); }
+
+.q-total {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0 4px; border-top: 2px solid var(--border); margin-top: 10px;
+  font-size: 16px; font-weight: 700;
+}
+.q-total .amt { color: var(--green); font-family: var(--mono); }
+.q-perday { text-align: right; font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+/* Gear manifest */
+.gear-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 3px 0; font-size: 12px; color: var(--muted);
+}
+.gear-item::before { content: '▸'; font-size: 9px; color: var(--accent); flex-shrink: 0; }
+.gear-extra { color: var(--text); }
+.gear-extra::before { color: var(--gold); }
+.gear-tag {
+  font-size: 9px; font-weight: 700;
+  background: rgba(245,200,66,0.12); color: var(--gold);
+  border: 1px solid rgba(245,200,66,0.2);
+  padding: 1px 4px; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: 0.3px;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--muted);
+}
+.empty-state .icon { font-size: 52px; margin-bottom: 14px; opacity: 0.2; }
+.empty-state p { font-size: 13px; line-height: 1.8; }
+
+/* ── Shortcuts Overlay ── */
+.shortcuts-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.65);
+  display: none; align-items: center; justify-content: center;
+  z-index: 200;
+}
+.shortcuts-overlay.visible { display: flex; }
+.shortcuts-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+  min-width: 290px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+.shortcuts-box h3 {
+  font-size: 11px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--muted); margin-bottom: 16px;
+}
+.sk-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 5px 0; font-size: 13px; gap: 20px;
+}
+.sk-row kbd {
+  font-family: var(--mono); font-size: 11px;
+  background: var(--bg); border: 1px solid var(--border);
+  padding: 2px 8px; border-radius: 4px; color: var(--gold); white-space: nowrap;
+}
+.sk-footer { margin-top: 14px; font-size: 11px; color: var(--muted); text-align: center; }
+
+/* ── Footer ── */
+footer {
+  grid-area: foot;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.sk-hint { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
+.sk-hint kbd {
+  font-family: var(--mono); font-size: 10px;
+  background: var(--surface2); border: 1px solid var(--border);
+  padding: 1px 5px; border-radius: 3px; color: var(--muted);
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 54px; left: 50%;
+  transform: translateX(-50%) translateY(6px);
+  background: var(--green); color: #fff;
+  padding: 7px 16px; border-radius: 20px;
+  font-size: 13px; font-weight: 500;
+  opacity: 0; transition: all 0.2s;
+  pointer-events: none; z-index: 300;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── Responsive ── */
+@media (max-width: 800px) {
+  .app {
+    grid-template-columns: 1fr;
+    grid-template-rows: 60px auto auto 44px;
+    grid-template-areas: "hdr" "form" "quote" "foot";
+    height: auto;
+    min-height: 100vh;
+  }
+  .quote-panel { padding: 16px; }
+}
+
+/* ── Print ── */
+@media print {
+  header .hdr-right, .form-panel, footer,
+  .shortcuts-overlay, .toast, .quote-actions { display: none !important; }
+  body { background: #fff; color: #000; }
+  .app { display: block; }
+  .quote-panel { padding: 0; }
+  .quote-card { border: none; box-shadow: none; max-width: 100%; }
+  .quote-card-hdr { background: #f5f5f5; border-bottom: 2px solid #000; }
+  .quote-card-title { color: #000; font-size: 16px; }
+  .quote-body { padding: 20px 0; }
+  .q-block-title { color: #555; border-color: #ccc; }
+  .q-line-name { color: #000; }
+  .q-line-sub { color: #666; }
+  .q-included .q-line-amt { color: #888; }
+  .q-extra .q-line-amt { color: #000; font-weight: 700; }
+  .q-total .amt { color: #000; }
+  .gear-item { color: #555; }
+  .gear-extra { color: #000; }
+  .gear-tag { border: 1px solid #999; color: #333; background: #eee; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ── Header ── -->
+<header>
+  <div>
+    <div class="hdr-logo">🎙 Location Audio</div>
+    <div class="hdr-sub">Quote &amp; Gear Calculator</div>
+  </div>
+  <div class="hdr-right">
+    <button class="btn btn-ghost" onclick="resetForm()">↺ Reset <kbd>⌘⌫</kbd></button>
+    <button class="btn btn-ghost" onclick="toggleShortcuts()">⌨ <kbd>?</kbd></button>
+  </div>
+</header>
+
+<!-- ── Left: Form Panel ── -->
+<div class="form-panel">
+
+  <!-- Client Info -->
+  <div class="section">
+    <div class="section-hdr">📋 Client Info</div>
+    <div class="section-body">
+      <div class="field">
+        <label>Client Name</label>
+        <input type="text" id="clientName" placeholder="e.g. Apex Productions" oninput="recalc()">
+      </div>
+      <div class="field">
+        <label>Client Email</label>
+        <input type="email" id="clientEmail" placeholder="producer@studio.com" oninput="recalc()">
+      </div>
+      <div class="field">
+        <label>Project / Production Name</label>
+        <input type="text" id="projectName" placeholder="e.g. Nike Spring Campaign" oninput="recalc()">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Shoot Date</label>
+          <input type="date" id="shootDate" oninput="recalc()">
+        </div>
+        <div class="field">
+          <label>Days</label>
+          <input type="number" id="shootDays" value="1" min="1" oninput="recalc()">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gear Needs -->
+  <div class="section">
+    <div class="section-hdr">🎛 Gear Needs</div>
+    <div class="section-body">
+
+      <div class="field">
+        <label>Recorders / Mixers <span class="badge badge-in">1 included</span></label>
+        <input type="number" id="recorders" value="1" min="1" oninput="recalc()">
+      </div>
+
+      <div class="field">
+        <label>Wireless Boom Mics <span class="badge badge-in">1 included</span></label>
+        <input type="number" id="booms" value="1" min="0" oninput="recalc()">
+      </div>
+
+      <div class="field">
+        <label>Talent to Wire — max in scene <span class="badge badge-in">2 lavs included</span></label>
+        <input type="number" id="lavCount" value="2" min="0" oninput="recalc()">
+        <span class="field-hint">Base kit = 3 wireless channels total. Each extra channel is billed separately.</span>
+      </div>
+
+      <div class="field">
+        <label>Cameras Needing TC Box <span class="badge badge-in">2 included</span></label>
+        <input type="number" id="tcBoxes" value="2" min="0" oninput="recalc()">
+      </div>
+
+      <div class="field">
+        <label>Cameras Needing Audio Hop / Scratch Track <span class="badge badge-ex">extra</span></label>
+        <input type="number" id="audioHops" value="0" min="0" oninput="recalc()">
+        <span class="field-hint">IFB hop TX to camera for on-set scratch track</span>
+      </div>
+
+      <div class="field">
+        <label>IFB Headsets — Video Village <span class="badge badge-ex">extra</span></label>
+        <input type="number" id="ifbCount" value="0" min="0" oninput="recalc()">
+      </div>
+
+      <div class="field">
+        <label>Timecode Slates <span class="badge badge-in">1 digital slate included</span></label>
+        <input type="number" id="slateCount" value="1" min="0" oninput="recalc()">
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Rates — collapsible, saved to localStorage -->
+  <div class="section">
+    <div class="section-hdr">
+      💰 My Rates
+      <div style="display:flex;align-items:center;gap:8px">
+        <span class="rates-saved-dot" id="savedDot"></span>
+        <button class="toggle-link" onclick="toggleRates()">
+          <span id="ratesToggleLabel">show</span>
+        </button>
+      </div>
+    </div>
+    <div class="section-body" id="ratesBody" style="display:none">
+      <div style="font-size:10px;color:var(--muted);margin-bottom:2px">Saved automatically in your browser.</div>
+
+      <div class="rate-row">
+        <div>
+          <div class="rate-label">Day Rate (10hr)</div>
+          <div class="rate-sub">Full base kit included</div>
+        </div>
+        <input class="rate-input" type="number" id="rateDay" value="950" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row">
+        <div class="rate-label">Additional Recorder/Mixer</div>
+        <input class="rate-input" type="number" id="rateRecorder" value="250" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row">
+        <div class="rate-label">Additional Wireless Channel</div>
+        <input class="rate-input" type="number" id="rateWireless" value="85" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row">
+        <div class="rate-label">Audio Hop (per camera)</div>
+        <input class="rate-input" type="number" id="rateHop" value="65" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row">
+        <div class="rate-label">IFB Headset</div>
+        <input class="rate-input" type="number" id="rateIFB" value="35" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row">
+        <div class="rate-label">Additional TC Box</div>
+        <input class="rate-input" type="number" id="rateTCBox" value="55" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row">
+        <div class="rate-label">Additional TC Slate</div>
+        <input class="rate-input" type="number" id="rateSlate" value="125" oninput="saveRates();recalc()">
+      </div>
+    </div>
+  </div>
+
+  <button class="btn btn-primary" onclick="recalcFocus()" style="width:100%;justify-content:center;padding:10px">
+    ⚡ Generate Quote &nbsp;<kbd style="background:rgba(0,0,0,0.2)">⌘↵</kbd>
+  </button>
+
+</div>
+
+<!-- ── Right: Quote Panel ── -->
+<div class="quote-panel">
+  <div class="quote-card">
+    <div class="quote-card-hdr">
+      <div class="quote-card-title">Quote Preview</div>
+      <div class="quote-actions">
+        <button class="btn btn-ghost" onclick="copyQuote()">📋 Copy <kbd>⌘⇧C</kbd></button>
+        <button class="btn btn-ghost" onclick="emailQuote()">✉ Email <kbd>⌘E</kbd></button>
+        <button class="btn btn-ghost" onclick="window.print()">🖨 Print <kbd>⌘P</kbd></button>
+      </div>
+    </div>
+    <div class="quote-body" id="quoteLive">
+      <div class="empty-state">
+        <div class="icon">🎙</div>
+        <p>Fill in the form on the left.<br>Your quote builds live as you type.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Footer ── -->
+<footer>
+  <span class="sk-hint"><kbd>⌘↵</kbd> Generate</span>
+  <span class="sk-hint"><kbd>⌘⇧C</kbd> Copy</span>
+  <span class="sk-hint"><kbd>⌘E</kbd> Email</span>
+  <span class="sk-hint"><kbd>⌘P</kbd> Print</span>
+  <span class="sk-hint"><kbd>⌘⌫</kbd> Reset</span>
+  <span class="sk-hint"><kbd>?</kbd> Shortcuts</span>
+</footer>
+
+</div><!-- .app -->
+
+<!-- ── Shortcuts Overlay ── -->
+<div class="shortcuts-overlay" id="shortcutsOverlay" onclick="if(event.target===this)toggleShortcuts()">
+  <div class="shortcuts-box">
+    <h3>⌨ Keyboard Shortcuts</h3>
+    <div class="sk-row"><span>Generate / refresh quote</span><kbd>⌘ ↵</kbd></div>
+    <div class="sk-row"><span>Copy quote as plain text</span><kbd>⌘ ⇧ C</kbd></div>
+    <div class="sk-row"><span>Email to client</span><kbd>⌘ E</kbd></div>
+    <div class="sk-row"><span>Print / Save as PDF</span><kbd>⌘ P</kbd></div>
+    <div class="sk-row"><span>Reset entire form</span><kbd>⌘ ⌫</kbd></div>
+    <div class="sk-row"><span>Toggle this panel</span><kbd>?</kbd></div>
+    <div class="sk-row"><span>Close panel</span><kbd>Esc</kbd></div>
+    <div class="sk-footer">Tab / Shift+Tab to move between fields</div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+// ── localStorage rate persistence ──
+const RATE_KEYS = ['rateDay','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate'];
+const DEFAULTS  = { rateDay:950, rateRecorder:250, rateWireless:85, rateHop:65, rateIFB:35, rateTCBox:55, rateSlate:125 };
+
+function saveRates() {
+  const obj = {};
+  RATE_KEYS.forEach(k => obj[k] = $(k).value);
+  localStorage.setItem('aq_rates', JSON.stringify(obj));
+  const dot = $('savedDot');
+  dot.classList.add('show');
+  clearTimeout(dot._t);
+  dot._t = setTimeout(() => dot.classList.remove('show'), 1800);
+}
+
+function loadRates() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('aq_rates') || '{}');
+    RATE_KEYS.forEach(k => {
+      if (saved[k] !== undefined) $(k).value = saved[k];
+      else $(k).value = DEFAULTS[k];
+    });
+  } catch(e) {
+    RATE_KEYS.forEach(k => $(k).value = DEFAULTS[k]);
+  }
+}
+
+function toggleRates() {
+  const body  = $('ratesBody');
+  const label = $('ratesToggleLabel');
+  const open  = body.style.display !== 'none';
+  body.style.display  = open ? 'none' : 'flex';
+  label.textContent   = open ? 'show' : 'hide';
+}
+
+// ── Read all form values ──
+function getVals() {
+  return {
+    clientName:  $('clientName').value.trim(),
+    clientEmail: $('clientEmail').value.trim(),
+    projectName: $('projectName').value.trim(),
+    shootDate:   $('shootDate').value,
+    days:        Math.max(1, parseInt($('shootDays').value)  || 1),
+    recorders:   Math.max(1, parseInt($('recorders').value)  || 1),
+    booms:       Math.max(0, parseInt($('booms').value)      || 0),
+    lavs:        Math.max(0, parseInt($('lavCount').value)   || 0),
+    tcBoxes:     Math.max(0, parseInt($('tcBoxes').value)    || 0),
+    audioHops:   Math.max(0, parseInt($('audioHops').value)  || 0),
+    ifbs:        Math.max(0, parseInt($('ifbCount').value)   || 0),
+    slates:      Math.max(0, parseInt($('slateCount').value) || 0),
+    rateDay:      parseFloat($('rateDay').value)      || DEFAULTS.rateDay,
+    rateRecorder: parseFloat($('rateRecorder').value) || DEFAULTS.rateRecorder,
+    rateWireless: parseFloat($('rateWireless').value) || DEFAULTS.rateWireless,
+    rateHop:      parseFloat($('rateHop').value)      || DEFAULTS.rateHop,
+    rateIFB:      parseFloat($('rateIFB').value)      || DEFAULTS.rateIFB,
+    rateTCBox:    parseFloat($('rateTCBox').value)    || DEFAULTS.rateTCBox,
+    rateSlate:    parseFloat($('rateSlate').value)    || DEFAULTS.rateSlate,
+  };
+}
+
+// ── Calculate line items ──
+function calcLines(v) {
+  const totalWireless  = v.booms + v.lavs;
+  const extraWireless  = Math.max(0, totalWireless - 3);
+  const extraTC        = Math.max(0, v.tcBoxes   - 2);
+  const extraSlates    = Math.max(0, v.slates    - 1);
+  const extraRecorders = Math.max(0, v.recorders - 1);
+
+  const lines = [];
+
+  lines.push({
+    name: 'Location Audio Package — 10hr Day Rate',
+    sub:  'Recorder/Mixer · Wireless Boom · 2× Wireless Lav · 2× TC Box · Digital Slate',
+    qty: v.days, unitRate: v.rateDay,
+    total: v.rateDay * v.days,
+    kind: 'base',
+  });
+
+  if (extraRecorders > 0) lines.push({
+    name: `Additional Recorder/Mixer ×${extraRecorders}`,
+    sub: `${v.recorders} total, 1 in base`,
+    qty: extraRecorders, days: v.days, unitRate: v.rateRecorder,
+    total: extraRecorders * v.rateRecorder * v.days, kind: 'extra',
+  });
+
+  if (extraWireless > 0) lines.push({
+    name: `Additional Wireless Channel ×${extraWireless}`,
+    sub: `${totalWireless} total (${v.booms} boom + ${v.lavs} lav) — 3 in base`,
+    qty: extraWireless, days: v.days, unitRate: v.rateWireless,
+    total: extraWireless * v.rateWireless * v.days, kind: 'extra',
+  });
+
+  if (extraTC > 0) lines.push({
+    name: `Additional Timecode Box ×${extraTC}`,
+    sub: `${v.tcBoxes} cameras — 2 in base`,
+    qty: extraTC, days: v.days, unitRate: v.rateTCBox,
+    total: extraTC * v.rateTCBox * v.days, kind: 'extra',
+  });
+
+  if (v.audioHops > 0) lines.push({
+    name: `Audio Hop / Scratch Track ×${v.audioHops}`,
+    sub: 'IFB hop TX to camera',
+    qty: v.audioHops, days: v.days, unitRate: v.rateHop,
+    total: v.audioHops * v.rateHop * v.days, kind: 'extra',
+  });
+
+  if (v.ifbs > 0) lines.push({
+    name: `IFB Headset — Video Village ×${v.ifbs}`,
+    qty: v.ifbs, days: v.days, unitRate: v.rateIFB,
+    total: v.ifbs * v.rateIFB * v.days, kind: 'extra',
+  });
+
+  if (extraSlates > 0) lines.push({
+    name: `Additional TC Slate ×${extraSlates}`,
+    sub: `${v.slates} total — 1 in base`,
+    qty: extraSlates, days: v.days, unitRate: v.rateSlate,
+    total: extraSlates * v.rateSlate * v.days, kind: 'extra',
+  });
+
+  return {
+    lines,
+    grandTotal: lines.reduce((s, l) => s + l.total, 0),
+    extraWireless, extraTC, extraSlates, extraRecorders, totalWireless,
+  };
+}
+
+// ── Build gear manifest ──
+function buildGear(v, c) {
+  const items = [];
+  items.push({ label: `${v.recorders}× Recorder / Mixer`,           extra: c.extraRecorders > 0 });
+  if (v.booms > 0)    items.push({ label: `${v.booms}× Wireless Boom Mic`,         extra: v.booms > 1 });
+  if (v.lavs > 0)     items.push({ label: `${v.lavs}× Wireless Lav (talent)`,      extra: v.lavs > 2 });
+  if (v.tcBoxes > 0)  items.push({ label: `${v.tcBoxes}× Timecode Box`,             extra: c.extraTC > 0 });
+  if (v.slates > 0)   items.push({ label: `${v.slates}× Timecode Slate (digital)`,  extra: c.extraSlates > 0 });
+  if (v.audioHops > 0) items.push({ label: `${v.audioHops}× Audio Hop TX (scratch to cam)`, extra: true });
+  if (v.ifbs > 0)     items.push({ label: `${v.ifbs}× IFB Headset (video village)`,           extra: true });
+  return items;
+}
+
+// ── Render live quote ──
+function renderQuote(v, calc) {
+  const { lines, grandTotal } = calc;
+  const dateStr = v.shootDate
+    ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    : '—';
+
+  let h = '';
+
+  // Client
+  h += `<div class="q-block">
+    <div class="q-block-title">Client</div>
+    <div class="q-line">
+      <div class="q-line-left">
+        <div class="q-line-name">${esc(v.clientName || '—')}</div>
+        <div class="q-line-sub">${esc(v.clientEmail || '')}</div>
+      </div>
+    </div>
+    <div class="q-line">
+      <div class="q-line-left">
+        <div class="q-line-name">${esc(v.projectName || 'Untitled Project')}</div>
+        <div class="q-line-sub">${dateStr}${v.days > 1 ? ' · ' + v.days + '-day production' : ''}</div>
+      </div>
+    </div>
+  </div>`;
+
+  // Services
+  h += `<div class="q-block"><div class="q-block-title">Services</div>`;
+  for (const ln of lines) {
+    const qtyStr = ln.kind === 'base'
+      ? `${ln.qty} day${ln.qty > 1 ? 's' : ''} × ${fmt(ln.unitRate)}`
+      : `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
+    h += `<div class="q-line ${ln.kind === 'base' ? 'q-included' : 'q-extra'}">
+      <div class="q-line-left">
+        <div class="q-line-name">${esc(ln.name)}</div>
+        ${ln.sub ? `<div class="q-line-sub">${esc(ln.sub)}</div>` : ''}
+        <div class="q-line-sub">${qtyStr}</div>
+      </div>
+      <div class="q-line-amt">${fmt(ln.total)}</div>
+    </div>`;
+  }
+  h += `<div class="q-total"><span>Project Total</span><span class="amt">${fmt(grandTotal)}</span></div>`;
+  if (v.days > 1) h += `<div class="q-perday">${fmt(grandTotal / v.days)}/day × ${v.days} days</div>`;
+  h += `</div>`;
+
+  // Gear manifest
+  const gear = buildGear(v, calc);
+  h += `<div class="q-block"><div class="q-block-title">Gear Manifest</div>`;
+  for (const g of gear) {
+    h += `<div class="gear-item ${g.extra ? 'gear-extra' : ''}">${esc(g.label)} ${g.extra ? '<span class="gear-tag">add\'l</span>' : ''}</div>`;
+  }
+  h += `</div>`;
+
+  $('quoteLive').innerHTML = h;
+}
+
+function recalc() {
+  const v = getVals();
+  renderQuote(v, calcLines(v));
+}
+
+function recalcFocus() {
+  recalc();
+  document.querySelector('.quote-panel').scrollIntoView({ behavior: 'smooth' });
+  showToast('Quote updated');
+}
+
+// ── Plain-text for copy / email ──
+function buildPlainText() {
+  const v = getVals();
+  const calc = calcLines(v);
+  const { lines, grandTotal } = calc;
+  const gear = buildGear(v, calc);
+  const dateStr = v.shootDate
+    ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    : '—';
+  const D = '─'.repeat(54);
+
+  let t = `LOCATION AUDIO SERVICES — QUOTE\n${D}\n`;
+  t += `Client:   ${v.clientName  || '—'}\n`;
+  t += `Email:    ${v.clientEmail || '—'}\n`;
+  t += `Project:  ${v.projectName || '—'}\n`;
+  t += `Date:     ${dateStr}\n`;
+  t += `Days:     ${v.days}\n${D}\n\nSERVICES\n\n`;
+
+  for (const ln of lines) {
+    const qtyStr = ln.kind === 'base'
+      ? `${ln.qty}d × ${fmt(ln.unitRate)}`
+      : `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
+    const space = Math.max(2, 40 - ln.name.length);
+    t += `${ln.name}${' '.repeat(space)}${fmt(ln.total)}\n`;
+    if (ln.sub) t += `  ${ln.sub}\n`;
+    t += `  (${qtyStr})\n\n`;
+  }
+
+  t += `${D}\n${'PROJECT TOTAL'.padEnd(40)}${fmt(grandTotal)}\n`;
+  if (v.days > 1) t += `${'Per day'.padEnd(40)}${fmt(grandTotal / v.days)}\n`;
+  t += `${D}\n\nGEAR MANIFEST\n`;
+  for (const g of gear) t += `  • ${g.label}${g.extra ? '  [additional]' : ''}\n`;
+  t += `\n${D}\nTerms: 50% deposit to confirm booking. Balance due on wrap.\n`;
+
+  return t;
+}
+
+function copyQuote() {
+  const text = buildPlainText();
+  navigator.clipboard.writeText(text)
+    .then(() => showToast('Quote copied!'))
+    .catch(() => {
+      const ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); ta.remove();
+      showToast('Quote copied!');
+    });
+}
+
+function emailQuote() {
+  const v = getVals();
+  const to = encodeURIComponent(v.clientEmail || '');
+  const subject = encodeURIComponent(`Location Audio Quote — ${v.projectName || 'Your Project'}`);
+  const body = encodeURIComponent(buildPlainText());
+  window.open(`mailto:${to}?subject=${subject}&body=${body}`);
+}
+
+function resetForm() {
+  if (!confirm('Reset the form?')) return;
+  ['clientName','clientEmail','projectName'].forEach(id => $(id).value = '');
+  $('shootDate').value = new Date().toISOString().split('T')[0];
+  $('shootDays').value = '1';
+  $('recorders').value = '1';
+  $('booms').value = '1';
+  $('lavCount').value = '2';
+  $('tcBoxes').value = '2';
+  $('audioHops').value = '0';
+  $('ifbCount').value = '0';
+  $('slateCount').value = '1';
+  $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form on the left.<br>Your quote builds live as you type.</p></div>`;
+  showToast('Form reset');
+}
+
+function toggleShortcuts() { $('shortcutsOverlay').classList.toggle('visible'); }
+
+function showToast(msg, dur = 2200) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), dur);
+}
+
+function esc(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Keyboard shortcuts ──
+const MOD = /Mac|iPhone|iPod|iPad/.test(navigator.platform) ? 'metaKey' : 'ctrlKey';
+
+document.addEventListener('keydown', e => {
+  const typing = ['INPUT','TEXTAREA'].includes(document.activeElement.tagName);
+  if (e.key === '?' && !typing)        { e.preventDefault(); toggleShortcuts(); return; }
+  if (e.key === 'Escape')              { $('shortcutsOverlay').classList.remove('visible'); return; }
+  if (!e[MOD]) return;
+  if (e.key === 'Enter')               { e.preventDefault(); recalcFocus(); return; }
+  if ((e.key === 'C') && e.shiftKey)   { e.preventDefault(); copyQuote(); return; }
+  if ((e.key === 'e'||e.key === 'E') && !e.shiftKey) { e.preventDefault(); emailQuote(); return; }
+  if (e.key === 'Backspace' && !typing){ e.preventDefault(); resetForm(); return; }
+});
+
+// ── Init ──
+loadRates();
+$('shootDate').value = new Date().toISOString().split('T')[0];
+recalc();
+</script>
+</body>
+</html>
