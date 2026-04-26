@@ -373,8 +373,18 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         </select>
       </div>
       <div class="field">
-        <label>Your Address <span style="font-size:10px;color:var(--muted)">(shows on PDF)</span></label>
-        <textarea id="yourAddress" rows="2" placeholder="123 Main St&#10;Los Angeles, CA 90001" autocomplete="street-address" oninput="saveProfile();recalc()"></textarea>
+        <label>Street Address <span style="font-size:10px;color:var(--muted)">(shows on PDF)</span></label>
+        <input type="text" id="yourStreet" placeholder="2522 N Milwaukee Ave" autocomplete="street-address" oninput="saveProfile();recalc()">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Unit / Apt <span style="font-size:10px;color:var(--muted)">(optional)</span></label>
+          <input type="text" id="yourUnit" placeholder="Apt 311" autocomplete="address-line2" oninput="saveProfile();recalc()">
+        </div>
+        <div class="field">
+          <label>ZIP Code</label>
+          <input type="text" id="yourZip" placeholder="60647" autocomplete="postal-code" inputmode="numeric" oninput="saveProfile();recalc()">
+        </div>
       </div>
       </form>
     </div>
@@ -881,7 +891,7 @@ function openMarket() {
 function closeMarket() { $('marketOverlay').classList.remove('visible'); }
 
 // ── localStorage ──
-const STORAGE_VERSION = 'v7';
+const STORAGE_VERSION = 'v8';
 if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
   localStorage.removeItem('aq_rates'); localStorage.removeItem('aq_profile');
   localStorage.setItem('aq_version', STORAGE_VERSION);
@@ -908,7 +918,7 @@ function updateDayRateTotal() {
   $('dayRateTotal').textContent = fmt(l + k);
 }
 
-const PROFILE_KEYS = ['yourName','yourCompany','yourPhone','yourEmail','yourCity','yourAddress'];
+const PROFILE_KEYS = ['yourName','yourCompany','yourPhone','yourEmail','yourCity','yourStreet','yourUnit','yourZip'];
 function saveProfile() {
   const obj = {}; PROFILE_KEYS.forEach(k => obj[k] = $(k).value);
   localStorage.setItem('aq_profile', JSON.stringify(obj));
@@ -934,7 +944,9 @@ function getVals() {
     yourPhone:   $('yourPhone').value.trim(),
     yourEmail:   $('yourEmail').value.trim(),
     yourCity:    $('yourCity').value,
-    yourAddress: $('yourAddress').value.trim(),
+    yourStreet:  $('yourStreet').value.trim(),
+    yourUnit:    $('yourUnit').value.trim(),
+    yourZip:     $('yourZip').value.trim(),
     clientName:  $('clientName').value.trim(),
     clientEmail: $('clientEmail').value.trim(),
     clientAddress: $('clientAddress').value.trim(),
@@ -1233,7 +1245,8 @@ function downloadReceiptPDF() {
   body += '<div class="party-lbl">From</div>';
   if (v.yourName)    body += `<div class="party-name">${e(v.yourName)}</div>`;
   if (v.yourCompany) body += `<div class="party-line">${e(v.yourCompany)}</div>`;
-  if (v.yourAddress) v.yourAddress.split('\n').forEach(l => { if (l.trim()) body += `<div class="party-line">${e(l.trim())}</div>`; });
+  if (v.yourStreet)  body += `<div class="party-line">${e(v.yourStreet)}${v.yourUnit ? ' ' + e(v.yourUnit) : ''}</div>`;
+  if (v.yourCity || v.yourZip) { const market = MARKETS.find(m => m.id === v.yourCity); const cityLine = (market ? market.name : '') + (v.yourZip ? (market ? ', ' : '') + v.yourZip : ''); if (cityLine) body += `<div class="party-line">${e(cityLine)}</div>`; }
   if (v.yourPhone)   body += `<div class="party-line">${e(v.yourPhone)}</div>`;
   if (v.yourEmail)   body += `<div class="party-line">${e(v.yourEmail)}</div>`;
   body += '</div>';
@@ -1346,7 +1359,8 @@ function generatePDFBlob() {
   if (v.yourName)    { ss(13, true,  '#111111'); doc.text(v.yourName,    margin, lY); lY += 15; }
   ss(10, false, '#444444');
   if (v.yourCompany) { doc.text(v.yourCompany, margin, lY); lY += 13; }
-  if (v.yourAddress) v.yourAddress.split('\n').forEach(l => { if (l.trim()) { doc.text(l.trim(), margin, lY); lY += 13; } });
+  if (v.yourStreet) { doc.text(v.yourStreet + (v.yourUnit ? ' ' + v.yourUnit : ''), margin, lY); lY += 13; }
+  { const mkt = MARKETS.find(m => m.id === v.yourCity); const cityLine = (mkt ? mkt.name : '') + (v.yourZip ? (mkt ? ', ' : '') + v.yourZip : ''); if (cityLine) { doc.text(cityLine, margin, lY); lY += 13; } }
   if (v.yourPhone)   { doc.text(v.yourPhone,   margin, lY); lY += 13; }
   if (v.yourEmail)   { doc.text(v.yourEmail,   margin, lY); lY += 13; }
 
