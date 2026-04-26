@@ -1430,8 +1430,10 @@ async function sharePDF() {
   try { blob = generatePDFBlob(); } catch(e) { showToast('PDF error — try again'); return; }
   if (!blob) return;
   const file = new File([blob], filename, { type: 'application/pdf' });
+  const subject = ($('composeSubject') && $('composeSubject').value.trim()) || `Location Audio Quote — ${v.projectName || 'Quote'}`;
+  const intro   = ($('composeIntro')   && $('composeIntro').value.trim())   || '';
   if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-    try { await navigator.share({ files: [file], title: `Quote — ${v.projectName || 'Location Audio'}` }); return; }
+    try { await navigator.share({ files: [file], title: subject, text: intro }); return; }
     catch(e) { if (e.name === 'AbortError') return; }
   }
   const url = URL.createObjectURL(blob);
@@ -1462,19 +1464,17 @@ function emailQuote() {
   $('composeSubject').value = `Location Audio Quote — ${project}`;
 
   const intro = [
-    `Hi${v.clientName ? ' ' + v.clientName.split(' ')[0] : ''},`,
+    `Hi${v.clientName ? ' ' + v.clientName.split(',')[0].split(' ')[0] : ''},`,
     ``,
-    `My name is ${name}${v.yourCompany ? ' with ' + v.yourCompany : ''}, a Location Sound Mixer based in ${city}. I'm reaching out to quote for ${project}${date ? ' on ' + date : ''}.`,
+    `${name} here${v.yourCompany ? ' with ' + v.yourCompany : ''} — Location Sound Mixer based in ${city}. Please see my quote${date ? ' for ' + date : ''} attached.`,
     ``,
-    `I've put together the quote below covering everything your production will need — recorder, boom, wireless lavs, timecode, and any additional channels or IFBs. My kit is professional grade and maintained for reliable on-set performance.`,
+    `My package covers recorder, boom, wireless lavs, and timecode. Everything is professional grade and ready to go. Happy to adjust the setup for your specific needs.`,
     ``,
-    `Happy to talk through the details or adjust for your specific setup. Looking forward to working together.`,
-    ``,
-    `Best,`,
+    `Looking forward to it —`,
     name,
     v.yourPhone || '',
     v.yourEmail || '',
-  ].filter(l => l !== null && (l !== '' || true)).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+  ].filter(l => l !== null).join('\n').replace(/\n{3,}/g, '\n\n').trim();
 
   $('composeIntro').value = intro;
   $('composeQuotePreview').innerHTML = buildReceiptHTML(v, calc);
