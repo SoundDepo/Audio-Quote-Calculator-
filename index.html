@@ -418,6 +418,11 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="rate-input" type="number" id="rateWireless" value="85" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
+        <div class="rate-label">Additional TC Box</div>
+        <input class="qty-input" type="number" id="qtyTCBox" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <input class="rate-input" type="number" id="rateTCBox" value="50" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">Audio Hop (per camera)</div>
         <input class="qty-input" type="number" id="qtyHop" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateHop" value="100" oninput="saveRates();recalc()">
@@ -426,11 +431,6 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <div class="rate-label">IFB Headset</div>
         <input class="qty-input" type="number" id="qtyIFB" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateIFB" value="35" oninput="saveRates();recalc()">
-      </div>
-      <div class="rate-row rate-row-extra">
-        <div class="rate-label">Additional TC Box</div>
-        <input class="qty-input" type="number" id="qtyTCBox" value="0" min="0" oninput="recalc()" onchange="recalc()">
-        <input class="rate-input" type="number" id="rateTCBox" value="50" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional TC Slate</div>
