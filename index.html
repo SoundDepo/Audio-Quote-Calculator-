@@ -157,11 +157,40 @@ header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var
 .compose-intro-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: var(--muted); }
 .compose-intro { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font); font-size: 13px; line-height: 1.6; padding: 10px 12px; outline: none; resize: vertical; min-height: 100px; width: 100%; }
 .compose-intro:focus { border-color: var(--accent); }
-.compose-quote-preview { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.6; max-height: 180px; overflow-y: auto; white-space: pre-wrap; }
-.compose-footer { padding: 14px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 10px; background: var(--surface2); }
-.compose-footer-hint { font-size: 11px; color: var(--muted); flex: 1; }
-.compose-send { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 9px 20px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+.compose-notice { background: rgba(79,142,247,0.07); border: 1px solid rgba(79,142,247,0.18); border-radius: 6px; padding: 9px 12px; font-size: 11px; color: var(--muted); line-height: 1.5; }
+.compose-footer { padding: 12px 18px; border-top: 1px solid var(--border); display: flex; align-items: center; gap: 8px; background: var(--surface2); flex-wrap: wrap; }
+.compose-footer-hint { font-size: 11px; color: var(--muted); flex: 1; min-width: 100px; }
+.compose-send { background: var(--accent); color: #fff; border: none; border-radius: 6px; padding: 9px 16px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
 .compose-send:hover { background: #6fa3ff; }
+.compose-pdf-btn { background: rgba(61,186,122,0.1); color: var(--green); border: 1px solid rgba(61,186,122,0.3); border-radius: 6px; padding: 9px 14px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 5px; white-space: nowrap; }
+.compose-pdf-btn:hover { background: rgba(61,186,122,0.2); }
+
+/* ── Receipt Preview ── */
+.compose-receipt { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.rcpt-head { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+.rcpt-head-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+.rcpt-head-name { font-size: 14px; font-weight: 700; color: var(--text); margin-top: 3px; }
+.rcpt-head-contact { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.rcpt-proj { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.rcpt-proj-cell { font-size: 12px; color: var(--text); }
+.rcpt-proj-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); display: block; margin-bottom: 2px; }
+.rcpt-section { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+.rcpt-section-hdr { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--muted); margin-bottom: 8px; }
+.rcpt-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 4px 0; }
+.rcpt-row-name { font-size: 12px; color: var(--text); }
+.rcpt-row-sub { font-size: 10px; color: var(--muted); margin-top: 1px; }
+.rcpt-row-amt { font-family: var(--mono); font-size: 12px; color: var(--gold); white-space: nowrap; padding-left: 12px; }
+.rcpt-row.extra .rcpt-row-name { color: var(--gold); }
+.rcpt-dayrate { font-size: 10px; color: var(--muted); display: flex; justify-content: space-between; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 6px; margin-top: 6px; }
+.rcpt-rule { border: none; border-top: 1px dashed rgba(255,255,255,0.08); margin: 4px 0 2px; }
+.rcpt-chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.rcpt-chip { font-size: 10px; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 2px 7px; color: var(--muted); }
+.rcpt-chip.extra { border-color: rgba(245,200,66,0.3); color: var(--gold); }
+.rcpt-terms { padding: 8px 14px; font-size: 10px; color: var(--muted); line-height: 1.6; border-bottom: 1px solid var(--border); }
+.rcpt-total { padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; }
+.rcpt-total-lbl { font-size: 13px; font-weight: 700; color: var(--text); }
+.rcpt-total-perday { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.rcpt-total-amt { font-size: 20px; font-weight: 700; font-family: var(--mono); color: var(--accent); }
 
 /* ── Market Rate Modal ── */
 .market-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); display: none; align-items: flex-start; justify-content: flex-end; z-index: 300; }
@@ -514,12 +543,13 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     <div class="compose-body-wrap">
       <div class="compose-intro-label">Your intro message — edit freely</div>
       <textarea class="compose-intro" id="composeIntro" rows="5"></textarea>
-      <div class="compose-intro-label">Quote attached below (included automatically)</div>
-      <div class="compose-quote-preview" id="composeQuotePreview"></div>
+      <div class="compose-notice">A clean receipt-style quote is included below. You can edit your intro message before opening your email app.</div>
+      <div id="composeQuotePreview"></div>
     </div>
 
     <div class="compose-footer">
-      <div class="compose-footer-hint">Opens in Mail, Gmail, or your default email app.</div>
+      <div class="compose-footer-hint">Opens in Mail, Gmail, or your default app.</div>
+      <button class="compose-pdf-btn" onclick="downloadReceiptPDF()">⬇ Download PDF</button>
       <button class="compose-send" onclick="sendCompose()">✉ Open in Mail App</button>
     </div>
   </div>
@@ -1037,6 +1067,189 @@ function buildPlainText() {
   return t;
 }
 
+// ── Receipt HTML (modal preview) ──
+function buildReceiptHTML(v, calc) {
+  const { lines, grandTotal, dayRate } = calc;
+  const market  = MARKETS.find(m => m.id === v.yourCity);
+  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const gear    = buildGear(v, calc);
+  const labor   = lines.find(l => l.kind === 'labor');
+  const kit     = lines.find(l => l.kind === 'kit');
+  const extras  = lines.filter(l => l.kind === 'extra');
+
+  let h = '<div class="compose-receipt">';
+
+  // Header
+  h += '<div class="rcpt-head">';
+  h += '<div class="rcpt-head-label">Location Audio Services</div>';
+  const nameComp = [v.yourName, v.yourCompany].filter(Boolean).join(' · ');
+  if (nameComp) h += `<div class="rcpt-head-name">${esc(nameComp)}</div>`;
+  const contact = [v.yourPhone, v.yourEmail, market?.name].filter(Boolean);
+  if (contact.length) h += `<div class="rcpt-head-contact">${esc(contact.join(' · '))}</div>`;
+  h += '</div>';
+
+  // Project
+  h += '<div class="rcpt-proj">';
+  h += `<div class="rcpt-proj-cell"><span class="rcpt-proj-lbl">Client</span>${esc(v.clientName || '—')}</div>`;
+  h += `<div class="rcpt-proj-cell"><span class="rcpt-proj-lbl">Project</span>${esc(v.projectName || '—')}</div>`;
+  h += `<div class="rcpt-proj-cell"><span class="rcpt-proj-lbl">Date</span>${dateStr}</div>`;
+  h += `<div class="rcpt-proj-cell"><span class="rcpt-proj-lbl">Days</span>${v.days}</div>`;
+  h += '</div>';
+
+  // Services
+  h += '<div class="rcpt-section">';
+  h += '<div class="rcpt-section-hdr">Services</div>';
+  if (labor) h += `<div class="rcpt-row"><div><div class="rcpt-row-name">${esc(labor.name)}</div><div class="rcpt-row-sub">${labor.qty}d × ${fmt(labor.unitRate)}</div></div><div class="rcpt-row-amt">${fmt(labor.total)}</div></div>`;
+  if (kit)   h += `<div class="rcpt-row"><div><div class="rcpt-row-name">${esc(kit.name)}</div><div class="rcpt-row-sub">${kit.qty}d × ${fmt(kit.unitRate)}</div></div><div class="rcpt-row-amt">${fmt(kit.total)}</div></div>`;
+  if (labor && kit) h += `<div class="rcpt-dayrate"><span>Day rate (labor + kit)</span><span>${fmt(dayRate)}/day</span></div>`;
+  if (extras.length) {
+    h += '<div class="rcpt-rule"></div>';
+    for (const ln of extras) h += `<div class="rcpt-row extra"><div><div class="rcpt-row-name">${esc(ln.name)}</div><div class="rcpt-row-sub">${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d</div></div><div class="rcpt-row-amt">${fmt(ln.total)}</div></div>`;
+  }
+  h += '</div>';
+
+  // Gear
+  h += '<div class="rcpt-section">';
+  h += '<div class="rcpt-section-hdr">Gear Manifest</div>';
+  h += '<div class="rcpt-chips">';
+  for (const g of gear) h += `<span class="rcpt-chip${g.extra ? ' extra' : ''}">${esc(g.label)}</span>`;
+  h += '</div></div>';
+
+  // Terms
+  h += '<div class="rcpt-terms">50% deposit to confirm · Balance due on wrap day · OT: hrs 11–12 at 1.5×, hrs 12+ at 2×</div>';
+
+  // Total
+  h += '<div class="rcpt-total"><div>';
+  h += '<div class="rcpt-total-lbl">Total</div>';
+  if (v.days > 1) h += `<div class="rcpt-total-perday">${fmt(grandTotal / v.days)}/day × ${v.days} days</div>`;
+  h += `</div><div class="rcpt-total-amt">${fmt(grandTotal)}</div></div>`;
+
+  h += '</div>';
+  return h;
+}
+
+// ── Receipt plain-text (email body) ──
+function buildReceiptText() {
+  const v    = getVals();
+  const calc = calcLines(v);
+  const { lines, grandTotal, dayRate } = calc;
+  const market  = MARKETS.find(m => m.id === v.yourCity);
+  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const gear    = buildGear(v, calc);
+  const D = '─'.repeat(46);
+
+  let t = 'LOCATION AUDIO SERVICES — QUOTE\n' + D + '\n';
+  const nameComp = [v.yourName, v.yourCompany].filter(Boolean).join(' · ');
+  if (nameComp) t += nameComp + '\n';
+  const contact = [v.yourPhone, v.yourEmail, market?.name].filter(Boolean);
+  if (contact.length) t += contact.join(' · ') + '\n';
+  t += '\n';
+  t += `Client:   ${v.clientName  || '—'}\n`;
+  t += `Project:  ${v.projectName || '—'}\n`;
+  t += `Date:     ${dateStr}${v.days > 1 ? '  ·  ' + v.days + ' days' : ''}\n`;
+  t += D + '\n\nSERVICES\n\n';
+  for (const ln of lines) {
+    const q = ln.kind === 'labor' || ln.kind === 'kit' ? `${ln.qty}d × ${fmt(ln.unitRate)}` : `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
+    t += `${ln.name.padEnd(34)}  ${fmt(ln.total)}\n  (${q})\n`;
+  }
+  t += D + '\n' + 'TOTAL'.padEnd(34) + '  ' + fmt(grandTotal) + '\n';
+  if (v.days > 1) t += 'Per day'.padEnd(34) + '  ' + fmt(grandTotal / v.days) + '\n';
+  t += '\nGEAR\n';
+  for (const g of gear) t += `  • ${g.label}${g.extra ? '  [add\'l]' : ''}\n`;
+  t += '\n' + D + '\nTERMS\n50% deposit to confirm. Balance due on wrap day.\nCancellation: 100% within 48hrs. 50% within 7 days.\nOT: Hours 11-12 at 1.5x. Hours 12+ at 2x.\n';
+  return t;
+}
+
+// ── Download PDF ──
+function downloadReceiptPDF() {
+  const v    = getVals();
+  const calc = calcLines(v);
+  const { lines, grandTotal, dayRate } = calc;
+  const market  = MARKETS.find(m => m.id === v.yourCity);
+  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const gear    = buildGear(v, calc);
+  const e = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const f = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+  const slug    = (v.projectName || 'Quote').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '') || 'Quote';
+  const datePart = v.shootDate || new Date().toISOString().split('T')[0];
+  const filename = `Location-Audio-Quote-${slug}-${datePart}`;
+
+  const labor  = lines.find(l => l.kind === 'labor');
+  const kit    = lines.find(l => l.kind === 'kit');
+  const extras = lines.filter(l => l.kind === 'extra');
+
+  let body = '';
+  body += '<div class="hdr">';
+  body += '<div class="hdr-eyebrow">Location Audio Services</div>';
+  const nameComp = [v.yourName, v.yourCompany].filter(Boolean).join(' · ');
+  if (nameComp) body += `<div class="hdr-name">${e(nameComp)}</div>`;
+  const contact = [v.yourPhone, v.yourEmail, market?.name].filter(Boolean);
+  if (contact.length) body += `<div class="hdr-contact">${e(contact.join(' · '))}</div>`;
+  body += '</div>';
+
+  body += '<div class="proj">';
+  body += `<div class="proj-cell"><div class="lbl">Client</div>${e(v.clientName || '—')}</div>`;
+  body += `<div class="proj-cell"><div class="lbl">Project</div>${e(v.projectName || '—')}</div>`;
+  body += `<div class="proj-cell"><div class="lbl">Date</div>${dateStr}${v.days > 1 ? ' · ' + v.days + '-day' : ''}</div>`;
+  body += '</div>';
+
+  body += '<div class="section"><div class="section-title">Services</div>';
+  if (labor) body += `<div class="line"><div><div class="ln">${e(labor.name)}</div><div class="sub">${labor.qty}d × ${f(labor.unitRate)}</div></div><div class="amt">${f(labor.total)}</div></div>`;
+  if (kit)   body += `<div class="line"><div><div class="ln">${e(kit.name)}</div><div class="sub">${kit.qty}d × ${f(kit.unitRate)}</div></div><div class="amt">${f(kit.total)}</div></div>`;
+  if (labor && kit) body += `<div class="dayrate">Day Rate (Labor + Kit)<span>${f(dayRate)}/day</span></div>`;
+  if (extras.length) {
+    body += '<hr class="rule">';
+    for (const ln of extras) body += `<div class="line"><div><div class="ln extra">${e(ln.name)}</div><div class="sub">${ln.qty} × ${f(ln.unitRate)} × ${ln.days}d</div></div><div class="amt">${f(ln.total)}</div></div>`;
+  }
+  body += '</div>';
+
+  body += '<div class="section"><div class="section-title">Gear Manifest</div><div class="chips">';
+  for (const g of gear) body += `<span class="chip${g.extra ? ' extra' : ''}">${e(g.label)}</span>`;
+  body += '</div></div>';
+
+  body += '<div class="terms">50% deposit to confirm booking. Balance due on wrap day. Cancellation: 100% within 48 hours, 50% within 7 days. OT: Hours 11–12 at 1.5×. Hours 12+ at 2×.</div>';
+
+  body += `<div class="total"><span>Total</span><span class="total-amt">${f(grandTotal)}</span></div>`;
+  if (v.days > 1) body += `<div class="perday">${f(grandTotal / v.days)}/day × ${v.days} days</div>`;
+
+  const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${e(filename)}</title><style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;color:#111;background:#fff;padding:36px 44px;max-width:580px;margin:0 auto}
+.hdr{border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:14px}
+.hdr-eyebrow{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#888}
+.hdr-name{font-size:16px;font-weight:700;margin-top:4px}
+.hdr-contact{font-size:11px;color:#555;margin-top:3px}
+.proj{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px;padding:10px 0;border-bottom:1px solid #ddd;margin-bottom:14px}
+.proj-cell{font-size:12px;font-weight:500}
+.lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-bottom:2px}
+.section{margin-bottom:14px}
+.section-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.9px;color:#888;margin-bottom:8px}
+.line{display:flex;justify-content:space-between;align-items:flex-start;padding:4px 0}
+.ln{font-size:12px;font-weight:500}
+.ln.extra{color:#7a6000}
+.sub{font-size:10px;color:#777;margin-top:1px}
+.amt{font-size:12px;font-weight:600;white-space:nowrap;padding-left:14px}
+.dayrate{font-size:10px;color:#666;display:flex;justify-content:space-between;border-top:1px dashed #ddd;padding-top:6px;margin-top:6px}
+.rule{border:none;border-top:1px dashed #ddd;margin:6px 0}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-size:10px;background:#f4f4f4;border:1px solid #ddd;border-radius:3px;padding:2px 7px}
+.chip.extra{background:#fff8e7;border-color:#d4a800;color:#7a6000}
+.terms{font-size:10px;color:#666;line-height:1.6;padding:10px 0;border-top:1px solid #ddd;border-bottom:1px solid #ddd;margin-bottom:14px}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid #111;padding-top:10px;font-size:13px;font-weight:700}
+.total-amt{font-size:22px;font-weight:700}
+.perday{font-size:11px;color:#666;text-align:right;margin-top:3px}
+@media print{body{padding:0}}
+</style></head><body>${body}</body></html>`;
+
+  const w = window.open('', '_blank');
+  if (!w) { showToast('Allow pop-ups to download PDF'); return; }
+  w.document.write(html);
+  w.document.close();
+  w.focus();
+  setTimeout(() => w.print(), 350);
+}
+
 function copyQuote() {
   const text = buildPlainText();
   navigator.clipboard.writeText(text).then(() => showToast('Quote copied!')).catch(() => {
@@ -1046,6 +1259,7 @@ function copyQuote() {
 
 function emailQuote() {
   const v    = getVals();
+  const calc = calcLines(v);
   const market = MARKETS.find(m => m.id === v.yourCity);
   const name   = v.yourName    || 'Your Name';
   const city   = market ? market.name : (v.yourCity || 'your city');
@@ -1073,7 +1287,7 @@ function emailQuote() {
   ].filter(l => l !== null && (l !== '' || true)).join('\n').replace(/\n{3,}/g, '\n\n').trim();
 
   $('composeIntro').value = intro;
-  $('composeQuotePreview').textContent = buildPlainText();
+  $('composeQuotePreview').innerHTML = buildReceiptHTML(v, calc);
   $('composeOverlay').classList.add('visible');
 }
 
@@ -1083,8 +1297,8 @@ function sendCompose() {
   const to      = $('composeTo').value.trim();
   const subject = $('composeSubject').value.trim();
   const intro   = $('composeIntro').value.trim();
-  const quote   = buildPlainText();
-  const body    = intro + '\n\n' + '─'.repeat(54) + '\n\n' + quote;
+  const receipt = buildReceiptText();
+  const body    = intro + '\n\n' + '─'.repeat(46) + '\n\n' + receipt;
   window.open(`mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
   closeCompose();
   showToast('Opening in your mail app…');
