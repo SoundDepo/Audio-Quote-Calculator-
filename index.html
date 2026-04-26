@@ -245,14 +245,16 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
 @media (max-width: 860px) {
   .app {
     grid-template-columns: 1fr;
-    grid-template-rows: 56px auto auto auto;
+    grid-template-rows: auto auto auto auto;
     height: auto;
     min-height: 100svh;
     grid-template-areas: "hdr" "form" "quote" "foot";
   }
-  .hdr-sub { display: none; }
+  header { padding: 8px 12px; align-items: center; }
+  header > div:first-child { flex: 1; min-width: 0; overflow: hidden; }
+  .hdr-sub { font-size: 9px; opacity: 0.75; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .hdr-logo { font-size: 16px; }
-  .hdr-right { gap: 4px; }
+  .hdr-right { gap: 4px; flex-shrink: 0; }
   .btn-market { font-size: 11px; padding: 6px 8px; }
   .btn-ghost { font-size: 12px; padding: 6px 8px; }
   .btn kbd { display: none; }
