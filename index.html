@@ -346,6 +346,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       </div>
     </div>
     <div class="section-body" id="profileBody" style="display:none">
+      <form autocomplete="on" onsubmit="return false">
       <div style="font-size:10px;color:var(--muted)">Saved to your browser. Shows on every quote you generate.</div>
       <div class="field">
         <label>Your Name</label>
@@ -375,6 +376,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <label>Your Address <span style="font-size:10px;color:var(--muted)">(shows on PDF)</span></label>
         <textarea id="yourAddress" rows="2" placeholder="123 Main St&#10;Los Angeles, CA 90001" autocomplete="street-address" oninput="saveProfile();recalc()"></textarea>
       </div>
+      </form>
     </div>
   </div>
 
@@ -382,6 +384,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
   <div class="section">
     <div class="section-hdr">📋 Client Info</div>
     <div class="section-body">
+      <form autocomplete="off" onsubmit="return false">
       <div class="field">
         <label>Client Name</label>
         <input type="text" id="clientName" placeholder="e.g. Horizon Films" autocomplete="off" oninput="recalc()" onchange="recalc()">
@@ -396,7 +399,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       </div>
       <div class="field">
         <label>Project / Production Name</label>
-        <input type="text" id="projectName" placeholder="e.g. Nike Spring Campaign" oninput="recalc()" onchange="recalc()">
+        <input type="text" id="projectName" placeholder="e.g. Nike Spring Campaign" autocomplete="off" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field-row">
         <div class="field">
@@ -405,9 +408,10 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         </div>
         <div class="field">
           <label>Days</label>
-          <input type="number" id="shootDays" value="1" min="1" oninput="recalc()" onchange="recalc()">
+          <input type="number" id="shootDays" value="1" min="1" autocomplete="off" oninput="recalc()" onchange="recalc()">
         </div>
       </div>
+      </form>
     </div>
   </div>
 
