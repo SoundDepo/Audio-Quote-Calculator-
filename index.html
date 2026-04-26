@@ -83,6 +83,12 @@ header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var
 .saved-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; opacity: 0; transition: opacity 0.3s; }
 .saved-dot.show { opacity: 1; }
 
+/* ── Base Package ── */
+.pkg-banner { background: rgba(61,186,122,0.05); border: 1px solid rgba(61,186,122,0.15); border-radius: 6px; padding: 8px 11px; margin-bottom: 2px; }
+.pkg-banner-title { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--green); margin-bottom: 3px; }
+.pkg-banner-hint { font-size: 11px; color: var(--muted); line-height: 1.5; }
+.field input.locked { opacity: 0.55; cursor: not-allowed; pointer-events: none; background: rgba(255,255,255,0.02); color: var(--muted); border-color: rgba(255,255,255,0.06); }
+
 /* ── Buttons ── */
 .btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 6px; border: none; font-family: var(--font); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; outline: none; white-space: nowrap; }
 .btn-primary { background: var(--accent); color: #fff; }
@@ -360,26 +366,30 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
   <div class="section">
     <div class="section-hdr">🎛 Gear Needs</div>
     <div class="section-body">
+      <div class="pkg-banner">
+        <div class="pkg-banner-title">✓ Base Package — Included (Industry Standard)</div>
+        <div class="pkg-banner-hint">Includes standard coverage, redundancy, and core sync tools for production sound.</div>
+      </div>
       <div class="field">
         <label>Recorders / Mixers <span class="badge badge-in">1 included</span></label>
-        <input type="number" id="recorders" value="1" min="1" oninput="recalc()" onchange="recalc()">
+        <input type="number" id="recorders" value="1" min="1" class="locked" disabled>
       </div>
       <div class="field">
         <label>Wireless Boom Mics <span class="badge badge-in">1 included</span></label>
-        <input type="number" id="booms" value="1" min="0" oninput="recalc()" onchange="recalc()">
+        <input type="number" id="booms" value="1" min="0" class="locked" disabled>
       </div>
       <div class="field">
         <label>Talent to Wire — max in scene <span class="badge badge-in">2 lavs included</span></label>
-        <input type="number" id="lavCount" value="2" min="0" oninput="recalc()" onchange="recalc()">
+        <input type="number" id="lavCount" value="2" min="0" class="locked" disabled>
         <span class="field-hint">Base = 3 wireless channels (1 boom + 2 lavs). Each extra channel billed separately.</span>
       </div>
       <div class="field">
         <label>Cameras Needing TC Box <span class="badge badge-in">2 included</span></label>
-        <input type="number" id="tcBoxes" value="2" min="0" oninput="recalc()" onchange="recalc()">
+        <input type="number" id="tcBoxes" value="2" min="0" class="locked" disabled>
       </div>
       <div class="field">
         <label>Timecode Slates <span class="badge badge-in">1 digital slate included</span></label>
-        <input type="number" id="slateCount" value="1" min="0" oninput="recalc()" onchange="recalc()">
+        <input type="number" id="slateCount" value="1" min="0" class="locked" disabled>
       </div>
     </div>
   </div>
