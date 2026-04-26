@@ -1534,9 +1534,11 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Init ──
-const QTY_IDS = ['qtyRecorder','qtyWireless','qtyTCBox','qtyHop','qtyIFB','qtySlate','qtyBoomOp','qtyUtility'];
+const QTY_IDS = ['qtyRecorder','qtyWireless','qtyTCBox','qtyHop','qtySlate','qtyBoomOp','qtyUtility'];
 const qtyOpts = Array.from({length: 11}, (_, i) => `<option value="${i}">${i}</option>`).join('');
+const qtyOptsIFB = Array.from({length: 26}, (_, i) => `<option value="${i}">${i}</option>`).join('');
 QTY_IDS.forEach(id => { const el = $(id); if (el) el.innerHTML = qtyOpts; });
+$('qtyIFB').innerHTML = qtyOptsIFB;
 populateCitySelects();
 loadRates();
 loadProfile();
