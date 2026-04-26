@@ -35,10 +35,10 @@ header { grid-area: hdr; background: var(--surface); border-bottom: 1px solid va
 .hdr-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
 
 /* ── Form Panel ── */
-.form-panel { grid-area: form; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+.form-panel { grid-area: form; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
 
 /* ── Quote Panel ── */
-.quote-panel { grid-area: quote; overflow-y: auto; padding: 20px; background: var(--bg); }
+.quote-panel { grid-area: quote; overflow-y: auto; padding: 20px; background: var(--bg); min-height: 0; }
 
 /* ── Sections ── */
 .section { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
@@ -322,24 +322,24 @@ footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(
     <div class="section-body">
       <div class="field">
         <label>Client Name</label>
-        <input type="text" id="clientName" placeholder="e.g. Apex Productions" oninput="recalc()">
+        <input type="text" id="clientName" placeholder="e.g. Apex Productions" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field">
         <label>Client Email</label>
-        <input type="email" id="clientEmail" placeholder="producer@studio.com" oninput="recalc()">
+        <input type="email" id="clientEmail" placeholder="producer@studio.com" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field">
         <label>Project / Production Name</label>
-        <input type="text" id="projectName" placeholder="e.g. Nike Spring Campaign" oninput="recalc()">
+        <input type="text" id="projectName" placeholder="e.g. Nike Spring Campaign" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field-row">
         <div class="field">
           <label>Shoot Date</label>
-          <input type="date" id="shootDate" oninput="recalc()">
+          <input type="date" id="shootDate" oninput="recalc()" onchange="recalc()">
         </div>
         <div class="field">
           <label>Days</label>
-          <input type="number" id="shootDays" value="1" min="1" oninput="recalc()">
+          <input type="number" id="shootDays" value="1" min="1" oninput="recalc()" onchange="recalc()">
         </div>
       </div>
     </div>
@@ -351,33 +351,33 @@ footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(
     <div class="section-body">
       <div class="field">
         <label>Recorders / Mixers <span class="badge badge-in">1 included</span></label>
-        <input type="number" id="recorders" value="1" min="1" oninput="recalc()">
+        <input type="number" id="recorders" value="1" min="1" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field">
         <label>Wireless Boom Mics <span class="badge badge-in">1 included</span></label>
-        <input type="number" id="booms" value="1" min="0" oninput="recalc()">
+        <input type="number" id="booms" value="1" min="0" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field">
         <label>Talent to Wire — max in scene <span class="badge badge-in">2 lavs included</span></label>
-        <input type="number" id="lavCount" value="2" min="0" oninput="recalc()">
+        <input type="number" id="lavCount" value="2" min="0" oninput="recalc()" onchange="recalc()">
         <span class="field-hint">Base = 3 wireless channels (1 boom + 2 lavs). Each extra channel billed separately.</span>
       </div>
       <div class="field">
         <label>Cameras Needing TC Box <span class="badge badge-in">2 included</span></label>
-        <input type="number" id="tcBoxes" value="2" min="0" oninput="recalc()">
+        <input type="number" id="tcBoxes" value="2" min="0" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field">
         <label>Timecode Slates <span class="badge badge-in">1 digital slate included</span></label>
-        <input type="number" id="slateCount" value="1" min="0" oninput="recalc()">
+        <input type="number" id="slateCount" value="1" min="0" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field">
         <label>Cameras Needing Audio Hop / Scratch Track <span class="badge badge-ex">extra</span></label>
-        <input type="number" id="audioHops" value="0" min="0" oninput="recalc()">
+        <input type="number" id="audioHops" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <span class="field-hint">IFB hop TX to camera for on-set scratch track</span>
       </div>
       <div class="field">
         <label>IFB Headsets — Video Village <span class="badge badge-ex">extra</span></label>
-        <input type="number" id="ifbCount" value="0" min="0" oninput="recalc()">
+        <input type="number" id="ifbCount" value="0" min="0" oninput="recalc()" onchange="recalc()">
       </div>
     </div>
   </div>
@@ -392,7 +392,7 @@ footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(
       </div>
     </div>
     <div class="section-body" id="ratesBody" style="display:none">
-      <div style="font-size:10px;color:var(--muted)">Saved to your browser. Use <strong style="color:var(--green)">Market Rates</strong> to see what's fair in your city.</div>
+      <div style="font-size:10px;color:var(--muted)">Saved to your browser.</div>
       <div class="rate-row">
         <div><div class="rate-label">Labor Rate (10hr day)</div><div class="rate-sub">Your time &amp; expertise</div></div>
         <input class="rate-input" type="number" id="rateLabor" value="950" oninput="saveRates();recalc()">
@@ -414,7 +414,7 @@ footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(
       </div>
       <div class="rate-row">
         <div class="rate-label">Audio Hop (per camera)</div>
-        <input class="rate-input" type="number" id="rateHop" value="65" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" id="rateHop" value="100" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row">
         <div class="rate-label">IFB Headset</div>
@@ -422,7 +422,7 @@ footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(
       </div>
       <div class="rate-row">
         <div class="rate-label">Additional TC Box</div>
-        <input class="rate-input" type="number" id="rateTCBox" value="55" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" id="rateTCBox" value="50" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row">
         <div class="rate-label">Additional TC Slate</div>
@@ -800,7 +800,7 @@ function closeMarket() { $('marketOverlay').classList.remove('visible'); }
 
 // ── localStorage ──
 const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate'];
-const RATE_DEFS = { rateLabor:950, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:65, rateIFB:35, rateTCBox:55, rateSlate:125 };
+const RATE_DEFS = { rateLabor:950, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:125 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
