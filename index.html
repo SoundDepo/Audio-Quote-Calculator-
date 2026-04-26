@@ -404,10 +404,6 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input type="email" id="clientEmail" placeholder="producer@studio.com" autocomplete="off" oninput="recalc()" onchange="recalc()">
       </div>
       <div class="field">
-        <label>Client Address <span style="font-size:10px;color:var(--muted)">(shows on PDF)</span></label>
-        <textarea id="clientAddress" rows="2" placeholder="6742 Los Verdes Drive&#10;Rancho Palos Verdes, CA 90275" autocomplete="off" oninput="recalc()" onchange="recalc()"></textarea>
-      </div>
-      <div class="field">
         <label>Project / Production Name</label>
         <input type="text" id="projectName" placeholder="e.g. Nike Spring Campaign" autocomplete="off" oninput="recalc()" onchange="recalc()">
       </div>
@@ -949,7 +945,6 @@ function getVals() {
     yourZip:     $('yourZip').value.trim(),
     clientName:  $('clientName').value.trim(),
     clientEmail: $('clientEmail').value.trim(),
-    clientAddress: $('clientAddress').value.trim(),
     projectName: $('projectName').value.trim(),
     shootDate:   $('shootDate').value,
     days:        Math.max(1, parseInt($('shootDays').value)  || 1),
@@ -1255,7 +1250,6 @@ function downloadReceiptPDF() {
   body += '<div class="party-block">';
   body += '<div class="party-lbl">Bill To</div>';
   if (v.clientName)    body += `<div class="party-name">${e(v.clientName)}</div>`;
-  if (v.clientAddress) v.clientAddress.split('\n').forEach(l => { if (l.trim()) body += `<div class="party-line">${e(l.trim())}</div>`; });
   if (v.clientEmail)   body += `<div class="party-line">${e(v.clientEmail)}</div>`;
   body += '</div>';
 
@@ -1366,7 +1360,6 @@ function generatePDFBlob() {
 
   if (v.clientName)    { ss(13, true,  '#111111'); doc.text(v.clientName,    mid, rY); rY += 15; }
   ss(10, false, '#444444');
-  if (v.clientAddress) v.clientAddress.split('\n').forEach(l => { if (l.trim()) { doc.text(l.trim(), mid, rY); rY += 13; } });
   if (v.clientEmail)   { doc.text(v.clientEmail, mid, rY); rY += 13; }
 
   y = Math.max(lY, rY) + 14;
@@ -1515,7 +1508,7 @@ function toggleSection(bodyId, labelId) {
 
 function resetForm() {
   if (!confirm('Reset the form?')) return;
-  ['clientName','clientEmail','clientAddress','projectName'].forEach(id => $(id).value = '');
+  ['clientName','clientEmail','projectName'].forEach(id => $(id).value = '');
   $('shootDate').value = new Date().toISOString().split('T')[0];
   $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
   $('lavCount').value='2'; $('tcBoxes').value='2'; $('slateCount').value='1';
