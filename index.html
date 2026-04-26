@@ -582,9 +582,8 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     </div>
 
     <div class="compose-footer">
-      <div class="compose-footer-hint">Opens in Mail, Gmail, or your default app.</div>
-      <button class="compose-pdf-btn" onclick="downloadReceiptPDF()">⬇ Download PDF</button>
-      <button class="compose-send" onclick="sendCompose()">✉ Open in Mail App</button>
+      <button class="compose-send" onclick="sharePDF()">📤 Share PDF</button>
+      <button class="compose-pdf-btn" onclick="sendCompose()">✉ Text Email</button>
     </div>
   </div>
 </div>
@@ -1312,6 +1311,135 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
   setTimeout(() => w.print(), 350);
 }
 
+function generatePDFBlob() {
+  if (!window.jspdf) { showToast('PDF library still loading — try again'); return null; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+  const v = getVals();
+  const calc = calcLines(v);
+  const { lines, grandTotal, dayRate } = calc;
+  const gear = buildGear(v, calc);
+  const f = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const W = 612, margin = 48, right = W - margin, col = right - margin;
+  let y = 52;
+
+  const ss = (size, bold, hex) => {
+    doc.setFontSize(size);
+    doc.setFont('helvetica', bold ? 'bold' : 'normal');
+    doc.setTextColor(hex || '#111111');
+  };
+
+  ss(8, true, '#888888');
+  doc.text('LOCATION AUDIO SERVICES — QUOTE', margin, y);
+  y += 6;
+  doc.setDrawColor('#111111'); doc.setLineWidth(1.5);
+  doc.line(margin, y, right, y);
+  y += 18;
+
+  const mid = W / 2 + 4;
+  ss(7.5, true, '#888888');
+  doc.text('FROM', margin, y); doc.text('BILL TO', mid, y);
+  y += 11;
+
+  let lY = y, rY = y;
+  if (v.yourName)    { ss(13, true,  '#111111'); doc.text(v.yourName,    margin, lY); lY += 15; }
+  ss(10, false, '#444444');
+  if (v.yourCompany) { doc.text(v.yourCompany, margin, lY); lY += 13; }
+  if (v.yourAddress) v.yourAddress.split('\n').forEach(l => { if (l.trim()) { doc.text(l.trim(), margin, lY); lY += 13; } });
+  if (v.yourPhone)   { doc.text(v.yourPhone,   margin, lY); lY += 13; }
+  if (v.yourEmail)   { doc.text(v.yourEmail,   margin, lY); lY += 13; }
+
+  if (v.clientName)    { ss(13, true,  '#111111'); doc.text(v.clientName,    mid, rY); rY += 15; }
+  ss(10, false, '#444444');
+  if (v.clientAddress) v.clientAddress.split('\n').forEach(l => { if (l.trim()) { doc.text(l.trim(), mid, rY); rY += 13; } });
+  if (v.clientEmail)   { doc.text(v.clientEmail, mid, rY); rY += 13; }
+
+  y = Math.max(lY, rY) + 14;
+  doc.setDrawColor('#dddddd'); doc.setLineWidth(0.5);
+  doc.line(margin, y, right, y); y += 12;
+
+  ss(7.5, true, '#888888');
+  doc.text('PROJECT', margin, y); doc.text('DATE', margin + 190, y); doc.text('DAYS', margin + 360, y);
+  y += 11;
+  ss(11, false, '#111111');
+  doc.text(v.projectName || '—', margin, y);
+  doc.text(dateStr, margin + 190, y);
+  doc.text(String(v.days), margin + 360, y);
+  y += 14;
+  doc.setDrawColor('#dddddd'); doc.line(margin, y, right, y); y += 16;
+
+  ss(7.5, true, '#888888'); doc.text('SERVICES', margin, y); y += 13;
+
+  const labor  = lines.find(l => l.kind === 'labor');
+  const kit    = lines.find(l => l.kind === 'kit');
+  const extras = lines.filter(l => l.kind === 'extra');
+
+  const drawLine = (ln, color) => {
+    ss(11, false, color || '#111111'); doc.text(ln.name, margin, y);
+    ss(11, true,  color || '#111111'); doc.text(f(ln.total), right, y, { align: 'right' });
+    ss(9,  false, '#777777'); doc.text(`${ln.qty}d × ${f(ln.unitRate)}`, margin, y + 12);
+    y += 27;
+  };
+
+  if (labor) drawLine(labor);
+  if (kit)   drawLine(kit);
+  if (labor && kit) {
+    doc.setDrawColor('#dddddd'); doc.setLineWidth(0.5);
+    doc.setLineDashPattern([2,2], 0); doc.line(margin, y, right, y); doc.setLineDashPattern([], 0);
+    y += 10;
+    ss(9, false, '#666666');
+    doc.text('Day Rate (Labor + Kit)', margin, y);
+    doc.text(f(dayRate) + '/day', right, y, { align: 'right' });
+    y += 16;
+  }
+  for (const ln of extras) {
+    doc.setDrawColor('#dddddd'); doc.line(margin, y, right, y); y += 10;
+    drawLine(ln, '#7a6000');
+  }
+  y += 6;
+
+  ss(7.5, true, '#888888'); doc.text('GEAR INCLUDED', margin, y); y += 12;
+  const gearText = gear.map(g => g.label).join('  •  ');
+  ss(10, false, '#333333');
+  const gearLines = doc.splitTextToSize(gearText, col);
+  doc.text(gearLines, margin, y); y += gearLines.length * 13 + 16;
+
+  doc.setDrawColor('#111111'); doc.setLineWidth(1.5); doc.line(margin, y, right, y); y += 14;
+  ss(13, true, '#111111'); doc.text('Total', margin, y);
+  ss(20, true, '#111111'); doc.text(f(grandTotal), right, y, { align: 'right' });
+  if (v.days > 1) { y += 15; ss(10, false, '#888888'); doc.text(f(grandTotal / v.days) + '/day × ' + v.days + ' days', right, y, { align: 'right' }); }
+  y += 22;
+
+  doc.setDrawColor('#dddddd'); doc.setLineWidth(0.5); doc.line(margin, y, right, y); y += 11;
+  ss(7.5, true, '#888888'); doc.text('TERMS', margin, y); y += 11;
+  const terms = 'A fully executed Deal Memo/Service agreement must be in effect prior to the first day of filming. Jobs under 1 week: Net 30. Jobs over 1 week: billed weekly. 5% late fee after 30 days. Cancellation: 100% due within 1 calendar day of start; 50% within 2 calendar days. OT: Hours 11–12 at 1.5×; hours 12+ at 2×. All rates are per 10-hour day. Kit rental is non-negotiable. Production/Client responsible for any lost or damaged equipment — 100% of replacement or repair cost.';
+  ss(8.5, false, '#555555');
+  const termLines = doc.splitTextToSize(terms, col);
+  doc.text(termLines, margin, y);
+
+  return doc.output('blob');
+}
+
+async function sharePDF() {
+  const v = getVals();
+  const slug = (v.projectName || 'Quote').replace(/[^a-zA-Z0-9]+/g, '-').replace(/^-|-$/g, '') || 'Quote';
+  const datePart = v.shootDate || new Date().toISOString().split('T')[0];
+  const filename = `Location-Audio-Quote-${slug}-${datePart}.pdf`;
+  let blob;
+  try { blob = generatePDFBlob(); } catch(e) { showToast('PDF error — try again'); return; }
+  if (!blob) return;
+  const file = new File([blob], filename, { type: 'application/pdf' });
+  if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], title: `Quote — ${v.projectName || 'Location Audio'}` }); return; }
+    catch(e) { if (e.name === 'AbortError') return; }
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = filename; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast('PDF saved');
+}
+
 function copyQuote() {
   const text = buildPlainText();
   navigator.clipboard.writeText(text).then(() => showToast('Quote copied!')).catch(() => {
@@ -1414,5 +1542,6 @@ loadProfile();
 $('shootDate').value = new Date().toISOString().split('T')[0];
 recalc();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 </body>
 </html>
