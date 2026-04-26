@@ -1092,8 +1092,7 @@ function resetForm() {
   ['clientName','clientEmail','projectName'].forEach(id => $(id).value = '');
   $('shootDate').value = new Date().toISOString().split('T')[0];
   $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
-  $('lavCount').value='2'; $('tcBoxes').value='2'; $('audioHops').value='0';
-  $('ifbCount').value='0'; $('slateCount').value='1';
+  $('lavCount').value='2'; $('tcBoxes').value='2'; $('slateCount').value='1';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
   $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
   $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
