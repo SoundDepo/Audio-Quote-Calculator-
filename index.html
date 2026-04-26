@@ -460,11 +460,11 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div style="font-size:10px;color:var(--muted)">Saved to your browser.</div>
       <div class="rate-row">
         <div><div class="rate-label">Labor Rate (10hr day)</div><div class="rate-sub">Your time &amp; expertise</div></div>
-        <input class="rate-input" type="number" id="rateLabor" value="850" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateLabor" value="850" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row">
         <div><div class="rate-label">Kit / Sound Package Rental</div><div class="rate-sub">Your gear — always billable</div></div>
-        <input class="rate-input" type="number" id="rateKit" value="550" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateKit" value="550" oninput="saveRates();recalc()">
       </div>
       <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.15);border-radius:5px;padding:7px 10px;font-size:11px;color:var(--muted)">
         Combined day rate: <span id="dayRateTotal" style="color:var(--gold);font-family:var(--mono);font-weight:700">$950</span>
@@ -473,42 +473,42 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional Recorder/Mixer</div>
         <select class="qty-input" id="qtyRecorder" onchange="recalc()"></select>
-        <input class="rate-input" type="number" id="rateRecorder" value="250" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateRecorder" value="250" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional Wireless Channel</div>
         <select class="qty-input" id="qtyWireless" onchange="recalc()"></select>
-        <input class="rate-input" type="number" id="rateWireless" value="85" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateWireless" value="85" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional TC Box</div>
         <select class="qty-input" id="qtyTCBox" onchange="recalc()"></select>
-        <input class="rate-input" type="number" id="rateTCBox" value="50" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateTCBox" value="50" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Audio Hop (per camera)</div>
         <select class="qty-input" id="qtyHop" onchange="recalc()"></select>
-        <input class="rate-input" type="number" id="rateHop" value="100" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateHop" value="100" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">IFB Headset</div>
         <select class="qty-input" id="qtyIFB" onchange="recalc()"></select>
-        <input class="rate-input" type="number" id="rateIFB" value="35" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateIFB" value="35" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional TC Slate</div>
         <select class="qty-input" id="qtySlate" onchange="recalc()"></select>
-        <input class="rate-input" type="number" id="rateSlate" value="75" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateSlate" value="75" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Boom Operator</div>
         <select class="qty-input" id="qtyBoomOp" onchange="recalc()"></select>
-        <input class="rate-input" type="number" id="rateBoomOp" value="750" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateBoomOp" value="750" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Utility / A2</div>
         <select class="qty-input" id="qtyUtility" onchange="recalc()"></select>
-        <input class="rate-input" type="number" id="rateUtility" value="500" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" inputmode="numeric" id="rateUtility" value="500" oninput="saveRates();recalc()">
       </div>
     </div>
   </div>
