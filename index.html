@@ -1465,15 +1465,14 @@ function emailQuote() {
 
   const firstName = name.split(' ')[0];
   const intro = [
-    `Hi, ${name} here with ${v.yourCompany ? v.yourCompany + ', ' : ''}Location Sound Mixer based in ${city}. Please see my quote${date ? ' for ' + date : ''} attached.`,
+    `Hi, ${name} here with ${v.yourCompany ? v.yourCompany + ' ' : ''}Location Sound Mixer based in ${city}.`,
     ``,
-    `My package covers recorder, boom, wireless lavs, and timecode. Everything is professional grade and ready to go. Happy to adjust the setup for your specific needs.`,
+    `Please see my quote${date ? ' for ' + date : ''} attached. My package covers recorder, boom, wireless lavs, and timecode. Everything is professional grade and ready to go.`,
     ``,
-    `Looking forward to it —`,
-    firstName,
-    v.yourPhone || '',
-    v.yourEmail || '',
-  ].filter(l => l !== null).join('\n').replace(/\n{3,}/g, '\n\n').trim();
+    `Happy to adjust the setup for your specific needs. Looking forward to it`,
+    ``,
+    `— ${firstName}`,
+  ].join('\n').trim();
 
   $('composeIntro').value = intro;
   $('composeQuotePreview').innerHTML = buildReceiptHTML(v, calc);
