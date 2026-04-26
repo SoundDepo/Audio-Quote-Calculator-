@@ -250,11 +250,9 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     min-height: 100svh;
     grid-template-areas: "hdr" "form" "quote" "foot";
   }
-  header { padding: 8px 12px; align-items: center; }
-  header > div:first-child { flex: 1; min-width: 0; overflow: hidden; }
-  .hdr-sub { font-size: 9px; opacity: 0.75; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hdr-sub { display: none; }
   .hdr-logo { font-size: 16px; }
-  .hdr-right { gap: 4px; flex-shrink: 0; }
+  .hdr-right { gap: 4px; }
   .btn-market { font-size: 11px; padding: 6px 8px; }
   .btn-ghost { font-size: 12px; padding: 6px 8px; }
   .btn kbd { display: none; }
