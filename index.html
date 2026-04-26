@@ -397,11 +397,11 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div style="font-size:10px;color:var(--muted)">Saved to your browser.</div>
       <div class="rate-row">
         <div><div class="rate-label">Labor Rate (10hr day)</div><div class="rate-sub">Your time &amp; expertise</div></div>
-        <input class="rate-input" type="number" id="rateLabor" value="950" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" id="rateLabor" value="800" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row">
         <div><div class="rate-label">Kit / Sound Package Rental</div><div class="rate-sub">Your gear — always billable</div></div>
-        <input class="rate-input" type="number" id="rateKit" value="650" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" id="rateKit" value="500" oninput="saveRates();recalc()">
       </div>
       <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.15);border-radius:5px;padding:7px 10px;font-size:11px;color:var(--muted)">
         Combined day rate: <span id="dayRateTotal" style="color:var(--gold);font-family:var(--mono);font-weight:700">$950</span>
@@ -809,7 +809,7 @@ function closeMarket() { $('marketOverlay').classList.remove('visible'); }
 
 // ── localStorage ──
 const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate'];
-const RATE_DEFS = { rateLabor:950, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:125 };
+const RATE_DEFS = { rateLabor:800, rateKit:500, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:125 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
