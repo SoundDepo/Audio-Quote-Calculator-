@@ -783,8 +783,8 @@ function renderMarketCard() {
 function applyMarketRates(id) {
   const m = MARKETS.find(x => x.id === id);
   if (!m) return;
-  $('rateLabor').value = m.laborStd;
-  $('rateKit').value   = m.kitStd;
+  $('rateLabor').value = 800;
+  $('rateKit').value   = 500;
   updateDayRateTotal();
   saveRates();
   recalc();
