@@ -67,11 +67,19 @@ header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var
 .badge-t3  { background: rgba(255,255,255,0.05); color: var(--muted); border: 1px solid var(--border); }
 
 /* ── Rates ── */
-.rate-row { display: grid; grid-template-columns: 1fr 88px; gap: 8px; align-items: center; }
+.rate-row       { display: grid; grid-template-columns: 1fr 88px; gap: 8px; align-items: center; }
+.rate-row-extra { grid-template-columns: 1fr 52px 88px; }
+.rate-row-extra .rate-label { display: flex; flex-direction: column; }
+.rate-row-extra .rate-label span { font-size: 9px; color: var(--muted); margin-top: 1px; }
 .rate-label { font-size: 12px; color: var(--text); }
 .rate-sub   { font-size: 10px; color: var(--muted); }
 .rate-input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--gold); font-family: var(--mono); font-size: 13px; padding: 5px 8px; text-align: right; outline: none; width: 100%; }
 .rate-input:focus { border-color: var(--gold); }
+.qty-input  { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--accent); font-family: var(--mono); font-size: 13px; padding: 5px 6px; text-align: center; outline: none; width: 100%; }
+.qty-input:focus { border-color: var(--accent); }
+.rates-col-heads { display: grid; grid-template-columns: 1fr 52px 88px; gap: 8px; padding: 0 0 2px; }
+.rates-col-heads span { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); text-align: center; }
+.rates-col-heads span:first-child { text-align: left; }
 .saved-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); display: inline-block; opacity: 0; transition: opacity 0.3s; }
 .saved-dot.show { opacity: 1; }
 
@@ -407,28 +415,35 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.15);border-radius:5px;padding:7px 10px;font-size:11px;color:var(--muted)">
         Combined day rate: <span id="dayRateTotal" style="color:var(--gold);font-family:var(--mono);font-weight:700">$950</span>
       </div>
-      <div class="rate-row">
+      <div class="rates-col-heads"><span>Add-on</span><span>Qty</span><span>$/unit</span></div>
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional Recorder/Mixer</div>
+        <input class="qty-input" type="number" id="qtyRecorder" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateRecorder" value="250" oninput="saveRates();recalc()">
       </div>
-      <div class="rate-row">
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional Wireless Channel</div>
+        <input class="qty-input" type="number" id="qtyWireless" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateWireless" value="85" oninput="saveRates();recalc()">
       </div>
-      <div class="rate-row">
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">Audio Hop (per camera)</div>
+        <input class="qty-input" type="number" id="qtyHop" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateHop" value="100" oninput="saveRates();recalc()">
       </div>
-      <div class="rate-row">
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">IFB Headset</div>
+        <input class="qty-input" type="number" id="qtyIFB" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateIFB" value="35" oninput="saveRates();recalc()">
       </div>
-      <div class="rate-row">
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional TC Box</div>
+        <input class="qty-input" type="number" id="qtyTCBox" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateTCBox" value="50" oninput="saveRates();recalc()">
       </div>
-      <div class="rate-row">
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional TC Slate</div>
+        <input class="qty-input" type="number" id="qtySlate" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateSlate" value="125" oninput="saveRates();recalc()">
       </div>
     </div>
@@ -870,29 +885,29 @@ function getVals() {
     rateIFB:      parseFloat($('rateIFB').value)      || RATE_DEFS.rateIFB,
     rateTCBox:    parseFloat($('rateTCBox').value)    || RATE_DEFS.rateTCBox,
     rateSlate:    parseFloat($('rateSlate').value)    || RATE_DEFS.rateSlate,
+    qtyRecorder:  Math.max(0, parseInt($('qtyRecorder').value)  || 0),
+    qtyWireless:  Math.max(0, parseInt($('qtyWireless').value)  || 0),
+    qtyHop:       Math.max(0, parseInt($('qtyHop').value)       || 0),
+    qtyIFB:       Math.max(0, parseInt($('qtyIFB').value)       || 0),
+    qtyTCBox:     Math.max(0, parseInt($('qtyTCBox').value)     || 0),
+    qtySlate:     Math.max(0, parseInt($('qtySlate').value)     || 0),
   };
 }
 
 // ── Calc ──
 function calcLines(v) {
-  const totalWireless  = v.booms + v.lavs;
-  const extraWireless  = Math.max(0, totalWireless - 3);
-  const extraTC        = Math.max(0, v.tcBoxes   - 2);
-  const extraSlates    = Math.max(0, v.slates    - 1);
-  const extraRecorders = Math.max(0, v.recorders - 1);
-  const dayRate        = v.rateLabor + v.rateKit;
-
+  const dayRate = v.rateLabor + v.rateKit;
   const lines = [];
   lines.push({ name: 'Sound Mixer — Labor (10hr day)', sub: 'Your expertise and time on set', qty: v.days, unitRate: v.rateLabor, total: v.rateLabor * v.days, kind: 'labor' });
   lines.push({ name: 'Sound Package — Kit Rental', sub: 'Recorder/Mixer · Wireless Boom · 2× Lav · 2× TC Box · Slate', qty: v.days, unitRate: v.rateKit, total: v.rateKit * v.days, kind: 'kit' });
-  if (extraRecorders > 0) lines.push({ name: `Additional Recorder/Mixer ×${extraRecorders}`, sub: `${v.recorders} total — 1 in base kit`, qty: extraRecorders, days: v.days, unitRate: v.rateRecorder, total: extraRecorders * v.rateRecorder * v.days, kind: 'extra' });
-  if (extraWireless > 0)  lines.push({ name: `Additional Wireless Channel ×${extraWireless}`, sub: `${totalWireless} total channels (${v.booms} boom + ${v.lavs} lav) — 3 in base`, qty: extraWireless, days: v.days, unitRate: v.rateWireless, total: extraWireless * v.rateWireless * v.days, kind: 'extra' });
-  if (extraTC > 0)        lines.push({ name: `Additional Timecode Box ×${extraTC}`, sub: `${v.tcBoxes} cameras — 2 in base`, qty: extraTC, days: v.days, unitRate: v.rateTCBox, total: extraTC * v.rateTCBox * v.days, kind: 'extra' });
-  if (v.audioHops > 0)   lines.push({ name: `Audio Hop / Scratch Track ×${v.audioHops}`, sub: 'IFB hop TX to camera', qty: v.audioHops, days: v.days, unitRate: v.rateHop, total: v.audioHops * v.rateHop * v.days, kind: 'extra' });
-  if (v.ifbs > 0)        lines.push({ name: `IFB Headset — Video Village ×${v.ifbs}`, qty: v.ifbs, days: v.days, unitRate: v.rateIFB, total: v.ifbs * v.rateIFB * v.days, kind: 'extra' });
-  if (extraSlates > 0)   lines.push({ name: `Additional TC Slate ×${extraSlates}`, qty: extraSlates, days: v.days, unitRate: v.rateSlate, total: extraSlates * v.rateSlate * v.days, kind: 'extra' });
+  if (v.qtyRecorder > 0) lines.push({ name: `Additional Recorder/Mixer ×${v.qtyRecorder}`, qty: v.qtyRecorder, days: v.days, unitRate: v.rateRecorder, total: v.qtyRecorder * v.rateRecorder * v.days, kind: 'extra' });
+  if (v.qtyWireless > 0) lines.push({ name: `Additional Wireless Channel ×${v.qtyWireless}`, qty: v.qtyWireless, days: v.days, unitRate: v.rateWireless, total: v.qtyWireless * v.rateWireless * v.days, kind: 'extra' });
+  if (v.qtyTCBox > 0)    lines.push({ name: `Additional Timecode Box ×${v.qtyTCBox}`, qty: v.qtyTCBox, days: v.days, unitRate: v.rateTCBox, total: v.qtyTCBox * v.rateTCBox * v.days, kind: 'extra' });
+  if (v.qtyHop > 0)      lines.push({ name: `Audio Hop / Scratch Track ×${v.qtyHop}`, sub: 'IFB hop TX to camera', qty: v.qtyHop, days: v.days, unitRate: v.rateHop, total: v.qtyHop * v.rateHop * v.days, kind: 'extra' });
+  if (v.qtyIFB > 0)      lines.push({ name: `IFB Headset — Video Village ×${v.qtyIFB}`, qty: v.qtyIFB, days: v.days, unitRate: v.rateIFB, total: v.qtyIFB * v.rateIFB * v.days, kind: 'extra' });
+  if (v.qtySlate > 0)    lines.push({ name: `Additional TC Slate ×${v.qtySlate}`, qty: v.qtySlate, days: v.days, unitRate: v.rateSlate, total: v.qtySlate * v.rateSlate * v.days, kind: 'extra' });
 
-  return { lines, grandTotal: lines.reduce((s, l) => s + l.total, 0), extraWireless, extraTC, extraSlates, extraRecorders, totalWireless, dayRate };
+  return { lines, grandTotal: lines.reduce((s, l) => s + l.total, 0), dayRate };
 }
 
 function buildGear(v, c) {
@@ -1085,6 +1100,8 @@ function resetForm() {
   $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
   $('lavCount').value='2'; $('tcBoxes').value='2'; $('audioHops').value='0';
   $('ifbCount').value='0'; $('slateCount').value='1';
+  $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
+  $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
   $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
   showToast('Form reset');
 }
