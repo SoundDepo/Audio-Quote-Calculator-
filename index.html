@@ -485,6 +485,16 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="qty-input" type="number" id="qtySlate" value="0" min="0" oninput="recalc()" onchange="recalc()">
         <input class="rate-input" type="number" id="rateSlate" value="75" oninput="saveRates();recalc()">
       </div>
+      <div class="rate-row rate-row-extra">
+        <div class="rate-label">Boom Operator</div>
+        <input class="qty-input" type="number" id="qtyBoomOp" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <input class="rate-input" type="number" id="rateBoomOp" value="750" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row rate-row-extra">
+        <div class="rate-label">Utility / A2</div>
+        <input class="qty-input" type="number" id="qtyUtility" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <input class="rate-input" type="number" id="rateUtility" value="500" oninput="saveRates();recalc()">
+      </div>
     </div>
   </div>
 
@@ -857,13 +867,13 @@ function openMarket() {
 function closeMarket() { $('marketOverlay').classList.remove('visible'); }
 
 // ── localStorage ──
-const STORAGE_VERSION = 'v4';
+const STORAGE_VERSION = 'v5';
 if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
   localStorage.removeItem('aq_rates'); localStorage.removeItem('aq_profile');
   localStorage.setItem('aq_version', STORAGE_VERSION);
 }
-const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate'];
-const RATE_DEFS = { rateLabor:800, rateKit:500, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75 };
+const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate','rateBoomOp','rateUtility'];
+const RATE_DEFS = { rateLabor:800, rateKit:500, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, rateBoomOp:750, rateUtility:500 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
@@ -930,12 +940,16 @@ function getVals() {
     rateIFB:      parseFloat($('rateIFB').value)      || RATE_DEFS.rateIFB,
     rateTCBox:    parseFloat($('rateTCBox').value)    || RATE_DEFS.rateTCBox,
     rateSlate:    parseFloat($('rateSlate').value)    || RATE_DEFS.rateSlate,
+    rateBoomOp:   parseFloat($('rateBoomOp').value)   || RATE_DEFS.rateBoomOp,
+    rateUtility:  parseFloat($('rateUtility').value)  || RATE_DEFS.rateUtility,
     qtyRecorder:  Math.max(0, parseInt($('qtyRecorder').value)  || 0),
     qtyWireless:  Math.max(0, parseInt($('qtyWireless').value)  || 0),
     qtyHop:       Math.max(0, parseInt($('qtyHop').value)       || 0),
     qtyIFB:       Math.max(0, parseInt($('qtyIFB').value)       || 0),
     qtyTCBox:     Math.max(0, parseInt($('qtyTCBox').value)     || 0),
     qtySlate:     Math.max(0, parseInt($('qtySlate').value)     || 0),
+    qtyBoomOp:    Math.max(0, parseInt($('qtyBoomOp').value)    || 0),
+    qtyUtility:   Math.max(0, parseInt($('qtyUtility').value)   || 0),
   };
 }
 
@@ -951,6 +965,8 @@ function calcLines(v) {
   if (v.qtyHop > 0)      lines.push({ name: `Audio Hop / Scratch Track ×${v.qtyHop}`, sub: 'IFB hop TX to camera', qty: v.qtyHop, days: v.days, unitRate: v.rateHop, total: v.qtyHop * v.rateHop * v.days, kind: 'extra' });
   if (v.qtyIFB > 0)      lines.push({ name: `IFB Headset — Video Village ×${v.qtyIFB}`, qty: v.qtyIFB, days: v.days, unitRate: v.rateIFB, total: v.qtyIFB * v.rateIFB * v.days, kind: 'extra' });
   if (v.qtySlate > 0)    lines.push({ name: `Additional TC Slate ×${v.qtySlate}`, qty: v.qtySlate, days: v.days, unitRate: v.rateSlate, total: v.qtySlate * v.rateSlate * v.days, kind: 'extra' });
+  if (v.qtyBoomOp > 0)  lines.push({ name: `Boom Operator ×${v.qtyBoomOp}`, qty: v.qtyBoomOp, days: v.days, unitRate: v.rateBoomOp, total: v.qtyBoomOp * v.rateBoomOp * v.days, kind: 'extra' });
+  if (v.qtyUtility > 0) lines.push({ name: `Utility / A2 ×${v.qtyUtility}`, qty: v.qtyUtility, days: v.days, unitRate: v.rateUtility, total: v.qtyUtility * v.rateUtility * v.days, kind: 'extra' });
 
   return { lines, grandTotal: lines.reduce((s, l) => s + l.total, 0), dayRate };
 }
@@ -962,8 +978,10 @@ function buildGear(v, c) {
   if (v.lavs > 0)     items.push({ label: `${v.lavs}× Wireless Lav (talent)`, extra: v.lavs > 2 });
   if (v.tcBoxes > 0)  items.push({ label: `${v.tcBoxes}× Timecode Box`, extra: c.extraTC > 0 });
   if (v.slates > 0)   items.push({ label: `${v.slates}× Timecode Slate (digital)`, extra: c.extraSlates > 0 });
-  if (v.qtyHop > 0)  items.push({ label: `${v.qtyHop}× Audio Hop TX (scratch to cam)`, extra: true });
-  if (v.qtyIFB > 0)  items.push({ label: `${v.qtyIFB}× IFB Headset (video village)`, extra: true });
+  if (v.qtyHop > 0)     items.push({ label: `${v.qtyHop}× Audio Hop TX (scratch to cam)`, extra: true });
+  if (v.qtyIFB > 0)     items.push({ label: `${v.qtyIFB}× IFB Headset (video village)`, extra: true });
+  if (v.qtyBoomOp > 0)  items.push({ label: `${v.qtyBoomOp}× Boom Operator`, extra: true });
+  if (v.qtyUtility > 0) items.push({ label: `${v.qtyUtility}× Utility / A2`, extra: true });
   return items;
 }
 
@@ -1347,6 +1365,7 @@ function resetForm() {
   $('lavCount').value='2'; $('tcBoxes').value='2'; $('slateCount').value='1';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
   $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
+  $('qtyBoomOp').value='0'; $('qtyUtility').value='0';
   $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
   showToast('Form reset');
 }
