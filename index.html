@@ -374,16 +374,16 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       </div>
       <div class="field">
         <label>Street Address <span style="font-size:10px;color:var(--muted)">(shows on PDF)</span></label>
-        <input type="text" id="yourStreet" placeholder="2522 N Milwaukee Ave" autocomplete="street-address" oninput="saveProfile();recalc()">
+        <input type="text" id="yourStreet" placeholder="e.g. 4821 W Sunset Blvd" autocomplete="street-address" oninput="saveProfile();recalc()">
       </div>
       <div class="field-row">
         <div class="field">
           <label>Unit / Apt <span style="font-size:10px;color:var(--muted)">(optional)</span></label>
-          <input type="text" id="yourUnit" placeholder="Apt 311" autocomplete="address-line2" oninput="saveProfile();recalc()">
+          <input type="text" id="yourUnit" placeholder="e.g. Apt 4B" autocomplete="address-line2" oninput="saveProfile();recalc()">
         </div>
         <div class="field">
           <label>ZIP Code</label>
-          <input type="text" id="yourZip" placeholder="60647" autocomplete="postal-code" inputmode="numeric" oninput="saveProfile();recalc()">
+          <input type="text" id="yourZip" placeholder="e.g. 90210" autocomplete="postal-code" inputmode="numeric" oninput="saveProfile();recalc()">
         </div>
       </div>
       </form>
