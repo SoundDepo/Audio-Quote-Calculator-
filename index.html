@@ -1043,8 +1043,9 @@ function renderQuote(v, calc) {
 
   h += `<div class="q-terms">
     <strong>Terms</strong><br>
-    50% deposit required to confirm booking. Balance due on wrap day.<br>
-    <strong>Cancellation:</strong> 100% of agreed rate within 48 hours of shoot. 50% within 7 days.<br>
+    A fully executed Deal Memo/Service agreement must be in effect prior to the first day of filming.<br><br>
+    Jobs lasting less than 1 week will be billed Net 30 — payment must be <strong>received</strong> 30 days after the invoice date. Jobs lasting more than 1 week will be billed on a weekly basis. Outstanding balances after 30 days are subject to a 5% late fee automatically added to the invoice.<br><br>
+    <strong>Cancellation Policy:</strong> If cancelled within 1 calendar day of the expected start date, 100% of labor and equipment is due. If cancelled within 2 calendar days, 50% of labor and equipment is due.<br>
     <strong>Overtime:</strong> Hours 11–12 at 1.5×. Hours 12+ at 2×.<br>
     All rates are per 10-hour day. Kit rental is non-negotiable — this is professional equipment maintained at the mixer's expense.
   </div>`;
@@ -1092,7 +1093,7 @@ function buildPlainText() {
   if (v.days > 1) t += `${'Per day'.padEnd(40)}${fmt(grandTotal / v.days)}\n`;
   t += `${D}\n\nGEAR MANIFEST\n`;
   for (const g of gear) t += `  • ${g.label}${g.extra ? '  [additional]' : ''}\n`;
-  t += `\n${D}\nTERMS\n50% deposit required to confirm booking. Balance due on wrap day.\nCancellation: 100% within 48hrs. 50% within 7 days.\nOT: Hours 11-12 at 1.5x. Hours 12+ at 2x.\nKit rental is non-negotiable professional equipment.\n`;
+  t += `\n${D}\nTERMS\nDeal Memo/Service agreement required before first day of filming.\nNet 30 for jobs under 1 week. Weekly billing for jobs over 1 week.\n5% late fee on balances outstanding after 30 days.\nCancellation: 100% of labor & equipment due within 1 calendar day of start. 50% within 2 calendar days.\nOT: Hours 11-12 at 1.5x. Hours 12+ at 2x.\nKit rental is non-negotiable professional equipment.\n`;
   return t;
 }
 
@@ -1145,7 +1146,7 @@ function buildReceiptHTML(v, calc) {
   h += '</div></div>';
 
   // Terms
-  h += '<div class="rcpt-terms">50% deposit to confirm · Balance due on wrap day · OT: hrs 11–12 at 1.5×, hrs 12+ at 2×</div>';
+  h += '<div class="rcpt-terms">Deal Memo required before filming · Net 30 (&lt;1 week) or weekly billing · 5% late fee after 30 days · Cancellation: 100% within 1 day, 50% within 2 days · OT: hrs 11–12 at 1.5×, hrs 12+ at 2×</div>';
 
   // Total
   h += '<div class="rcpt-total"><div>';
@@ -1185,7 +1186,7 @@ function buildReceiptText() {
   if (v.days > 1) t += 'Per day'.padEnd(34) + '  ' + fmt(grandTotal / v.days) + '\n';
   t += '\nGEAR\n';
   for (const g of gear) t += `  • ${g.label}${g.extra ? '  [add\'l]' : ''}\n`;
-  t += '\n' + D + '\nTERMS\n50% deposit to confirm. Balance due on wrap day.\nCancellation: 100% within 48hrs. 50% within 7 days.\nOT: Hours 11-12 at 1.5x. Hours 12+ at 2x.\n';
+  t += '\n' + D + '\nTERMS\nDeal Memo/Service agreement required before first day of filming.\nNet 30 for jobs under 1 week. Weekly billing for jobs over 1 week.\n5% late fee on balances outstanding after 30 days.\nCancellation: 100% of labor & equipment due within 1 calendar day of start. 50% within 2 calendar days.\nOT: Hours 11-12 at 1.5x. Hours 12+ at 2x.\nKit rental is non-negotiable professional equipment.\n';
   return t;
 }
 
@@ -1254,7 +1255,7 @@ function downloadReceiptPDF() {
   for (const g of gear) body += `<span class="chip${g.extra ? ' extra' : ''}">${e(g.label)}</span>`;
   body += '</div></div>';
 
-  body += '<div class="terms">50% deposit to confirm booking. Balance due on wrap day. Cancellation: 100% within 48 hours, 50% within 7 days. OT: Hours 11–12 at 1.5×. Hours 12+ at 2×.</div>';
+  body += '<div class="terms"><strong>Terms:</strong> A fully executed Deal Memo/Service agreement must be in effect prior to the first day of filming. Jobs under 1 week billed Net 30; over 1 week billed weekly. Outstanding balances after 30 days subject to a 5% late fee automatically added to the invoice.<br><br><strong>Cancellation Policy:</strong> If cancelled within 1 calendar day of the expected start date, 100% of labor and equipment is due. If cancelled within 2 calendar days, 50% of labor and equipment is due.<br><br><strong>Overtime:</strong> Hours 11–12 at 1.5×. Hours 12+ at 2×. All rates are per 10-hour day.</div>';
 
   body += `<div class="total"><span>Total</span><span class="total-amt">${f(grandTotal)}</span></div>`;
   if (v.days > 1) body += `<div class="perday">${f(grandTotal / v.days)}/day × ${v.days} days</div>`;
