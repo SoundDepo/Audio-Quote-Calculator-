@@ -26,19 +26,22 @@
 body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 14px; line-height: 1.5; min-height: 100vh; }
 
 /* ── Layout ── */
-.app { display: grid; grid-template-columns: 430px 1fr; grid-template-rows: 60px 1fr 44px; height: 100vh; grid-template-areas: "hdr hdr" "form quote" "foot foot"; }
+.app { display: grid; grid-template-columns: 430px 1fr; grid-template-rows: auto; grid-template-areas: "hdr hdr" "form quote" "foot foot"; min-height: 100vh; }
 
 /* ── Header ── */
-header { grid-area: hdr; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; gap: 12px; }
+header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; gap: 12px; }
 .hdr-logo { font-size: 18px; font-weight: 700; color: var(--gold); letter-spacing: -0.3px; }
 .hdr-sub { font-size: 11px; color: var(--muted); }
 .hdr-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
 
 /* ── Form Panel ── */
-.form-panel { grid-area: form; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+.form-panel { grid-area: form; background: var(--surface); border-right: 1px solid var(--border); padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 
 /* ── Quote Panel ── */
-.quote-panel { grid-area: quote; overflow-y: auto; padding: 20px; background: var(--bg); min-height: 0; }
+.quote-panel { grid-area: quote; padding: 20px; background: var(--bg); }
+@media (min-width: 861px) {
+  .quote-panel { position: sticky; top: 60px; height: calc(100vh - 60px); overflow-y: auto; align-self: start; }
+}
 
 /* ── Sections ── */
 .section { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
@@ -186,7 +189,7 @@ header { grid-area: hdr; background: var(--surface); border-bottom: 1px solid va
 .sk-footer { margin-top: 14px; font-size: 11px; color: var(--muted); text-align: center; }
 
 /* ── Footer ── */
-footer { grid-area: foot; background: var(--surface); border-top: 1px solid var(--border); padding: 0 20px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background: var(--surface); border-top: 1px solid var(--border); padding: 0 20px; height: 44px; display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
 .sk-hint { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted); }
 .sk-hint kbd { font-family: var(--mono); font-size: 10px; background: var(--surface2); border: 1px solid var(--border); padding: 1px 5px; border-radius: 3px; color: var(--muted); }
 
