@@ -51,8 +51,9 @@ header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var
 /* ── Fields ── */
 .field { display: flex; flex-direction: column; gap: 3px; }
 .field label { font-size: 11px; color: var(--muted); font-weight: 500; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-.field input, .field select { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font); font-size: 14px; padding: 7px 10px; outline: none; transition: border-color 0.15s; width: 100%; }
-.field input:focus, .field select:focus { border-color: var(--accent); }
+.field input, .field select, .field textarea { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-family: var(--font); font-size: 14px; padding: 7px 10px; outline: none; transition: border-color 0.15s; width: 100%; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
+.field textarea { resize: none; line-height: 1.5; }
 .field input[type="number"] { font-family: var(--mono); }
 .field select option { background: var(--surface2); }
 .field-hint { font-size: 10px; color: var(--muted); opacity: 0.7; }
@@ -262,7 +263,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     padding: 12px;
   }
   .quote-panel { padding: 12px; }
-  .field input, .field select { font-size: 16px; min-height: 44px; padding: 10px 12px; }
+  .field input, .field select, .field textarea { font-size: 16px; min-height: 44px; padding: 10px 12px; }
   .btn { min-height: 44px; }
   .rate-input { font-size: 16px; min-height: 40px; padding: 8px 10px; }
   .compose-input { font-size: 16px; }
@@ -359,6 +360,10 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
           <option value="">— Select your market —</option>
         </select>
       </div>
+      <div class="field">
+        <label>Your Address <span style="font-size:10px;color:var(--muted)">(shows on PDF)</span></label>
+        <textarea id="yourAddress" rows="2" placeholder="2522 N Milwaukee Ave&#10;Chicago, IL 60647" oninput="saveProfile();recalc()"></textarea>
+      </div>
     </div>
   </div>
 
@@ -373,6 +378,10 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div class="field">
         <label>Client Email</label>
         <input type="email" id="clientEmail" placeholder="producer@studio.com" oninput="recalc()" onchange="recalc()">
+      </div>
+      <div class="field">
+        <label>Client Address <span style="font-size:10px;color:var(--muted)">(shows on PDF)</span></label>
+        <textarea id="clientAddress" rows="2" placeholder="6742 Los Verdes Drive&#10;Rancho Palos Verdes, CA 90275" oninput="recalc()" onchange="recalc()"></textarea>
       </div>
       <div class="field">
         <label>Project / Production Name</label>
@@ -875,7 +884,7 @@ function updateDayRateTotal() {
   $('dayRateTotal').textContent = fmt(l + k);
 }
 
-const PROFILE_KEYS = ['yourName','yourCompany','yourPhone','yourEmail','yourCity'];
+const PROFILE_KEYS = ['yourName','yourCompany','yourPhone','yourEmail','yourCity','yourAddress'];
 function saveProfile() {
   const obj = {}; PROFILE_KEYS.forEach(k => obj[k] = $(k).value);
   localStorage.setItem('aq_profile', JSON.stringify(obj));
@@ -901,8 +910,10 @@ function getVals() {
     yourPhone:   $('yourPhone').value.trim(),
     yourEmail:   $('yourEmail').value.trim(),
     yourCity:    $('yourCity').value,
+    yourAddress: $('yourAddress').value.trim(),
     clientName:  $('clientName').value.trim(),
     clientEmail: $('clientEmail').value.trim(),
+    clientAddress: $('clientAddress').value.trim(),
     projectName: $('projectName').value.trim(),
     shootDate:   $('shootDate').value,
     days:        Math.max(1, parseInt($('shootDays').value)  || 1),
@@ -1180,18 +1191,35 @@ function downloadReceiptPDF() {
   const extras = lines.filter(l => l.kind === 'extra');
 
   let body = '';
-  body += '<div class="hdr">';
-  body += '<div class="hdr-eyebrow">Location Audio Services</div>';
-  const nameComp = [v.yourName, v.yourCompany].filter(Boolean).join(' · ');
-  if (nameComp) body += `<div class="hdr-name">${e(nameComp)}</div>`;
-  const contact = [v.yourPhone, v.yourEmail, market?.name].filter(Boolean);
-  if (contact.length) body += `<div class="hdr-contact">${e(contact.join(' · '))}</div>`;
+
+  // FROM / BILL TO header
+  body += '<div class="party-row">';
+
+  // FROM block
+  body += '<div class="party-block">';
+  body += '<div class="party-lbl">From</div>';
+  if (v.yourName)    body += `<div class="party-name">${e(v.yourName)}</div>`;
+  if (v.yourCompany) body += `<div class="party-line">${e(v.yourCompany)}</div>`;
+  if (v.yourAddress) v.yourAddress.split('\n').forEach(l => { if (l.trim()) body += `<div class="party-line">${e(l.trim())}</div>`; });
+  if (v.yourPhone)   body += `<div class="party-line">${e(v.yourPhone)}</div>`;
+  if (v.yourEmail)   body += `<div class="party-line">${e(v.yourEmail)}</div>`;
   body += '</div>';
 
+  // BILL TO block
+  body += '<div class="party-block">';
+  body += '<div class="party-lbl">Bill To</div>';
+  if (v.clientName)    body += `<div class="party-name">${e(v.clientName)}</div>`;
+  if (v.clientAddress) v.clientAddress.split('\n').forEach(l => { if (l.trim()) body += `<div class="party-line">${e(l.trim())}</div>`; });
+  if (v.clientEmail)   body += `<div class="party-line">${e(v.clientEmail)}</div>`;
+  body += '</div>';
+
+  body += '</div>'; // end party-row
+
+  // Project meta strip
   body += '<div class="proj">';
-  body += `<div class="proj-cell"><div class="lbl">Client</div>${e(v.clientName || '—')}</div>`;
   body += `<div class="proj-cell"><div class="lbl">Project</div>${e(v.projectName || '—')}</div>`;
-  body += `<div class="proj-cell"><div class="lbl">Date</div>${dateStr}${v.days > 1 ? ' · ' + v.days + '-day' : ''}</div>`;
+  body += `<div class="proj-cell"><div class="lbl">Date</div>${dateStr}</div>`;
+  body += `<div class="proj-cell"><div class="lbl">Days</div>${v.days}</div>`;
   body += '</div>';
 
   body += '<div class="section"><div class="section-title">Services</div>';
@@ -1216,10 +1244,10 @@ function downloadReceiptPDF() {
   const html = `<!DOCTYPE html><html><head><meta charset="utf-8"><title>${e(filename)}</title><style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:12px;color:#111;background:#fff;padding:36px 44px;max-width:580px;margin:0 auto}
-.hdr{border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:14px}
-.hdr-eyebrow{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#888}
-.hdr-name{font-size:16px;font-weight:700;margin-top:4px}
-.hdr-contact{font-size:11px;color:#555;margin-top:3px}
+.party-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;border-bottom:2px solid #111;padding-bottom:16px;margin-bottom:14px}
+.party-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#888;margin-bottom:6px}
+.party-name{font-size:15px;font-weight:700;margin-bottom:3px}
+.party-line{font-size:11px;color:#444;margin-top:1px}
 .proj{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 14px;padding:10px 0;border-bottom:1px solid #ddd;margin-bottom:14px}
 .proj-cell{font-size:12px;font-weight:500}
 .lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#888;margin-bottom:2px}
@@ -1313,7 +1341,7 @@ function toggleSection(bodyId, labelId) {
 
 function resetForm() {
   if (!confirm('Reset the form?')) return;
-  ['clientName','clientEmail','projectName'].forEach(id => $(id).value = '');
+  ['clientName','clientEmail','clientAddress','projectName'].forEach(id => $(id).value = '');
   $('shootDate').value = new Date().toISOString().split('T')[0];
   $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
   $('lavCount').value='2'; $('tcBoxes').value='2'; $('slateCount').value='1';
