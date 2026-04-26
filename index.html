@@ -808,6 +808,11 @@ function openMarket() {
 function closeMarket() { $('marketOverlay').classList.remove('visible'); }
 
 // ── localStorage ──
+const STORAGE_VERSION = 'v3';
+if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
+  localStorage.removeItem('aq_rates'); localStorage.removeItem('aq_profile');
+  localStorage.setItem('aq_version', STORAGE_VERSION);
+}
 const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate'];
 const RATE_DEFS = { rateLabor:800, rateKit:500, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:125 };
 
@@ -865,8 +870,6 @@ function getVals() {
     booms:       Math.max(0, parseInt($('booms').value)      || 0),
     lavs:        Math.max(0, parseInt($('lavCount').value)   || 0),
     tcBoxes:     Math.max(0, parseInt($('tcBoxes').value)    || 0),
-    audioHops:   Math.max(0, parseInt($('audioHops').value)  || 0),
-    ifbs:        Math.max(0, parseInt($('ifbCount').value)   || 0),
     slates:      Math.max(0, parseInt($('slateCount').value) || 0),
     rateLabor:    parseFloat($('rateLabor').value)    || RATE_DEFS.rateLabor,
     rateKit:      parseFloat($('rateKit').value)      || RATE_DEFS.rateKit,
@@ -908,8 +911,8 @@ function buildGear(v, c) {
   if (v.lavs > 0)     items.push({ label: `${v.lavs}× Wireless Lav (talent)`, extra: v.lavs > 2 });
   if (v.tcBoxes > 0)  items.push({ label: `${v.tcBoxes}× Timecode Box`, extra: c.extraTC > 0 });
   if (v.slates > 0)   items.push({ label: `${v.slates}× Timecode Slate (digital)`, extra: c.extraSlates > 0 });
-  if (v.audioHops > 0) items.push({ label: `${v.audioHops}× Audio Hop TX (scratch to cam)`, extra: true });
-  if (v.ifbs > 0)     items.push({ label: `${v.ifbs}× IFB Headset (video village)`, extra: true });
+  if (v.qtyHop > 0)  items.push({ label: `${v.qtyHop}× Audio Hop TX (scratch to cam)`, extra: true });
+  if (v.qtyIFB > 0)  items.push({ label: `${v.qtyIFB}× IFB Headset (video village)`, extra: true });
   return items;
 }
 
