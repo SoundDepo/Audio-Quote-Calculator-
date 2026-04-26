@@ -483,7 +483,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional TC Slate</div>
         <input class="qty-input" type="number" id="qtySlate" value="0" min="0" oninput="recalc()" onchange="recalc()">
-        <input class="rate-input" type="number" id="rateSlate" value="125" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" id="rateSlate" value="75" oninput="saveRates();recalc()">
       </div>
     </div>
   </div>
@@ -857,13 +857,13 @@ function openMarket() {
 function closeMarket() { $('marketOverlay').classList.remove('visible'); }
 
 // ── localStorage ──
-const STORAGE_VERSION = 'v3';
+const STORAGE_VERSION = 'v4';
 if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
   localStorage.removeItem('aq_rates'); localStorage.removeItem('aq_profile');
   localStorage.setItem('aq_version', STORAGE_VERSION);
 }
 const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate'];
-const RATE_DEFS = { rateLabor:800, rateKit:500, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:125 };
+const RATE_DEFS = { rateLabor:800, rateKit:500, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
