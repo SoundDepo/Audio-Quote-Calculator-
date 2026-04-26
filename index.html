@@ -81,7 +81,7 @@ header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var
 .rate-sub   { font-size: 10px; color: var(--muted); }
 .rate-input { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--gold); font-family: var(--mono); font-size: 13px; padding: 5px 8px; text-align: right; outline: none; width: 100%; }
 .rate-input:focus { border-color: var(--gold); }
-.qty-input  { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--accent); font-family: var(--mono); font-size: 13px; padding: 5px 6px; text-align: center; outline: none; width: 100%; }
+.qty-input  { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--accent); font-family: var(--mono); font-size: 13px; padding: 5px 6px; text-align: center; outline: none; width: 100%; cursor: pointer; }
 .qty-input:focus { border-color: var(--accent); }
 .rates-col-heads { display: grid; grid-template-columns: 1fr 52px 88px; gap: 8px; padding: 0 0 2px; }
 .rates-col-heads span { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); text-align: center; }
@@ -472,42 +472,42 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div class="rates-col-heads"><span>Add-on</span><span>Qty</span><span>$/unit</span></div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional Recorder/Mixer</div>
-        <input class="qty-input" type="number" id="qtyRecorder" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <select class="qty-input" id="qtyRecorder" onchange="recalc()"></select>
         <input class="rate-input" type="number" id="rateRecorder" value="250" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional Wireless Channel</div>
-        <input class="qty-input" type="number" id="qtyWireless" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <select class="qty-input" id="qtyWireless" onchange="recalc()"></select>
         <input class="rate-input" type="number" id="rateWireless" value="85" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional TC Box</div>
-        <input class="qty-input" type="number" id="qtyTCBox" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <select class="qty-input" id="qtyTCBox" onchange="recalc()"></select>
         <input class="rate-input" type="number" id="rateTCBox" value="50" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Audio Hop (per camera)</div>
-        <input class="qty-input" type="number" id="qtyHop" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <select class="qty-input" id="qtyHop" onchange="recalc()"></select>
         <input class="rate-input" type="number" id="rateHop" value="100" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">IFB Headset</div>
-        <input class="qty-input" type="number" id="qtyIFB" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <select class="qty-input" id="qtyIFB" onchange="recalc()"></select>
         <input class="rate-input" type="number" id="rateIFB" value="35" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Additional TC Slate</div>
-        <input class="qty-input" type="number" id="qtySlate" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <select class="qty-input" id="qtySlate" onchange="recalc()"></select>
         <input class="rate-input" type="number" id="rateSlate" value="75" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Boom Operator</div>
-        <input class="qty-input" type="number" id="qtyBoomOp" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <select class="qty-input" id="qtyBoomOp" onchange="recalc()"></select>
         <input class="rate-input" type="number" id="rateBoomOp" value="750" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Utility / A2</div>
-        <input class="qty-input" type="number" id="qtyUtility" value="0" min="0" oninput="recalc()" onchange="recalc()">
+        <select class="qty-input" id="qtyUtility" onchange="recalc()"></select>
         <input class="rate-input" type="number" id="rateUtility" value="500" oninput="saveRates();recalc()">
       </div>
     </div>
@@ -1534,6 +1534,9 @@ document.addEventListener('keydown', e => {
 });
 
 // ── Init ──
+const QTY_IDS = ['qtyRecorder','qtyWireless','qtyTCBox','qtyHop','qtyIFB','qtySlate','qtyBoomOp','qtyUtility'];
+const qtyOpts = Array.from({length: 21}, (_, i) => `<option value="${i}">${i}</option>`).join('');
+QTY_IDS.forEach(id => { const el = $(id); if (el) el.innerHTML = qtyOpts; });
 populateCitySelects();
 loadRates();
 loadProfile();
