@@ -35,6 +35,7 @@ header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var
 .hdr-right { margin-left: auto; display: flex; gap: 6px; align-items: center; }
 
 /* ── Form Panel ── */
+.mobile-tagline { display: none; }
 .form-panel { grid-area: form; background: var(--surface); border-right: 1px solid var(--border); padding: 14px; display: flex; flex-direction: column; gap: 12px; }
 
 /* ── Quote Panel ── */
@@ -248,9 +249,10 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     grid-template-rows: auto auto auto auto;
     height: auto;
     min-height: 100svh;
-    grid-template-areas: "hdr" "form" "quote" "foot";
+    grid-template-areas: "hdr" "tag" "form" "quote" "foot";
   }
   .hdr-sub { display: none; }
+  .mobile-tagline { display: block; grid-area: tag; text-align: center; font-size: 10px; color: var(--muted); background: var(--surface); border-bottom: 1px solid var(--border); padding: 6px 16px; letter-spacing: 0.2px; }
   .hdr-logo { font-size: 16px; }
   .hdr-right { gap: 4px; }
   .btn-market { font-size: 11px; padding: 6px 8px; }
@@ -321,6 +323,9 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     <button class="btn btn-ghost" onclick="toggleShortcuts()">⌨ <kbd>?</kbd></button>
   </div>
 </header>
+
+<!-- ── Mobile tagline banner (hidden on desktop) ── -->
+<div class="mobile-tagline">Quote &amp; Gear Calculator — Know your worth. Hold the line.</div>
 
 <!-- ── Left: Form Panel ── -->
 <div class="form-panel">
