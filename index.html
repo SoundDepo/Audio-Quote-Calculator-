@@ -445,7 +445,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div style="font-size:10px;color:var(--muted)">Saved to your browser.</div>
       <div class="rate-row">
         <div><div class="rate-label">Labor Rate (10hr day)</div><div class="rate-sub">Your time &amp; expertise</div></div>
-        <input class="rate-input" type="number" id="rateLabor" value="800" oninput="saveRates();recalc()">
+        <input class="rate-input" type="number" id="rateLabor" value="850" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row">
         <div><div class="rate-label">Kit / Sound Package Rental</div><div class="rate-sub">Your gear — always billable</div></div>
@@ -867,13 +867,13 @@ function openMarket() {
 function closeMarket() { $('marketOverlay').classList.remove('visible'); }
 
 // ── localStorage ──
-const STORAGE_VERSION = 'v6';
+const STORAGE_VERSION = 'v7';
 if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
   localStorage.removeItem('aq_rates'); localStorage.removeItem('aq_profile');
   localStorage.setItem('aq_version', STORAGE_VERSION);
 }
 const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate','rateBoomOp','rateUtility'];
-const RATE_DEFS = { rateLabor:800, rateKit:550, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, rateBoomOp:750, rateUtility:500 };
+const RATE_DEFS = { rateLabor:850, rateKit:550, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, rateBoomOp:750, rateUtility:500 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
