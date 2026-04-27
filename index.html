@@ -536,7 +536,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div class="quote-actions">
         <button class="btn btn-ghost" onclick="copyQuote()">📋 Copy <kbd>⌘⇧C</kbd></button>
         <button class="btn btn-ghost" onclick="emailQuote()">✉ Email <kbd>⌘E</kbd></button>
-        <button class="btn btn-ghost" onclick="sharePDF()">🖨 Print / PDF <kbd>⌘P</kbd></button>
+        <button class="btn btn-ghost" onclick="openPDF()">🖨 Print / PDF <kbd>⌘P</kbd></button>
       </div>
     </div>
     <div class="quote-body" id="quoteLive">
@@ -1446,6 +1446,15 @@ function generatePDFBlob() {
   doc.text(termLines, margin, y);
 
   return doc.output('blob');
+}
+
+function openPDF() {
+  let blob;
+  try { blob = generatePDFBlob(); } catch(e) { showToast('PDF error. Try again'); return; }
+  if (!blob) return;
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
 }
 
 async function sharePDF() {
