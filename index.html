@@ -349,12 +349,12 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <form autocomplete="on" onsubmit="return false">
       <div style="font-size:10px;color:var(--muted)">Saved to your browser. Shows on every quote you generate.</div>
       <div class="field">
-        <label>Your Name</label>
-        <input type="text" id="yourName" placeholder="e.g. Jordan Ellis" autocomplete="name" oninput="saveProfile();recalc()">
-      </div>
-      <div class="field">
         <label>Company Name <span style="font-size:10px;color:var(--muted)">(optional)</span></label>
         <input type="text" id="yourCompany" placeholder="e.g. Ellis Sound Co." autocomplete="organization" oninput="saveProfile();recalc()">
+      </div>
+      <div class="field">
+        <label>Your Name</label>
+        <input type="text" id="yourName" placeholder="e.g. Jordan Ellis" autocomplete="name" oninput="saveProfile();recalc()">
       </div>
       <div class="field-row">
         <div class="field">
