@@ -470,17 +470,17 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       </div>
       <div class="rates-col-heads"><span>Add-on</span><span>Qty</span><span>$/unit</span></div>
       <div class="rate-row rate-row-extra">
-        <div class="rate-label">Additional Recorder/Mixer</div>
+        <div class="rate-label">Recorder/Mixer</div>
         <select class="qty-input" id="qtyRecorder" onchange="recalc()"></select>
         <input class="rate-input" type="text" inputmode="numeric" id="rateRecorder" value="250" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
-        <div class="rate-label">Additional Wireless Channel</div>
+        <div class="rate-label">Wireless Channel</div>
         <select class="qty-input" id="qtyWireless" onchange="recalc()"></select>
         <input class="rate-input" type="text" inputmode="numeric" id="rateWireless" value="85" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
-        <div class="rate-label">Additional TC Box</div>
+        <div class="rate-label">TC Box</div>
         <select class="qty-input" id="qtyTCBox" onchange="recalc()"></select>
         <input class="rate-input" type="text" inputmode="numeric" id="rateTCBox" value="50" oninput="saveRates();recalc()">
       </div>
@@ -495,7 +495,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="rate-input" type="text" inputmode="numeric" id="rateIFB" value="35" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
-        <div class="rate-label">Additional TC Slate</div>
+        <div class="rate-label">TC Slate</div>
         <select class="qty-input" id="qtySlate" onchange="recalc()"></select>
         <input class="rate-input" type="text" inputmode="numeric" id="rateSlate" value="75" oninput="saveRates();recalc()">
       </div>
@@ -984,12 +984,12 @@ function calcLines(v) {
   const lines = [];
   lines.push({ name: 'Sound Mixer — Labor (10hr day)', sub: 'Your expertise and time on set', qty: v.days, unitRate: v.rateLabor, total: v.rateLabor * v.days, kind: 'labor' });
   lines.push({ name: 'Sound Package — Kit Rental', sub: 'Recorder/Mixer · Wireless Boom · 2× Lav', qty: v.days, unitRate: v.rateKit, total: v.rateKit * v.days, kind: 'kit' });
-  if (v.qtyRecorder > 0) lines.push({ name: `Additional Recorder/Mixer ×${v.qtyRecorder}`, qty: v.qtyRecorder, days: v.days, unitRate: v.rateRecorder, total: v.qtyRecorder * v.rateRecorder * v.days, kind: 'extra' });
-  if (v.qtyWireless > 0) lines.push({ name: `Additional Wireless Channel ×${v.qtyWireless}`, qty: v.qtyWireless, days: v.days, unitRate: v.rateWireless, total: v.qtyWireless * v.rateWireless * v.days, kind: 'extra' });
-  if (v.qtyTCBox > 0)    lines.push({ name: `Additional Timecode Box ×${v.qtyTCBox}`, qty: v.qtyTCBox, days: v.days, unitRate: v.rateTCBox, total: v.qtyTCBox * v.rateTCBox * v.days, kind: 'extra' });
+  if (v.qtyRecorder > 0) lines.push({ name: `Recorder/Mixer ×${v.qtyRecorder}`, qty: v.qtyRecorder, days: v.days, unitRate: v.rateRecorder, total: v.qtyRecorder * v.rateRecorder * v.days, kind: 'extra' });
+  if (v.qtyWireless > 0) lines.push({ name: `Wireless Channel ×${v.qtyWireless}`, qty: v.qtyWireless, days: v.days, unitRate: v.rateWireless, total: v.qtyWireless * v.rateWireless * v.days, kind: 'extra' });
+  if (v.qtyTCBox > 0)    lines.push({ name: `Timecode Box ×${v.qtyTCBox}`, qty: v.qtyTCBox, days: v.days, unitRate: v.rateTCBox, total: v.qtyTCBox * v.rateTCBox * v.days, kind: 'extra' });
   if (v.qtyHop > 0)      lines.push({ name: `Audio Hop / Scratch Track ×${v.qtyHop}`, sub: 'IFB hop TX to camera', qty: v.qtyHop, days: v.days, unitRate: v.rateHop, total: v.qtyHop * v.rateHop * v.days, kind: 'extra' });
   if (v.qtyIFB > 0)      lines.push({ name: `IFB Headset — Video Village ×${v.qtyIFB}`, qty: v.qtyIFB, days: v.days, unitRate: v.rateIFB, total: v.qtyIFB * v.rateIFB * v.days, kind: 'extra' });
-  if (v.qtySlate > 0)    lines.push({ name: `Additional TC Slate ×${v.qtySlate}`, qty: v.qtySlate, days: v.days, unitRate: v.rateSlate, total: v.qtySlate * v.rateSlate * v.days, kind: 'extra' });
+  if (v.qtySlate > 0)    lines.push({ name: `TC Slate ×${v.qtySlate}`, qty: v.qtySlate, days: v.days, unitRate: v.rateSlate, total: v.qtySlate * v.rateSlate * v.days, kind: 'extra' });
   if (v.qtyBoomOp > 0)  lines.push({ name: `Boom Operator ×${v.qtyBoomOp}`, qty: v.qtyBoomOp, days: v.days, unitRate: v.rateBoomOp, total: v.qtyBoomOp * v.rateBoomOp * v.days, kind: 'extra' });
   if (v.qtyUtility > 0) lines.push({ name: `Utility / A2 ×${v.qtyUtility}`, qty: v.qtyUtility, days: v.days, unitRate: v.rateUtility, total: v.qtyUtility * v.rateUtility * v.days, kind: 'extra' });
 
