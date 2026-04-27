@@ -1362,9 +1362,9 @@ function generatePDFBlob() {
   y += 11;
 
   let lY = y, rY = y;
-  if (v.yourName)    { ss(13, true,  '#111111'); doc.text(v.yourName,    margin, lY); lY += 15; }
+  if (v.yourCompany) { ss(13, true,  '#111111'); doc.text(v.yourCompany, margin, lY); lY += 15; }
   ss(10, false, '#444444');
-  if (v.yourCompany) { doc.text(v.yourCompany, margin, lY); lY += 13; }
+  if (v.yourName)    { doc.text(v.yourName,    margin, lY); lY += 13; }
   if (v.yourStreet) { doc.text(v.yourStreet + (v.yourUnit ? ' ' + v.yourUnit : ''), margin, lY); lY += 13; }
   { const mkt = MARKETS.find(m => m.id === v.yourCity); const cityName = mkt ? mkt.name : (v.yourCity === 'other' ? v.yourCityCustom : ''); const cityLine = cityName + (v.yourZip ? (cityName ? ', ' : '') + v.yourZip : ''); if (cityLine) { doc.text(cityLine, margin, lY); lY += 13; } }
   if (v.yourPhone)   { doc.text(v.yourPhone,   margin, lY); lY += 13; }
