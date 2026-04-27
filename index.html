@@ -546,6 +546,15 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     </div>
   </div>
 
+  <div class="section">
+    <div class="section-hdr" onclick="toggleSection('notesBody',this)">
+      <span>📝 Notes</span><span class="section-arrow">▾</span>
+    </div>
+    <div class="section-body" id="notesBody">
+      <textarea id="quoteNotes" placeholder="e.g. Call time 6am. Base camp at location. Client provides lunch." rows="3" oninput="recalc()" style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;padding:8px 10px;outline:none;resize:vertical;font-family:inherit;line-height:1.5"></textarea>
+    </div>
+  </div>
+
   <button class="btn btn-primary" onclick="recalcFocus()" style="width:100%;justify-content:center;padding:10px">
     ⚡ Generate Quote &nbsp;<kbd style="background:rgba(0,0,0,0.2)">⌘↵</kbd>
   </button>
@@ -1009,6 +1018,7 @@ function getVals() {
     transMiles:       Math.max(0, parseFloat($('transMiles').value) || 0),
     customItemName:   $('customItemName').value.trim(),
     customItemAmount: parseFloat($('customItemAmount').value) || 0,
+    quoteNotes:       $('quoteNotes').value.trim(),
     qtyRecorder:  Math.max(0, parseInt($('qtyRecorder').value)  || 0),
     qtyWireless:  Math.max(0, parseInt($('qtyWireless').value)  || 0),
     qtyHop:       Math.max(0, parseInt($('qtyHop').value)       || 0),
@@ -1479,6 +1489,14 @@ function generatePDFBlob() {
   if (v.days > 1) { y += 15; ss(10, false, '#888888'); doc.text(f(grandTotal / v.days) + '/day × ' + v.days + ' days', right, y, { align: 'right' }); }
   y += 22;
 
+  if (v.quoteNotes) {
+    doc.setDrawColor('#dddddd'); doc.setLineWidth(0.5); doc.line(margin, y, right, y); y += 11;
+    ss(7.5, true, '#888888'); doc.text('NOTES', margin, y); y += 11;
+    ss(8.5, false, '#555555');
+    const noteLines = doc.splitTextToSize(v.quoteNotes, col);
+    doc.text(noteLines, margin, y); y += noteLines.length * 11 + 11;
+  }
+
   doc.setDrawColor('#dddddd'); doc.setLineWidth(0.5); doc.line(margin, y, right, y); y += 11;
   ss(7.5, true, '#888888'); doc.text('TERMS', margin, y); y += 11;
   const terms = 'A fully executed Deal Memo/Service agreement must be in effect prior to the first day of filming. Jobs under 1 week: Net 30. Jobs over 1 week: billed weekly. 5% late fee after 30 days. Cancellation: 100% due within 1 calendar day of start; 50% within 2 calendar days. OT: Hours 11–12 at 1.5×; hours 12+ at 2×. All rates are per 10-hour day. Kit rental is non-negotiable. Production/Client responsible for any lost or damaged equipment. 100% of replacement or repair cost.';
@@ -1584,7 +1602,7 @@ function resetForm() {
   $('lavCount').value='2';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
   $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
-  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0'; $('qtyExpendables').value='0'; $('rateParking').value=''; $('rateRideshare').value=''; $('customItemName').value=''; $('customItemAmount').value=''; $('transMiles').value=''; if($('transTotal')) $('transTotal').textContent='$0'; $('yourEIN').value='';
+  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0'; $('qtyExpendables').value='0'; $('rateParking').value=''; $('rateRideshare').value=''; $('customItemName').value=''; $('customItemAmount').value=''; $('transMiles').value=''; if($('transTotal')) $('transTotal').textContent='$0'; $('yourEIN').value=''; $('quoteNotes').value='';
   $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
   showToast('Form reset');
 }
