@@ -522,7 +522,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Utility / A2</div>
         <select class="qty-input" id="qtyUtility" onchange="recalc()"></select>
-        <input class="rate-input" type="text" inputmode="numeric" id="rateUtility" value="500" oninput="saveRates();recalc()">
+        <input class="rate-input" type="text" inputmode="numeric" id="rateUtility" value="700" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Transportation<span>$0.70/mi · IRS rate</span></div>
@@ -939,7 +939,7 @@ if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
   localStorage.setItem('aq_version', STORAGE_VERSION);
 }
 const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate','ratePlant','rateBoomOp','rateUtility','rateExpendables','rateParking','rateRideshare'];
-const RATE_DEFS = { rateLabor:900, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, ratePlant:75, rateBoomOp:750, rateUtility:500, rateExpendables:50, rateParking:0, rateRideshare:0 };
+const RATE_DEFS = { rateLabor:900, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, ratePlant:75, rateBoomOp:750, rateUtility:700, rateExpendables:50, rateParking:0, rateRideshare:0 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
