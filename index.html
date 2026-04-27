@@ -500,6 +500,11 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="rate-input" type="text" inputmode="numeric" id="rateSlate" value="75" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
+        <div class="rate-label">Plant Mic (Stand)</div>
+        <select class="qty-input" id="qtyPlant" onchange="recalc()"></select>
+        <input class="rate-input" type="text" inputmode="numeric" id="ratePlant" value="75" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">Boom Operator</div>
         <select class="qty-input" id="qtyBoomOp" onchange="recalc()"></select>
         <input class="rate-input" type="text" inputmode="numeric" id="rateBoomOp" value="750" oninput="saveRates();recalc()">
@@ -897,8 +902,8 @@ if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
   localStorage.removeItem('aq_rates'); localStorage.removeItem('aq_profile');
   localStorage.setItem('aq_version', STORAGE_VERSION);
 }
-const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate','rateBoomOp','rateUtility'];
-const RATE_DEFS = { rateLabor:900, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, rateBoomOp:750, rateUtility:500 };
+const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate','ratePlant','rateBoomOp','rateUtility'];
+const RATE_DEFS = { rateLabor:900, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, ratePlant:75, rateBoomOp:750, rateUtility:500 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
@@ -965,6 +970,7 @@ function getVals() {
     rateIFB:      parseFloat($('rateIFB').value)      || RATE_DEFS.rateIFB,
     rateTCBox:    parseFloat($('rateTCBox').value)    || RATE_DEFS.rateTCBox,
     rateSlate:    parseFloat($('rateSlate').value)    || RATE_DEFS.rateSlate,
+    ratePlant:    parseFloat($('ratePlant').value)    || RATE_DEFS.ratePlant,
     rateBoomOp:   parseFloat($('rateBoomOp').value)   || RATE_DEFS.rateBoomOp,
     rateUtility:  parseFloat($('rateUtility').value)  || RATE_DEFS.rateUtility,
     qtyRecorder:  Math.max(0, parseInt($('qtyRecorder').value)  || 0),
@@ -973,6 +979,7 @@ function getVals() {
     qtyIFB:       Math.max(0, parseInt($('qtyIFB').value)       || 0),
     qtyTCBox:     Math.max(0, parseInt($('qtyTCBox').value)     || 0),
     qtySlate:     Math.max(0, parseInt($('qtySlate').value)     || 0),
+    qtyPlant:     Math.max(0, parseInt($('qtyPlant').value)     || 0),
     qtyBoomOp:    Math.max(0, parseInt($('qtyBoomOp').value)    || 0),
     qtyUtility:   Math.max(0, parseInt($('qtyUtility').value)   || 0),
   };
@@ -990,6 +997,7 @@ function calcLines(v) {
   if (v.qtyHop > 0)      lines.push({ name: `Audio Hop / Scratch Track ×${v.qtyHop}`, sub: 'IFB hop TX to camera', qty: v.qtyHop, days: v.days, unitRate: v.rateHop, total: v.qtyHop * v.rateHop * v.days, kind: 'extra' });
   if (v.qtyIFB > 0)      lines.push({ name: `IFB Headset. Video Village ×${v.qtyIFB}`, qty: v.qtyIFB, days: v.days, unitRate: v.rateIFB, total: v.qtyIFB * v.rateIFB * v.days, kind: 'extra' });
   if (v.qtySlate > 0)    lines.push({ name: `TC Slate ×${v.qtySlate}`, qty: v.qtySlate, days: v.days, unitRate: v.rateSlate, total: v.qtySlate * v.rateSlate * v.days, kind: 'extra' });
+  if (v.qtyPlant > 0)   lines.push({ name: `Plant Mic (Stand) ×${v.qtyPlant}`, qty: v.qtyPlant, days: v.days, unitRate: v.ratePlant, total: v.qtyPlant * v.ratePlant * v.days, kind: 'extra' });
   if (v.qtyBoomOp > 0)  lines.push({ name: `Boom Operator ×${v.qtyBoomOp}`, qty: v.qtyBoomOp, days: v.days, unitRate: v.rateBoomOp, total: v.qtyBoomOp * v.rateBoomOp * v.days, kind: 'extra' });
   if (v.qtyUtility > 0) lines.push({ name: `Utility / A2 ×${v.qtyUtility}`, qty: v.qtyUtility, days: v.days, unitRate: v.rateUtility, total: v.qtyUtility * v.rateUtility * v.days, kind: 'extra' });
 
@@ -1003,6 +1011,7 @@ function buildGear(v, c) {
   if (v.lavs > 0)     items.push({ label: `${v.lavs}× Wireless Lav (talent)`, extra: v.lavs > 2 });
   if (v.qtyHop > 0)     items.push({ label: `${v.qtyHop}× Audio Hop TX (scratch to cam)`, extra: true });
   if (v.qtyIFB > 0)     items.push({ label: `${v.qtyIFB}× IFB Headset (video village)`, extra: true });
+  if (v.qtyPlant > 0)   items.push({ label: `${v.qtyPlant}× Plant Mic (Stand)`, extra: true });
   if (v.qtyBoomOp > 0)  items.push({ label: `${v.qtyBoomOp}× Boom Operator`, extra: true });
   if (v.qtyUtility > 0) items.push({ label: `${v.qtyUtility}× Utility / A2`, extra: true });
   return items;
@@ -1516,7 +1525,7 @@ function resetForm() {
   $('lavCount').value='2';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
   $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
-  $('qtyBoomOp').value='0'; $('qtyUtility').value='0';
+  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0';
   $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
   showToast('Form reset');
 }
@@ -1552,7 +1561,7 @@ function fmtPhone(el) {
 }
 
 // ── Init ──
-const QTY_IDS = ['qtyRecorder','qtyWireless','qtyTCBox','qtyHop','qtySlate','qtyBoomOp','qtyUtility'];
+const QTY_IDS = ['qtyRecorder','qtyWireless','qtyTCBox','qtyHop','qtySlate','qtyPlant','qtyBoomOp','qtyUtility'];
 const qtyOpts = Array.from({length: 11}, (_, i) => `<option value="${i}">${i}</option>`).join('');
 const qtyOptsIFB = Array.from({length: 26}, (_, i) => `<option value="${i}">${i}</option>`).join('');
 QTY_IDS.forEach(id => { const el = $(id); if (el) el.innerHTML = qtyOpts; });
