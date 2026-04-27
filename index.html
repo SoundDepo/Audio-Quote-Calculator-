@@ -923,7 +923,7 @@ if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
   localStorage.setItem('aq_version', STORAGE_VERSION);
 }
 const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate','ratePlant','rateBoomOp','rateUtility','rateExpendables','rateParking','rateRideshare'];
-const RATE_DEFS = { rateLabor:900, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, ratePlant:75, rateBoomOp:750, rateUtility:500, rateExpendables:50, rateParking:50, rateRideshare:35 };
+const RATE_DEFS = { rateLabor:900, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, ratePlant:75, rateBoomOp:750, rateUtility:500, rateExpendables:50, rateParking:0, rateRideshare:0 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
