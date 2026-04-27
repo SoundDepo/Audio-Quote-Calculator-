@@ -1089,6 +1089,7 @@ function renderQuote(v, calc) {
       ${v.yourCompany ? `<div class="q-recordist-name">${esc(v.yourCompany)}</div>` : ''}
       ${v.yourName ? `<div class="q-recordist-co">${esc(v.yourName)}</div>` : ''}
       <div class="q-recordist-contact">${[v.yourPhone, v.yourEmail, market ? market.name : ''].filter(Boolean).join('  ·  ')}</div>
+      ${v.yourEIN ? `<div class="q-recordist-contact">EIN: ${esc(v.yourEIN)}</div>` : ''}
     </div>`;
   }
 
