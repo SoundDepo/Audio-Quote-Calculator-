@@ -387,6 +387,10 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
           <input type="text" id="yourZip" placeholder="e.g. 90210" autocomplete="postal-code" inputmode="numeric" oninput="saveProfile();recalc()">
         </div>
       </div>
+      <div class="field">
+        <label>EIN <span style="font-size:10px;color:var(--muted)">(never saved)</span></label>
+        <input type="text" id="yourEIN" placeholder="e.g. 12-3456789" inputmode="numeric" autocomplete="off" oninput="recalc()">
+      </div>
       </form>
     </div>
   </div>
@@ -977,6 +981,7 @@ function getVals() {
     yourStreet:  $('yourStreet').value.trim(),
     yourUnit:    $('yourUnit').value.trim(),
     yourZip:     $('yourZip').value.trim(),
+    yourEIN:     $('yourEIN').value.trim(),
     clientName:  $('clientName').value.trim(),
     clientEmail: $('clientEmail').value.trim(),
     projectName: $('projectName').value.trim(),
@@ -1412,6 +1417,7 @@ function generatePDFBlob() {
   { const mkt = MARKETS.find(m => m.id === v.yourCity); const cityName = mkt ? mkt.name : (v.yourCity === 'other' ? v.yourCityCustom : ''); const cityLine = cityName + (v.yourZip ? (cityName ? ', ' : '') + v.yourZip : ''); if (cityLine) { doc.text(cityLine, margin, lY); lY += 13; } }
   if (v.yourPhone)   { doc.text(v.yourPhone,   margin, lY); lY += 13; }
   if (v.yourEmail)   { doc.text(v.yourEmail,   margin, lY); lY += 13; }
+  if (v.yourEIN)     { doc.text('EIN: ' + v.yourEIN, margin, lY); lY += 13; }
 
   if (v.clientName)    { ss(13, true,  '#111111'); doc.text(v.clientName,    mid, rY); rY += 15; }
   ss(10, false, '#444444');
@@ -1578,7 +1584,7 @@ function resetForm() {
   $('lavCount').value='2';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
   $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
-  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0'; $('qtyExpendables').value='0'; $('rateParking').value=''; $('rateRideshare').value=''; $('customItemName').value=''; $('customItemAmount').value=''; $('transMiles').value=''; if($('transTotal')) $('transTotal').textContent='$0';
+  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0'; $('qtyExpendables').value='0'; $('rateParking').value=''; $('rateRideshare').value=''; $('customItemName').value=''; $('customItemAmount').value=''; $('transMiles').value=''; if($('transTotal')) $('transTotal').textContent='$0'; $('yourEIN').value='';
   $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
   showToast('Form reset');
 }
