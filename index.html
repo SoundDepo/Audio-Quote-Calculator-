@@ -321,7 +321,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
 <header>
   <div>
     <div class="hdr-logo" onclick="location.href=location.pathname" style="cursor:pointer" title="Refresh"><span class="logo-emoji">🎙</span><span class="logo-name">Location <br>Audio</span></div>
-    <div class="hdr-sub">Quote &amp; Gear Calculator — Know your worth. Hold the line.</div>
+    <div class="hdr-sub">Quote &amp; Gear Calculator. Know your worth. Hold the line.</div>
   </div>
   <div class="hdr-right">
     <button class="btn btn-market" onclick="openMarket()">📊 Market Rates</button>
@@ -331,7 +331,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
 </header>
 
 <!-- ── Mobile tagline banner (hidden on desktop) ── -->
-<div class="mobile-tagline">Quote &amp; Gear Calculator — Know your worth. Hold the line.</div>
+<div class="mobile-tagline">Quote &amp; Gear Calculator. Know your worth. Hold the line.</div>
 
 <!-- ── Left: Form Panel ── -->
 <div class="form-panel">
@@ -427,7 +427,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     <div class="section-hdr">🎛 Gear Needs</div>
     <div class="section-body">
       <div class="pkg-banner">
-        <div class="pkg-banner-title">✓ Base Package — Included (Industry Standard)</div>
+        <div class="pkg-banner-title">✓ Base Package. Included (Industry Standard)</div>
         <div class="pkg-banner-hint">Includes standard coverage, redundancy, and core sync tools for production sound.</div>
       </div>
       <div class="field">
@@ -439,7 +439,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input type="number" id="booms" value="1" min="0" class="locked" disabled>
       </div>
       <div class="field">
-        <label>Talent to Wire — max in scene <span class="badge badge-in">2 lavs included</span></label>
+        <label>Talent to Wire. max in scene <span class="badge badge-in">2 lavs included</span></label>
         <input type="number" id="lavCount" value="2" min="0" class="locked" disabled>
         <span class="field-hint">Base = 3 wireless channels (1 boom + 2 lavs). Each extra channel billed separately.</span>
       </div>
@@ -462,7 +462,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="rate-input" type="text" inputmode="numeric" id="rateLabor" value="900" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row">
-        <div><div class="rate-label">Kit / Sound Package Rental</div><div class="rate-sub">Your gear — always billable</div></div>
+        <div><div class="rate-label">Kit / Sound Package Rental</div><div class="rate-sub">Your gear. always billable</div></div>
         <input class="rate-input" type="text" inputmode="numeric" id="rateKit" value="650" oninput="saveRates();recalc()">
       </div>
       <div style="background:rgba(79,142,247,0.06);border:1px solid rgba(79,142,247,0.15);border-radius:5px;padding:7px 10px;font-size:11px;color:var(--muted)">
@@ -557,7 +557,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     <div class="compose-topbar">
       <div>
         <div class="compose-topbar-title">✉ Send Quote</div>
-        <div class="compose-topbar-sub">Opens in your mail app — ready to send</div>
+        <div class="compose-topbar-sub">Opens in your mail app. ready to send</div>
       </div>
       <button class="compose-close" onclick="closeCompose()">✕</button>
     </div>
@@ -574,7 +574,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     </div>
 
     <div class="compose-body-wrap">
-      <div class="compose-intro-label">Your intro message — edit freely</div>
+      <div class="compose-intro-label">Your intro message. edit freely</div>
       <textarea class="compose-intro" id="composeIntro" rows="5"></textarea>
       <div class="compose-notice">A clean receipt-style quote is included below. You can edit your intro message before opening your email app.</div>
       <div id="composeQuotePreview"></div>
@@ -641,121 +641,121 @@ const MARKETS = [
     id: 'los-angeles', name: 'Los Angeles, CA', tier: 1, tierLabel: 'Major Market',
     floor: 1200, std: 1600, top: 2500,
     laborFloor: 750, laborStd: 950, kitFloor: 450, kitStd: 650,
-    union: 'IATSE Local 695 — union scale $2,200–$3,000+/day (labor + kit)',
-    notes: 'Largest production market in the US. Streaming, studio, and commercial money is real. $1,600/day is a solid working rate — non-union commercial pushes $1,100–$1,200 for labor alone. Indie productions that can\'t meet market rate are not your problem.',
-    tips: ['Non-union commercial labor runs $1,100–$1,200 — narrative/doc starts at $950', 'Kit rental is always a separate line item on union and studio work', 'Boom op is a separate hire on scripted productions — don\'t absorb that cost', 'OT after 10hrs is non-negotiable — get it in writing before call time']
+    union: 'IATSE Local 695. union scale $2,200–$3,000+/day (labor + kit)',
+    notes: 'Largest production market in the US. Streaming, studio, and commercial money is real. $1,600/day is a solid working rate. non-union commercial pushes $1,100–$1,200 for labor alone. Indie productions that can\'t meet market rate are not your problem.',
+    tips: ['Non-union commercial labor runs $1,100–$1,200. narrative/doc starts at $950', 'Kit rental is always a separate line item on union and studio work', 'Boom op is a separate hire on scripted productions. don\'t absorb that cost', 'OT after 10hrs is non-negotiable. get it in writing before call time']
   },
   {
     id: 'new-york', name: 'New York City, NY', tier: 1, tierLabel: 'Major Market',
     floor: 1250, std: 1600, top: 2400,
     laborFloor: 750, laborStd: 950, kitFloor: 500, kitStd: 650,
-    union: 'IATSE Local 52 — union scale $2,000–$2,800+/day (labor + kit)',
-    notes: 'One of the highest-rate markets in the country. Non-commercial labor runs $900–$950/10hr; non-union commercial pushes $1,150/10hr. Timecode is never included in the base package — always à la carte.',
-    tips: ['Non-union commercial labor starts at $1,150 — know what type of job you\'re on', 'Timecode boxes and slates are always billed separately — never bundle them', 'Kit rental is always separate on union and studio jobs', 'Out-of-town productions come here because they have the budget — hold your rate']
+    union: 'IATSE Local 52. union scale $2,000–$2,800+/day (labor + kit)',
+    notes: 'One of the highest-rate markets in the country. Non-commercial labor runs $900–$950/10hr; non-union commercial pushes $1,150/10hr. Timecode is never included in the base package. always à la carte.',
+    tips: ['Non-union commercial labor starts at $1,150. know what type of job you\'re on', 'Timecode boxes and slates are always billed separately. never bundle them', 'Kit rental is always separate on union and studio jobs', 'Out-of-town productions come here because they have the budget. hold your rate']
   },
   {
     id: 'atlanta', name: 'Atlanta, GA', tier: 2, tierLabel: 'Growth Market',
     floor: 900, std: 1200, top: 1800,
     laborFloor: 550, laborStd: 750, kitFloor: 350, kitStd: 450,
-    union: 'IATSE Local 479 — active on major studio and streaming productions',
-    notes: 'Georgia tax incentives bring real studio money. Marvel, Netflix, HBO — they all shoot here. If a production has a GA tax credit, they have a full budget. The "we\'re a small production" pitch is usually a negotiating tactic.',
-    tips: ['Studio and streaming productions in ATL have LA-level budgets — charge accordingly', 'GA tax credit productions: if they qualified, they have the money', 'Reality TV is heavy here — know your day rate before they lock you in', 'Out-of-town crews can\'t replace your local knowledge — price that in']
+    union: 'IATSE Local 479. active on major studio and streaming productions',
+    notes: 'Georgia tax incentives bring real studio money. Marvel, Netflix, HBO. they all shoot here. If a production has a GA tax credit, they have a full budget. The "we\'re a small production" pitch is usually a negotiating tactic.',
+    tips: ['Studio and streaming productions in ATL have LA-level budgets. charge accordingly', 'GA tax credit productions: if they qualified, they have the money', 'Reality TV is heavy here. know your day rate before they lock you in', 'Out-of-town crews can\'t replace your local knowledge. price that in']
   },
   {
     id: 'chicago', name: 'Chicago, IL', tier: 2, tierLabel: 'Established Market',
     floor: 1100, std: 1500, top: 1900,
     laborFloor: 650, laborStd: 900, kitFloor: 450, kitStd: 600,
     union: 'IATSE Local 476',
-    notes: 'Strong commercial and narrative market with an established rate culture. Top mixers in this market are holding $900 labor / $600 kit as the standard — that is the floor to build from, not a ceiling.',
-    tips: ['$900/$600 is where established Chicago mixers are — don\'t go below it', 'Commercial jobs carry more budget — push toward $1,000+ labor on spots', 'Timecode is always à la carte — never bundle it into the base package', 'Streaming productions shooting in IL pay at or near LA rate']
+    notes: 'Strong commercial and narrative market with an established rate culture. Top mixers in this market are holding $900 labor / $600 kit as the standard. that is the floor to build from, not a ceiling.',
+    tips: ['$900/$600 is where established Chicago mixers are. don\'t go below it', 'Commercial jobs carry more budget. push toward $1,000+ labor on spots', 'Timecode is always à la carte. never bundle it into the base package', 'Streaming productions shooting in IL pay at or near LA rate']
   },
   {
     id: 'new-orleans', name: 'New Orleans, LA', tier: 2, tierLabel: 'Incentive Market',
     floor: 850, std: 1100, top: 1600,
     laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
     union: 'IATSE Local 478',
-    notes: 'Louisiana tax incentives drive major studio production year-round. Out-of-town productions cannot replace your local knowledge — permits, locations, contacts, and climate. That expertise has real value.',
-    tips: ['If they flew a producer down from LA, they have a LA-sized budget', 'Local knowledge of NOLA locations and logistics is genuinely irreplaceable — price it', 'Heat, humidity, and location access are real cost factors', 'Don\'t race to the bottom to beat out-of-town crews — you know this city, they don\'t']
+    notes: 'Louisiana tax incentives drive major studio production year-round. Out-of-town productions cannot replace your local knowledge. permits, locations, contacts, and climate. That expertise has real value.',
+    tips: ['If they flew a producer down from LA, they have a LA-sized budget', 'Local knowledge of NOLA locations and logistics is genuinely irreplaceable. price it', 'Heat, humidity, and location access are real cost factors', 'Don\'t race to the bottom to beat out-of-town crews. you know this city, they don\'t']
   },
   {
     id: 'san-francisco', name: 'San Francisco / Bay Area', tier: 2, tierLabel: 'Tech Market',
     floor: 1100, std: 1500, top: 2200,
     laborFloor: 675, laborStd: 925, kitFloor: 425, kitStd: 575,
     union: 'IATSE Local 16',
-    notes: 'One of the highest costs of living in the country. Tech company video budgets are a rounding error compared to their operating budgets. "Startup" is not an excuse — they have investor money. Charge LA rates minimum.',
-    tips: ['Tech clients spend more on lunch than your day rate — don\'t undercharge', '"We\'re a startup" does not mean no budget — they have Series A or B funding', 'SF cost of living demands LA-tier rates — don\'t settle for less', 'Corporate and branded content dominates — these clients pay well']
+    notes: 'One of the highest costs of living in the country. Tech company video budgets are a rounding error compared to their operating budgets. "Startup" is not an excuse. they have investor money. Charge LA rates minimum.',
+    tips: ['Tech clients spend more on lunch than your day rate. don\'t undercharge', '"We\'re a startup" does not mean no budget. they have Series A or B funding', 'SF cost of living demands LA-tier rates. don\'t settle for less', 'Corporate and branded content dominates. these clients pay well']
   },
   {
     id: 'austin', name: 'Austin, TX', tier: 2, tierLabel: 'Growing Market',
     floor: 850, std: 1100, top: 1600,
     laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
-    union: 'Mostly non-union — some IATSE work on larger productions',
-    notes: 'Austin is no longer a cheap market. Cost of living has risen sharply and your rates should reflect that. SXSW, F1, and tech brands bring real money. Music industry clients will always push for low — that\'s their culture, not your problem.',
-    tips: ['SXSW and F1 season: charge premium rates — demand is at its peak', 'Tech and branded content clients in Austin have real budgets', 'Music industry low-ball offers are a culture, not a budget constraint — you can say no', 'Austin costs have risen — your rates should too']
+    union: 'Mostly non-union. some IATSE work on larger productions',
+    notes: 'Austin is no longer a cheap market. Cost of living has risen sharply and your rates should reflect that. SXSW, F1, and tech brands bring real money. Music industry clients will always push for low. that\'s their culture, not your problem.',
+    tips: ['SXSW and F1 season: charge premium rates. demand is at its peak', 'Tech and branded content clients in Austin have real budgets', 'Music industry low-ball offers are a culture, not a budget constraint. you can say no', 'Austin costs have risen. your rates should too']
   },
   {
     id: 'dallas', name: 'Dallas / Fort Worth, TX', tier: 3, tierLabel: 'Regional Market',
     floor: 800, std: 1050, top: 1500,
     laborFloor: 500, laborStd: 650, kitFloor: 300, kitStd: 400,
     union: 'Mostly non-union market',
-    notes: 'Strong corporate and commercial market. DFW has some of the largest corporate HQs in the country — those companies have real video production budgets. Many producers here aren\'t used to seeing itemized audio quotes. Educate them.',
-    tips: ['Corporate HQ clients have real budgets — don\'t guess low', 'An itemized quote showing labor + kit teaches producers what they\'re actually paying for', 'Commercial work pays better than corporate event video — prioritize it', 'Out-of-town studio productions should match their home market rate, not the local corporate floor']
+    notes: 'Strong corporate and commercial market. DFW has some of the largest corporate HQs in the country. those companies have real video production budgets. Many producers here aren\'t used to seeing itemized audio quotes. Educate them.',
+    tips: ['Corporate HQ clients have real budgets. don\'t guess low', 'An itemized quote showing labor + kit teaches producers what they\'re actually paying for', 'Commercial work pays better than corporate event video. prioritize it', 'Out-of-town studio productions should match their home market rate, not the local corporate floor']
   },
   {
     id: 'miami', name: 'Miami / South Florida', tier: 3, tierLabel: 'Regional Market',
     floor: 850, std: 1100, top: 1600,
     laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
     union: 'IATSE Local 500',
-    notes: 'Miami is a gateway market for Latin American and international productions. Those productions often have solid budgets and are accustomed to paying professional rates. Music video work trends low — know the difference.',
-    tips: ['International productions coming through Miami often have real budgets — hold your rate', 'Spanish-language production is a major part of the market — understand the landscape', 'Music video will always push for less — kit rental is your floor, minimum', 'Reality TV production in Miami is heavy — lock in your rate before you\'re locked in']
+    notes: 'Miami is a gateway market for Latin American and international productions. Those productions often have solid budgets and are accustomed to paying professional rates. Music video work trends low. know the difference.',
+    tips: ['International productions coming through Miami often have real budgets. hold your rate', 'Spanish-language production is a major part of the market. understand the landscape', 'Music video will always push for less. kit rental is your floor, minimum', 'Reality TV production in Miami is heavy. lock in your rate before you\'re locked in']
   },
   {
     id: 'seattle', name: 'Seattle, WA', tier: 3, tierLabel: 'Regional Market',
     floor: 950, std: 1250, top: 1800,
     laborFloor: 575, laborStd: 775, kitFloor: 375, kitStd: 475,
     union: 'IATSE Local 488',
-    notes: 'Seattle has a high cost of living and a strong tech economy. Amazon, Microsoft, and outdoor brands are the primary clients — all well-funded. Streaming productions (especially Amazon) pay at or above LA rates.',
-    tips: ['Amazon and streaming productions pay LA scale — hold that rate', 'Tech clients spend more on equipment than your day rate — don\'t undersell', 'Outdoor and adventure work involves real risk and terrain — price it accordingly', 'Don\'t let Pacific Northwest indie culture drive your rate below what the market supports']
+    notes: 'Seattle has a high cost of living and a strong tech economy. Amazon, Microsoft, and outdoor brands are the primary clients. all well-funded. Streaming productions (especially Amazon) pay at or above LA rates.',
+    tips: ['Amazon and streaming productions pay LA scale. hold that rate', 'Tech clients spend more on equipment than your day rate. don\'t undersell', 'Outdoor and adventure work involves real risk and terrain. price it accordingly', 'Don\'t let Pacific Northwest indie culture drive your rate below what the market supports']
   },
   {
     id: 'nashville', name: 'Nashville, TN', tier: 3, tierLabel: 'Regional Market',
     floor: 750, std: 950, top: 1400,
     laborFloor: 475, laborStd: 600, kitFloor: 275, kitStd: 350,
     union: 'Mostly non-union market',
-    notes: 'Nashville is growing fast and rates should reflect it. The music industry has always pushed for low budgets — that\'s a culture, not a financial reality. Branded content, corporate, and TV production pay better. Pick your clients accordingly.',
-    tips: ['Music industry low-ball is a habit, not a budget constraint — you can walk', 'Branded content and corporate clients in Nashville pay significantly better', 'Nashville growth means demand for professional crew is up — use that leverage', 'Don\'t normalize music-industry rates as your standard — they\'re the exception']
+    notes: 'Nashville is growing fast and rates should reflect it. The music industry has always pushed for low budgets. that\'s a culture, not a financial reality. Branded content, corporate, and TV production pay better. Pick your clients accordingly.',
+    tips: ['Music industry low-ball is a habit, not a budget constraint. you can walk', 'Branded content and corporate clients in Nashville pay significantly better', 'Nashville growth means demand for professional crew is up. use that leverage', 'Don\'t normalize music-industry rates as your standard. they\'re the exception']
   },
   {
     id: 'boston', name: 'Boston, MA', tier: 3, tierLabel: 'Regional Market',
     floor: 950, std: 1250, top: 1800,
     laborFloor: 575, laborStd: 775, kitFloor: 375, kitStd: 475,
     union: 'IATSE Local 481',
-    notes: 'Boston has a strong academic, medical, and commercial production ecosystem. Pharma and biotech clients have substantial video budgets. New England productions often pull from the Boston crew base — your local availability has value.',
-    tips: ['Pharma and biotech clients have real budgets and take production quality seriously', 'Academic work pays lower — know when a project is worth your rate', 'New England weather is genuinely unpredictable — kill fees belong in every deal', 'Boston is a regional hub — your crew availability has leverage']
+    notes: 'Boston has a strong academic, medical, and commercial production ecosystem. Pharma and biotech clients have substantial video budgets. New England productions often pull from the Boston crew base. your local availability has value.',
+    tips: ['Pharma and biotech clients have real budgets and take production quality seriously', 'Academic work pays lower. know when a project is worth your rate', 'New England weather is genuinely unpredictable. kill fees belong in every deal', 'Boston is a regional hub. your crew availability has leverage']
   },
   {
     id: 'philadelphia', name: 'Philadelphia, PA', tier: 3, tierLabel: 'Regional Market',
     floor: 850, std: 1100, top: 1600,
     laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
     union: 'IATSE Local 752',
-    notes: 'Productions choose Philly over NYC to save on location costs — not crew costs. That location saving doesn\'t come out of your rate. Pharma and medical clients are a strong, well-funded segment of this market.',
-    tips: ['A production saving money on Philly locations still has a full crew budget', 'You are not subsidizing their location decision — hold your rate', 'Pharma and medical production is strong and reliable in this market', 'Proximity to NYC means you can compete for NYC-rate productions — don\'t undersell']
+    notes: 'Productions choose Philly over NYC to save on location costs. not crew costs. That location saving doesn\'t come out of your rate. Pharma and medical clients are a strong, well-funded segment of this market.',
+    tips: ['A production saving money on Philly locations still has a full crew budget', 'You are not subsidizing their location decision. hold your rate', 'Pharma and medical production is strong and reliable in this market', 'Proximity to NYC means you can compete for NYC-rate productions. don\'t undersell']
   },
   {
     id: 'denver', name: 'Denver / Colorado', tier: 3, tierLabel: 'Regional Market',
     floor: 800, std: 1050, top: 1500,
     laborFloor: 500, laborStd: 650, kitFloor: 300, kitStd: 400,
     union: 'Mostly non-union market',
-    notes: 'Outdoor brands, ski industry, adventure sports, and a growing tech scene. Colorado productions often involve remote locations and challenging conditions — that difficulty has a price and you should charge it.',
-    tips: ['Outdoor and adventure brands pay well for authentic on-location expertise', 'Altitude, terrain, extreme weather, and remote access are all billable factors', 'Denver\'s tech scene is growing — corporate and branded content pays well', 'Travel time to mountain locations is work time — bill it']
+    notes: 'Outdoor brands, ski industry, adventure sports, and a growing tech scene. Colorado productions often involve remote locations and challenging conditions. that difficulty has a price and you should charge it.',
+    tips: ['Outdoor and adventure brands pay well for authentic on-location expertise', 'Altitude, terrain, extreme weather, and remote access are all billable factors', 'Denver\'s tech scene is growing. corporate and branded content pays well', 'Travel time to mountain locations is work time. bill it']
   },
   {
     id: 'hawaii', name: 'Hawaii', tier: 2, tierLabel: 'Premium Location Market',
     floor: 1200, std: 1600, top: 2400,
     laborFloor: 750, laborStd: 950, kitFloor: 450, kitStd: 650,
     union: 'IATSE Local 665',
-    notes: 'If a production is shooting in Hawaii, they have the budget. Period. Your local knowledge of locations, permits, vendors, and logistics is genuinely irreplaceable — no mainland crew can substitute for it. That scarcity is your leverage and you should use it.',
-    tips: ['Charge a location premium — you are not interchangeable with mainland crew', 'Gear transport costs from the mainland often exceed your day rate — remind them of that', 'Local permits access, vendor relationships, and climate knowledge have real value', 'If they\'re shooting in Hawaii, they budgeted for Hawaii — hold your rate']
+    notes: 'If a production is shooting in Hawaii, they have the budget. Period. Your local knowledge of locations, permits, vendors, and logistics is genuinely irreplaceable. no mainland crew can substitute for it. That scarcity is your leverage and you should use it.',
+    tips: ['Charge a location premium. you are not interchangeable with mainland crew', 'Gear transport costs from the mainland often exceed your day rate. remind them of that', 'Local permits access, vendor relationships, and climate knowledge have real value', 'If they\'re shooting in Hawaii, they budgeted for Hawaii. hold your rate']
   },
 ];
 
@@ -769,9 +769,9 @@ function onCityChange() {
 
 function populateCitySelects() {
   const tiers = [
-    { label: 'Tier 1 — Major Markets', ids: ['los-angeles','new-york'] },
-    { label: 'Tier 2 — Growth & Specialty Markets', ids: ['atlanta','san-francisco','new-orleans','austin','hawaii'] },
-    { label: 'Tier 3 — Regional Markets', ids: ['chicago','seattle','miami','boston','dallas','philadelphia','nashville','denver'] },
+    { label: 'Tier 1. Major Markets', ids: ['los-angeles','new-york'] },
+    { label: 'Tier 2. Growth & Specialty Markets', ids: ['atlanta','san-francisco','new-orleans','austin','hawaii'] },
+    { label: 'Tier 3. Regional Markets', ids: ['chicago','seattle','miami','boston','dallas','philadelphia','nashville','denver'] },
   ];
 
   [['yourCity', '— Select your market —'], ['marketCitySelect', '— Choose a city —']].forEach(([selId, placeholder]) => {
@@ -821,7 +821,7 @@ function renderMarketCard() {
           <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);margin-bottom:8px">Package Day Rate (Labor + Kit)</div>
           <div class="rate-range-grid">
             <div class="rate-range-cell">
-              <div class="rate-range-label">Floor — Do Not Go Below</div>
+              <div class="rate-range-label">Floor. Do Not Go Below</div>
               <div class="rate-range-val rate-floor">${fmtK(m.floor)}</div>
             </div>
             <div class="rate-range-cell">
@@ -982,13 +982,13 @@ function getVals() {
 function calcLines(v) {
   const dayRate = v.rateLabor + v.rateKit;
   const lines = [];
-  lines.push({ name: 'Sound Mixer — Labor (10hr day)', sub: 'Your expertise and time on set', qty: v.days, unitRate: v.rateLabor, total: v.rateLabor * v.days, kind: 'labor' });
-  lines.push({ name: 'Sound Package — Kit Rental', sub: 'Recorder/Mixer · Wireless Boom · 2× Lav', qty: v.days, unitRate: v.rateKit, total: v.rateKit * v.days, kind: 'kit' });
+  lines.push({ name: 'Sound Mixer. Labor (10hr day)', sub: 'Your expertise and time on set', qty: v.days, unitRate: v.rateLabor, total: v.rateLabor * v.days, kind: 'labor' });
+  lines.push({ name: 'Sound Package. Kit Rental', sub: 'Recorder/Mixer · Wireless Boom · 2× Lav', qty: v.days, unitRate: v.rateKit, total: v.rateKit * v.days, kind: 'kit' });
   if (v.qtyRecorder > 0) lines.push({ name: `Recorder/Mixer ×${v.qtyRecorder}`, qty: v.qtyRecorder, days: v.days, unitRate: v.rateRecorder, total: v.qtyRecorder * v.rateRecorder * v.days, kind: 'extra' });
   if (v.qtyWireless > 0) lines.push({ name: `Wireless Channel ×${v.qtyWireless}`, qty: v.qtyWireless, days: v.days, unitRate: v.rateWireless, total: v.qtyWireless * v.rateWireless * v.days, kind: 'extra' });
   if (v.qtyTCBox > 0)    lines.push({ name: `Timecode Box ×${v.qtyTCBox}`, qty: v.qtyTCBox, days: v.days, unitRate: v.rateTCBox, total: v.qtyTCBox * v.rateTCBox * v.days, kind: 'extra' });
   if (v.qtyHop > 0)      lines.push({ name: `Audio Hop / Scratch Track ×${v.qtyHop}`, sub: 'IFB hop TX to camera', qty: v.qtyHop, days: v.days, unitRate: v.rateHop, total: v.qtyHop * v.rateHop * v.days, kind: 'extra' });
-  if (v.qtyIFB > 0)      lines.push({ name: `IFB Headset — Video Village ×${v.qtyIFB}`, qty: v.qtyIFB, days: v.days, unitRate: v.rateIFB, total: v.qtyIFB * v.rateIFB * v.days, kind: 'extra' });
+  if (v.qtyIFB > 0)      lines.push({ name: `IFB Headset. Video Village ×${v.qtyIFB}`, qty: v.qtyIFB, days: v.days, unitRate: v.rateIFB, total: v.qtyIFB * v.rateIFB * v.days, kind: 'extra' });
   if (v.qtySlate > 0)    lines.push({ name: `TC Slate ×${v.qtySlate}`, qty: v.qtySlate, days: v.days, unitRate: v.rateSlate, total: v.qtySlate * v.rateSlate * v.days, kind: 'extra' });
   if (v.qtyBoomOp > 0)  lines.push({ name: `Boom Operator ×${v.qtyBoomOp}`, qty: v.qtyBoomOp, days: v.days, unitRate: v.rateBoomOp, total: v.qtyBoomOp * v.rateBoomOp * v.days, kind: 'extra' });
   if (v.qtyUtility > 0) lines.push({ name: `Utility / A2 ×${v.qtyUtility}`, qty: v.qtyUtility, days: v.days, unitRate: v.rateUtility, total: v.qtyUtility * v.rateUtility * v.days, kind: 'extra' });
@@ -1067,7 +1067,7 @@ function renderQuote(v, calc) {
   h += `<div class="q-terms">
     <strong>Terms</strong><br>
     A fully executed Deal Memo/Service agreement must be in effect prior to the first day of filming.<br>
-    Jobs lasting less than 1 week will be billed Net 30 — payment must be <strong>received</strong> 30 days after the invoice date. Jobs lasting more than 1 week will be billed on a weekly basis. Outstanding balances after 30 days are subject to a 5% late fee automatically added to the invoice.<br>
+    Jobs lasting less than 1 week will be billed Net 30. payment must be <strong>received</strong> 30 days after the invoice date. Jobs lasting more than 1 week will be billed on a weekly basis. Outstanding balances after 30 days are subject to a 5% late fee automatically added to the invoice.<br>
     <strong>Cancellation Policy:</strong> If cancelled within 1 calendar day of the expected start date, 100% of labor and equipment is due. If cancelled within 2 calendar days, 50% of labor and equipment is due.<br>
     <strong>Overtime:</strong> Hours 11–12 at 1.5×. Hours 12+ at 2×.<br>
     All rates are per 10-hour day. Kit rental is non-negotiable. Production/Client is responsible for any lost or damaged equipment rented during the terms of the shoot. Production agrees to pay 100% of the replacement or repair cost of any lost or damaged equipment.
@@ -1101,7 +1101,7 @@ function buildPlainText() {
   if (v.yourCompany) t += `${v.yourCompany}\n`;
   const contact = [v.yourPhone, v.yourEmail, market?.name].filter(Boolean).join('  ·  ');
   if (contact) t += `${contact}\n`;
-  t += `\nLOCATION AUDIO SERVICES — QUOTE\n${D}\n`;
+  t += `\nLOCATION AUDIO SERVICES. QUOTE\n${D}\n`;
   t += `Client:   ${v.clientName || '—'}\nEmail:    ${v.clientEmail || '—'}\nProject:  ${v.projectName || '—'}\nDate:     ${dateStr}\nDays:     ${v.days}\n${D}\n\nSERVICES\n\n`;
 
   for (const ln of lines) {
@@ -1191,7 +1191,7 @@ function buildReceiptText() {
   const gear    = buildGear(v, calc);
   const D = '─'.repeat(46);
 
-  let t = 'LOCATION AUDIO SERVICES — QUOTE\n' + D + '\n';
+  let t = 'LOCATION AUDIO SERVICES. QUOTE\n' + D + '\n';
   const nameComp = [v.yourName, v.yourCompany].filter(Boolean).join(' · ');
   if (nameComp) t += nameComp + '\n';
   const contact = [v.yourPhone, v.yourEmail, market?.name].filter(Boolean);
@@ -1321,7 +1321,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-siz
 }
 
 function generatePDFBlob() {
-  if (!window.jspdf) { showToast('PDF library still loading — try again'); return null; }
+  if (!window.jspdf) { showToast('PDF library still loading. try again'); return null; }
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF({ unit: 'pt', format: 'letter' });
   const v = getVals();
@@ -1340,7 +1340,7 @@ function generatePDFBlob() {
   };
 
   ss(8, true, '#888888');
-  doc.text('LOCATION AUDIO SERVICES — QUOTE', margin, y);
+  doc.text('LOCATION AUDIO SERVICES. QUOTE', margin, y);
   y += 6;
   doc.setDrawColor('#111111'); doc.setLineWidth(1.5);
   doc.line(margin, y, right, y);
@@ -1422,7 +1422,7 @@ function generatePDFBlob() {
 
   doc.setDrawColor('#dddddd'); doc.setLineWidth(0.5); doc.line(margin, y, right, y); y += 11;
   ss(7.5, true, '#888888'); doc.text('TERMS', margin, y); y += 11;
-  const terms = 'A fully executed Deal Memo/Service agreement must be in effect prior to the first day of filming. Jobs under 1 week: Net 30. Jobs over 1 week: billed weekly. 5% late fee after 30 days. Cancellation: 100% due within 1 calendar day of start; 50% within 2 calendar days. OT: Hours 11–12 at 1.5×; hours 12+ at 2×. All rates are per 10-hour day. Kit rental is non-negotiable. Production/Client responsible for any lost or damaged equipment — 100% of replacement or repair cost.';
+  const terms = 'A fully executed Deal Memo/Service agreement must be in effect prior to the first day of filming. Jobs under 1 week: Net 30. Jobs over 1 week: billed weekly. 5% late fee after 30 days. Cancellation: 100% due within 1 calendar day of start; 50% within 2 calendar days. OT: Hours 11–12 at 1.5×; hours 12+ at 2×. All rates are per 10-hour day. Kit rental is non-negotiable. Production/Client responsible for any lost or damaged equipment. 100% of replacement or repair cost.';
   ss(8.5, false, '#555555');
   const termLines = doc.splitTextToSize(terms, col);
   doc.text(termLines, margin, y);
@@ -1436,10 +1436,10 @@ async function sharePDF() {
   const datePart = v.shootDate || new Date().toISOString().split('T')[0];
   const filename = `Location-Audio-Quote-${slug}-${datePart}.pdf`;
   let blob;
-  try { blob = generatePDFBlob(); } catch(e) { showToast('PDF error — try again'); return; }
+  try { blob = generatePDFBlob(); } catch(e) { showToast('PDF error. try again'); return; }
   if (!blob) return;
   const file = new File([blob], filename, { type: 'application/pdf' });
-  const subject = ($('composeSubject') && $('composeSubject').value.trim()) || `Location Audio Quote — ${v.projectName || 'Quote'}`;
+  const subject = ($('composeSubject') && $('composeSubject').value.trim()) || `Location Audio Quote. ${v.projectName || 'Quote'}`;
   const intro   = ($('composeIntro')   && $('composeIntro').value.trim())   || '';
   if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
     try { await navigator.share({ files: [file], title: subject, text: intro }); return; }
@@ -1470,7 +1470,7 @@ function emailQuote() {
     : '';
 
   $('composeTo').value = v.clientEmail || '';
-  $('composeSubject').value = `Location Audio Quote — ${project}`;
+  $('composeSubject').value = `Location Audio Quote. ${project}`;
 
   const firstName = name.split(' ')[0];
   const intro = [
