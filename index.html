@@ -443,14 +443,6 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input type="number" id="lavCount" value="2" min="0" class="locked" disabled>
         <span class="field-hint">Base = 3 wireless channels (1 boom + 2 lavs). Each extra channel billed separately.</span>
       </div>
-      <div class="field">
-        <label>Cameras Needing TC Box <span class="badge badge-in">2 included</span></label>
-        <input type="number" id="tcBoxes" value="2" min="0" class="locked" disabled>
-      </div>
-      <div class="field">
-        <label>Timecode Slates <span class="badge badge-in">1 digital slate included</span></label>
-        <input type="number" id="slateCount" value="1" min="0" class="locked" disabled>
-      </div>
     </div>
   </div>
 
@@ -963,8 +955,8 @@ function getVals() {
     recorders:   Math.max(1, parseInt($('recorders').value)  || 1),
     booms:       Math.max(0, parseInt($('booms').value)      || 0),
     lavs:        Math.max(0, parseInt($('lavCount').value)   || 0),
-    tcBoxes:     Math.max(0, parseInt($('tcBoxes').value)    || 0),
-    slates:      Math.max(0, parseInt($('slateCount').value) || 0),
+    tcBoxes:     2,
+    slates:      1,
     rateLabor:    parseFloat($('rateLabor').value)    || RATE_DEFS.rateLabor,
     rateKit:      parseFloat($('rateKit').value)      || RATE_DEFS.rateKit,
     rateRecorder: parseFloat($('rateRecorder').value) || RATE_DEFS.rateRecorder,
@@ -1523,7 +1515,7 @@ function resetForm() {
   ['clientName','clientEmail','projectName'].forEach(id => $(id).value = '');
   $('shootDate').value = new Date().toISOString().split('T')[0];
   $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
-  $('lavCount').value='2'; $('tcBoxes').value='2'; $('slateCount').value='1';
+  $('lavCount').value='2';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
   $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
   $('qtyBoomOp').value='0'; $('qtyUtility').value='0';
