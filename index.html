@@ -527,7 +527,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Rideshare</div>
         <select class="qty-input" id="qtyRideshare" onchange="recalc()"></select>
-        <input class="rate-input" type="text" inputmode="numeric" id="rateRideshare" value="70" oninput="saveRates();recalc()">
+        <input class="rate-input" type="text" inputmode="numeric" id="rateRideshare" value="35" oninput="saveRates();recalc()">
       </div>
     </div>
   </div>
@@ -918,7 +918,7 @@ if (localStorage.getItem('aq_version') !== STORAGE_VERSION) {
   localStorage.setItem('aq_version', STORAGE_VERSION);
 }
 const RATE_KEYS = ['rateLabor','rateKit','rateRecorder','rateWireless','rateHop','rateIFB','rateTCBox','rateSlate','ratePlant','rateBoomOp','rateUtility','rateExpendables','rateParking','rateRideshare'];
-const RATE_DEFS = { rateLabor:900, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, ratePlant:75, rateBoomOp:750, rateUtility:500, rateExpendables:50, rateParking:50, rateRideshare:70 };
+const RATE_DEFS = { rateLabor:900, rateKit:650, rateRecorder:250, rateWireless:85, rateHop:100, rateIFB:35, rateTCBox:50, rateSlate:75, ratePlant:75, rateBoomOp:750, rateUtility:500, rateExpendables:50, rateParking:50, rateRideshare:35 };
 
 function saveRates() {
   const obj = {}; RATE_KEYS.forEach(k => obj[k] = $(k).value);
