@@ -1028,8 +1028,8 @@ function renderQuote(v, calc) {
 
   if (v.yourName || v.yourCompany) {
     h += `<div class="q-recordist">
-      ${v.yourName ? `<div class="q-recordist-name">${esc(v.yourName)}</div>` : ''}
-      ${v.yourCompany ? `<div class="q-recordist-co">${esc(v.yourCompany)}</div>` : ''}
+      ${v.yourCompany ? `<div class="q-recordist-name">${esc(v.yourCompany)}</div>` : ''}
+      ${v.yourName ? `<div class="q-recordist-co">${esc(v.yourName)}</div>` : ''}
       <div class="q-recordist-contact">${[v.yourPhone, v.yourEmail, market ? market.name : ''].filter(Boolean).join('  ·  ')}</div>
     </div>`;
   }
