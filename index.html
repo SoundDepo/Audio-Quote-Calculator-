@@ -915,10 +915,7 @@ function saveRates() {
   flashDot('ratesDot');
 }
 function loadRates() {
-  try {
-    const s = JSON.parse(localStorage.getItem('aq_rates') || '{}');
-    RATE_KEYS.forEach(k => $(k).value = s[k] !== undefined ? s[k] : RATE_DEFS[k]);
-  } catch(e) { RATE_KEYS.forEach(k => $(k).value = RATE_DEFS[k]); }
+  RATE_KEYS.forEach(k => $(k).value = RATE_DEFS[k]);
   updateDayRateTotal();
 }
 function updateDayRateTotal() {
