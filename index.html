@@ -520,14 +520,14 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="rate-input" type="text" inputmode="numeric" id="rateUtility" value="500" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
-        <div class="rate-label">Parking</div>
-        <select class="qty-input" id="qtyParking" onchange="recalc()"></select>
-        <input class="rate-input" type="text" inputmode="numeric" id="rateParking" value="50" oninput="saveRates();recalc()">
+        <div class="rate-label">Parking<span>trip total</span></div>
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);text-align:center;align-self:center">Total</span>
+        <input class="rate-input" type="text" inputmode="decimal" id="rateParking" value="0" placeholder="0" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
-        <div class="rate-label">Rideshare</div>
-        <select class="qty-input" id="qtyRideshare" onchange="recalc()"></select>
-        <input class="rate-input" type="text" inputmode="numeric" id="rateRideshare" value="35" oninput="saveRates();recalc()">
+        <div class="rate-label">Rideshare<span>trip total</span></div>
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);text-align:center;align-self:center">Total</span>
+        <input class="rate-input" type="text" inputmode="decimal" id="rateRideshare" value="0" placeholder="0" oninput="saveRates();recalc()">
       </div>
     </div>
   </div>
@@ -1001,8 +1001,6 @@ function getVals() {
     qtyBoomOp:    Math.max(0, parseInt($('qtyBoomOp').value)    || 0),
     qtyUtility:       Math.max(0, parseInt($('qtyUtility').value)       || 0),
     qtyExpendables:   Math.max(0, parseInt($('qtyExpendables').value)   || 0),
-    qtyParking:       Math.max(0, parseInt($('qtyParking').value)       || 0),
-    qtyRideshare:     Math.max(0, parseInt($('qtyRideshare').value)     || 0),
   };
 }
 
@@ -1022,8 +1020,8 @@ function calcLines(v) {
   if (v.qtyBoomOp > 0)  lines.push({ name: `Boom Operator ×${v.qtyBoomOp}`, qty: v.qtyBoomOp, days: v.days, unitRate: v.rateBoomOp, total: v.qtyBoomOp * v.rateBoomOp * v.days, kind: 'extra' });
   if (v.qtyUtility > 0)     lines.push({ name: `Utility / A2 ×${v.qtyUtility}`, qty: v.qtyUtility, days: v.days, unitRate: v.rateUtility, total: v.qtyUtility * v.rateUtility * v.days, kind: 'extra' });
   if (v.qtyExpendables > 0) lines.push({ name: `Expendables ×${v.qtyExpendables}`, qty: v.qtyExpendables, days: v.days, unitRate: v.rateExpendables, total: v.qtyExpendables * v.rateExpendables * v.days, kind: 'extra' });
-  if (v.qtyParking > 0)     lines.push({ name: `Parking ×${v.qtyParking}`, qty: v.qtyParking, days: v.days, unitRate: v.rateParking, total: v.qtyParking * v.rateParking * v.days, kind: 'extra' });
-  if (v.qtyRideshare > 0)   lines.push({ name: `Rideshare ×${v.qtyRideshare}`, qty: v.qtyRideshare, days: v.days, unitRate: v.rateRideshare, total: v.qtyRideshare * v.rateRideshare * v.days, kind: 'extra' });
+  if (v.rateParking > 0)    lines.push({ name: 'Parking', qty: 1, days: 1, unitRate: v.rateParking, total: v.rateParking, kind: 'extra' });
+  if (v.rateRideshare > 0)  lines.push({ name: 'Rideshare', qty: 1, days: 1, unitRate: v.rateRideshare, total: v.rateRideshare, kind: 'extra' });
 
   return { lines, grandTotal: lines.reduce((s, l) => s + l.total, 0), dayRate };
 }
@@ -1039,8 +1037,8 @@ function buildGear(v, c) {
   if (v.qtyBoomOp > 0)  items.push({ label: `${v.qtyBoomOp}× Boom Operator`, extra: true });
   if (v.qtyUtility > 0)     items.push({ label: `${v.qtyUtility}× Utility / A2`, extra: true });
   if (v.qtyExpendables > 0) items.push({ label: `${v.qtyExpendables}× Expendables`, extra: true });
-  if (v.qtyParking > 0)     items.push({ label: `${v.qtyParking}× Parking`, extra: true });
-  if (v.qtyRideshare > 0)   items.push({ label: `${v.qtyRideshare}× Rideshare`, extra: true });
+  if (v.rateParking > 0)    items.push({ label: `Parking`, extra: true });
+  if (v.rateRideshare > 0)  items.push({ label: `Rideshare`, extra: true });
   return items;
 }
 
@@ -1561,7 +1559,7 @@ function resetForm() {
   $('lavCount').value='2';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
   $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
-  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0'; $('qtyExpendables').value='0'; $('qtyParking').value='0'; $('qtyRideshare').value='0';
+  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0'; $('qtyExpendables').value='0'; $('rateParking').value='0'; $('rateRideshare').value='0';
   $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
   showToast('Form reset');
 }
@@ -1597,7 +1595,7 @@ function fmtPhone(el) {
 }
 
 // ── Init ──
-const QTY_IDS = ['qtyRecorder','qtyWireless','qtyTCBox','qtyHop','qtySlate','qtyPlant','qtyBoomOp','qtyUtility','qtyExpendables','qtyParking','qtyRideshare'];
+const QTY_IDS = ['qtyRecorder','qtyWireless','qtyTCBox','qtyHop','qtySlate','qtyPlant','qtyBoomOp','qtyUtility','qtyExpendables'];
 const qtyOpts = Array.from({length: 11}, (_, i) => `<option value="${i}">${i}</option>`).join('');
 const qtyOptsIFB = Array.from({length: 26}, (_, i) => `<option value="${i}">${i}</option>`).join('');
 QTY_IDS.forEach(id => { const el = $(id); if (el) el.innerHTML = qtyOpts; });
