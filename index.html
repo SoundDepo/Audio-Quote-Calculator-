@@ -368,9 +368,10 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
       </div>
       <div class="field">
         <label>Your Market / City</label>
-        <select id="yourCity" onchange="saveProfile();recalc()">
+        <select id="yourCity" onchange="onCityChange()">
           <option value="">— Select your market —</option>
         </select>
+        <input type="text" id="yourCityCustom" placeholder="Type your city, e.g. Portland, OR" style="display:none;margin-top:6px" oninput="saveProfile();recalc()">
       </div>
       <div class="field">
         <label>Street Address <span style="font-size:10px;color:var(--muted)">(shows on PDF)</span></label>
@@ -767,6 +768,13 @@ const MARKETS = [
 ];
 
 // ── Populate city selects ──
+function onCityChange() {
+  const isOther = $('yourCity').value === 'other';
+  $('yourCityCustom').style.display = isOther ? 'block' : 'none';
+  if (isOther) $('yourCityCustom').focus();
+  saveProfile(); recalc();
+}
+
 function populateCitySelects() {
   const tiers = [
     { label: 'Tier 1 — Major Markets', ids: ['los-angeles','new-york'] },
@@ -791,6 +799,12 @@ function populateCitySelects() {
       });
       sel.appendChild(grp);
     });
+    if (selId === 'yourCity') {
+      const other = document.createElement('option');
+      other.value = 'other';
+      other.textContent = '— Other: type my city —';
+      sel.appendChild(other);
+    }
   });
 }
 
@@ -913,7 +927,7 @@ function updateDayRateTotal() {
   $('dayRateTotal').textContent = fmt(l + k);
 }
 
-const PROFILE_KEYS = ['yourName','yourCompany','yourPhone','yourEmail','yourCity','yourStreet','yourUnit','yourZip'];
+const PROFILE_KEYS = ['yourName','yourCompany','yourPhone','yourEmail','yourCity','yourCityCustom','yourStreet','yourUnit','yourZip'];
 function saveProfile() {
   const obj = {}; PROFILE_KEYS.forEach(k => obj[k] = $(k).value);
   localStorage.setItem('aq_profile', JSON.stringify(obj));
@@ -922,7 +936,8 @@ function saveProfile() {
 function loadProfile() {
   try {
     const s = JSON.parse(localStorage.getItem('aq_profile') || '{}');
-    PROFILE_KEYS.forEach(k => { if (s[k] !== undefined) $(k).value = s[k]; });
+    PROFILE_KEYS.forEach(k => { if (s[k] !== undefined && $(k)) $(k).value = s[k]; });
+    if ($('yourCity').value === 'other') $('yourCityCustom').style.display = 'block';
   } catch(e) {}
 }
 
@@ -939,6 +954,7 @@ function getVals() {
     yourPhone:   $('yourPhone').value.trim(),
     yourEmail:   $('yourEmail').value.trim(),
     yourCity:    $('yourCity').value,
+    yourCityCustom: $('yourCityCustom').value.trim(),
     yourStreet:  $('yourStreet').value.trim(),
     yourUnit:    $('yourUnit').value.trim(),
     yourZip:     $('yourZip').value.trim(),
@@ -1240,7 +1256,7 @@ function downloadReceiptPDF() {
   if (v.yourName)    body += `<div class="party-name">${e(v.yourName)}</div>`;
   if (v.yourCompany) body += `<div class="party-line">${e(v.yourCompany)}</div>`;
   if (v.yourStreet)  body += `<div class="party-line">${e(v.yourStreet)}${v.yourUnit ? ' ' + e(v.yourUnit) : ''}</div>`;
-  if (v.yourCity || v.yourZip) { const market = MARKETS.find(m => m.id === v.yourCity); const cityLine = (market ? market.name : '') + (v.yourZip ? (market ? ', ' : '') + v.yourZip : ''); if (cityLine) body += `<div class="party-line">${e(cityLine)}</div>`; }
+  if (v.yourCity || v.yourZip) { const market = MARKETS.find(m => m.id === v.yourCity); const cityName = market ? market.name : (v.yourCity === 'other' ? v.yourCityCustom : ''); const cityLine = cityName + (v.yourZip ? (cityName ? ', ' : '') + v.yourZip : ''); if (cityLine) body += `<div class="party-line">${e(cityLine)}</div>`; }
   if (v.yourPhone)   body += `<div class="party-line">${e(v.yourPhone)}</div>`;
   if (v.yourEmail)   body += `<div class="party-line">${e(v.yourEmail)}</div>`;
   body += '</div>';
@@ -1353,7 +1369,7 @@ function generatePDFBlob() {
   ss(10, false, '#444444');
   if (v.yourCompany) { doc.text(v.yourCompany, margin, lY); lY += 13; }
   if (v.yourStreet) { doc.text(v.yourStreet + (v.yourUnit ? ' ' + v.yourUnit : ''), margin, lY); lY += 13; }
-  { const mkt = MARKETS.find(m => m.id === v.yourCity); const cityLine = (mkt ? mkt.name : '') + (v.yourZip ? (mkt ? ', ' : '') + v.yourZip : ''); if (cityLine) { doc.text(cityLine, margin, lY); lY += 13; } }
+  { const mkt = MARKETS.find(m => m.id === v.yourCity); const cityName = mkt ? mkt.name : (v.yourCity === 'other' ? v.yourCityCustom : ''); const cityLine = cityName + (v.yourZip ? (cityName ? ', ' : '') + v.yourZip : ''); if (cityLine) { doc.text(cityLine, margin, lY); lY += 13; } }
   if (v.yourPhone)   { doc.text(v.yourPhone,   margin, lY); lY += 13; }
   if (v.yourEmail)   { doc.text(v.yourEmail,   margin, lY); lY += 13; }
 
@@ -1460,7 +1476,7 @@ function emailQuote() {
   const calc = calcLines(v);
   const market = MARKETS.find(m => m.id === v.yourCity);
   const name   = v.yourName    || 'Your Name';
-  const city   = market ? market.name : (v.yourCity || 'your city');
+  const city   = market ? market.name : (v.yourCity === 'other' ? (v.yourCityCustom || 'your city') : (v.yourCity || 'your city'));
   const project = v.projectName || 'your production';
   const date    = v.shootDate
     ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
