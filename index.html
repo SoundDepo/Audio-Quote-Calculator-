@@ -520,14 +520,14 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="rate-input" type="text" inputmode="numeric" id="rateUtility" value="500" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
-        <div class="rate-label">Parking<span>trip total</span></div>
-        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);text-align:center;align-self:center">Total</span>
-        <input class="rate-input" type="text" inputmode="decimal" id="rateParking" value="0" placeholder="0" oninput="saveRates();recalc()">
-      </div>
-      <div class="rate-row rate-row-extra">
         <div class="rate-label">Transportation<span>$0.70/mi · IRS rate</span></div>
         <input type="text" inputmode="numeric" id="transMiles" placeholder="mi" oninput="recalc()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--blue);font-family:var(--mono);font-size:13px;padding:5px 4px;text-align:center;outline:none;width:100%">
         <div id="transTotal" class="rate-input" style="color:var(--muted);pointer-events:none">$0</div>
+      </div>
+      <div class="rate-row rate-row-extra">
+        <div class="rate-label">Parking<span>trip total</span></div>
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);text-align:center;align-self:center">Total</span>
+        <input class="rate-input" type="text" inputmode="decimal" id="rateParking" value="0" placeholder="0" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
         <div class="rate-label">Rideshare<span>trip total</span></div>
