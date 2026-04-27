@@ -534,6 +534,11 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);text-align:center;align-self:center">Total</span>
         <input class="rate-input" type="text" inputmode="decimal" id="rateRideshare" value="" placeholder="0" oninput="saveRates();recalc()">
       </div>
+      <div class="rate-row rate-row-extra">
+        <input type="text" id="customItemName" placeholder="Custom item..." oninput="recalc()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:13px;padding:5px 8px;outline:none;width:100%">
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);text-align:center;align-self:center">Total</span>
+        <input class="rate-input" type="text" inputmode="decimal" id="customItemAmount" placeholder="0" oninput="recalc()" style="">
+      </div>
     </div>
   </div>
 
@@ -997,6 +1002,8 @@ function getVals() {
     rateParking:      parseFloat($('rateParking').value)      || 0,
     rateRideshare:    parseFloat($('rateRideshare').value)    || 0,
     transMiles:       Math.max(0, parseFloat($('transMiles').value) || 0),
+    customItemName:   $('customItemName').value.trim(),
+    customItemAmount: parseFloat($('customItemAmount').value) || 0,
     qtyRecorder:  Math.max(0, parseInt($('qtyRecorder').value)  || 0),
     qtyWireless:  Math.max(0, parseInt($('qtyWireless').value)  || 0),
     qtyHop:       Math.max(0, parseInt($('qtyHop').value)       || 0),
@@ -1031,6 +1038,7 @@ function calcLines(v) {
   if (transTotal > 0)       lines.push({ name: `Transportation (${v.transMiles} mi)`, qty: 1, days: 1, unitRate: transTotal, total: transTotal, kind: 'extra' });
   if (v.rateParking > 0)    lines.push({ name: 'Parking', qty: 1, days: 1, unitRate: v.rateParking, total: v.rateParking, kind: 'extra' });
   if (v.rateRideshare > 0)  lines.push({ name: 'Rideshare', qty: 1, days: 1, unitRate: v.rateRideshare, total: v.rateRideshare, kind: 'extra' });
+  if (v.customItemName && v.customItemAmount > 0) lines.push({ name: v.customItemName, qty: 1, days: 1, unitRate: v.customItemAmount, total: v.customItemAmount, kind: 'extra' });
 
   return { lines, grandTotal: lines.reduce((s, l) => s + l.total, 0), dayRate };
 }
@@ -1049,6 +1057,7 @@ function buildGear(v, c) {
   if (transTotal > 0)       items.push({ label: `Transportation (${v.transMiles} mi)`, extra: true });
   if (v.rateParking > 0)    items.push({ label: `Parking`, extra: true });
   if (v.rateRideshare > 0)  items.push({ label: `Rideshare`, extra: true });
+  if (v.customItemName && v.customItemAmount > 0) items.push({ label: v.customItemName, extra: true });
   return items;
 }
 
@@ -1569,7 +1578,7 @@ function resetForm() {
   $('lavCount').value='2';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
   $('qtyIFB').value='0'; $('qtyTCBox').value='0'; $('qtySlate').value='0';
-  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0'; $('qtyExpendables').value='0'; $('rateParking').value=''; $('rateRideshare').value=''; $('transMiles').value=''; if($('transTotal')) $('transTotal').textContent='$0';
+  $('qtyPlant').value='0'; $('qtyBoomOp').value='0'; $('qtyUtility').value='0'; $('qtyExpendables').value='0'; $('rateParking').value=''; $('rateRideshare').value=''; $('customItemName').value=''; $('customItemAmount').value=''; $('transMiles').value=''; if($('transTotal')) $('transTotal').textContent='$0';
   $('quoteLive').innerHTML = `<div class="empty-state"><div class="icon">🎙</div><p>Fill in the form above.<br>Your quote builds live as you type.</p></div>`;
   showToast('Form reset');
 }
