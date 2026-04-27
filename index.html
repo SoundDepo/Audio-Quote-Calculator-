@@ -505,6 +505,11 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="rate-input" type="text" inputmode="numeric" id="ratePlant" value="75" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
+        <div class="rate-label">Expendables</div>
+        <select class="qty-input" id="qtyExpendables" onchange="recalc()"></select>
+        <input class="rate-input" type="text" inputmode="numeric" id="rateExpendables" value="50" oninput="saveRates();recalc()">
+      </div>
+      <div class="rate-row rate-row-extra">
         <div class="rate-label">Boom Operator</div>
         <select class="qty-input" id="qtyBoomOp" onchange="recalc()"></select>
         <input class="rate-input" type="text" inputmode="numeric" id="rateBoomOp" value="750" oninput="saveRates();recalc()">
@@ -513,11 +518,6 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <div class="rate-label">Utility / A2</div>
         <select class="qty-input" id="qtyUtility" onchange="recalc()"></select>
         <input class="rate-input" type="text" inputmode="numeric" id="rateUtility" value="500" oninput="saveRates();recalc()">
-      </div>
-      <div class="rate-row rate-row-extra">
-        <div class="rate-label">Expendables</div>
-        <select class="qty-input" id="qtyExpendables" onchange="recalc()"></select>
-        <input class="rate-input" type="text" inputmode="numeric" id="rateExpendables" value="50" oninput="saveRates();recalc()">
       </div>
     </div>
   </div>
