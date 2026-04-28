@@ -1490,16 +1490,15 @@ function generatePDFBlob() {
   doc.text(v.projectName || '—', margin, y);
   doc.text(dateStr, margin + 190, y);
   doc.text(String(v.days), margin + 360, y);
-  y += 14;
-  if (v.shootLocation || expiryStrP) {
-    ss(7.5, true, '#888888');
-    if (v.shootLocation) doc.text('LOCATION', margin, y);
-    if (expiryStrP)      doc.text('QUOTE VALID UNTIL', margin + 260, y);
-    y += 11;
-    ss(11, false, '#111111');
-    if (v.shootLocation) doc.text(v.shootLocation, margin, y);
-    if (expiryStrP)      doc.text(expiryStrP, margin + 260, y);
-    y += 14;
+  y += 13;
+  if (expiryStrP) {
+    ss(8.5, false, '#999999');
+    doc.text('Valid until ' + expiryStrP, margin + 190, y);
+    y += 13;
+  }
+  if (v.shootLocation) {
+    ss(7.5, true, '#888888'); doc.text('LOCATION', margin, y); y += 11;
+    ss(11, false, '#111111'); doc.text(v.shootLocation, margin, y); y += 13;
   }
   doc.setDrawColor('#dddddd'); doc.line(margin, y, right, y); y += 16;
 
@@ -1539,8 +1538,8 @@ function generatePDFBlob() {
   const gearLines = doc.splitTextToSize(gearText, col);
   doc.text(gearLines, margin, y); y += gearLines.length * 13 + 30;
 
-  doc.setDrawColor('#111111'); doc.setLineWidth(1.5); doc.line(margin, y, right, y); y += 22;
-  ss(13, true, '#111111'); doc.text('Total', margin, y + 4);
+  doc.setDrawColor('#111111'); doc.setLineWidth(1.5); doc.line(margin, y, right, y); y += 30;
+  ss(13, true, '#111111'); doc.text('Total', margin, y);
   ss(22, true, '#111111'); doc.text(f(grandTotal), right, y, { align: 'right' });
   if (v.days > 1) { y += 15; ss(10, false, '#888888'); doc.text(f(grandTotal / v.days) + '/day × ' + v.days + ' days', right, y, { align: 'right' }); }
   y += 22;
