@@ -1455,6 +1455,7 @@ function generatePDFBlob() {
 
   ss(8, true, '#888888');
   doc.text('LOCATION AUDIO SERVICES. QUOTE', margin, y);
+  if (expiryStrP) { ss(8, false, '#aaaaaa'); doc.text('Valid until ' + expiryStrP, right, y, { align: 'right' }); }
   y += 6;
   doc.setDrawColor('#111111'); doc.setLineWidth(1.5);
   doc.line(margin, y, right, y);
@@ -1491,11 +1492,6 @@ function generatePDFBlob() {
   doc.text(dateStr, margin + 190, y);
   doc.text(String(v.days), margin + 360, y);
   y += 13;
-  if (expiryStrP) {
-    ss(8.5, false, '#999999');
-    doc.text('Valid until ' + expiryStrP, right, y, { align: 'right' });
-    y += 13;
-  }
   if (v.shootLocation) {
     ss(7.5, true, '#888888'); doc.text('LOCATION', margin, y); y += 11;
     ss(11, false, '#111111'); doc.text(v.shootLocation, margin, y); y += 13;
