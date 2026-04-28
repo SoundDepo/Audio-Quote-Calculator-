@@ -1493,7 +1493,7 @@ function generatePDFBlob() {
   y += 13;
   if (expiryStrP) {
     ss(8.5, false, '#999999');
-    doc.text('Valid until ' + expiryStrP, margin + 190, y);
+    doc.text('Valid until ' + expiryStrP, right, y, { align: 'right' });
     y += 13;
   }
   if (v.shootLocation) {
