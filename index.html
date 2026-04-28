@@ -1539,9 +1539,9 @@ function generatePDFBlob() {
   const gearLines = doc.splitTextToSize(gearText, col);
   doc.text(gearLines, margin, y); y += gearLines.length * 13 + 30;
 
-  doc.setDrawColor('#111111'); doc.setLineWidth(1.5); doc.line(margin, y, right, y); y += 16;
-  ss(13, true, '#111111'); doc.text('Total', margin, y);
-  ss(20, true, '#111111'); doc.text(f(grandTotal), right, y, { align: 'right' });
+  doc.setDrawColor('#111111'); doc.setLineWidth(1.5); doc.line(margin, y, right, y); y += 22;
+  ss(13, true, '#111111'); doc.text('Total', margin, y + 4);
+  ss(22, true, '#111111'); doc.text(f(grandTotal), right, y, { align: 'right' });
   if (v.days > 1) { y += 15; ss(10, false, '#888888'); doc.text(f(grandTotal / v.days) + '/day × ' + v.days + ' days', right, y, { align: 'right' }); }
   y += 22;
 
