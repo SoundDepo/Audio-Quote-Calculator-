@@ -84,6 +84,7 @@ header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var
 .rate-input:focus { border-color: var(--gold); }
 .qty-input  { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--accent); font-family: var(--mono); font-size: 13px; padding: 5px 6px; text-align: center; outline: none; width: 100%; cursor: pointer; }
 .qty-input:focus { border-color: var(--accent); }
+.field select.qty-input { color: var(--accent); font-family: var(--mono); font-size: 13px; padding: 5px 6px; text-align: center; cursor: pointer; }
 .rates-col-heads { display: grid; grid-template-columns: 1fr 52px 88px; gap: 8px; padding: 0 0 2px; }
 .rates-col-heads span { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); text-align: center; }
 .rates-col-heads span:first-child { text-align: left; }
@@ -420,7 +421,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         </div>
         <div class="field">
           <label>Days <span style="font-size:10px;color:var(--muted)">(rates multiply per day)</span></label>
-          <select id="shootDays" onchange="recalc()"></select>
+          <select id="shootDays" class="qty-input" onchange="recalc()"></select>
         </div>
       </div>
       <div class="field">
