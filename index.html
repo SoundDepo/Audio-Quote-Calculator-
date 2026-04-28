@@ -423,6 +423,14 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
           <input type="number" id="shootDays" value="1" min="1" autocomplete="off" oninput="recalc()" onchange="recalc()">
         </div>
       </div>
+      <div class="field">
+        <label>Shoot Location</label>
+        <input type="text" id="shootLocation" placeholder="e.g. Brooklyn, NY · Studio 7" autocomplete="off" oninput="recalc()" onchange="recalc()">
+      </div>
+      <div class="field">
+        <label>Quote Valid Until</label>
+        <input type="date" id="quoteExpiry" oninput="recalc()" onchange="recalc()">
+      </div>
       </form>
     </div>
   </div>
@@ -992,8 +1000,10 @@ function getVals() {
     clientName:  $('clientName').value.trim(),
     clientEmail: $('clientEmail').value.trim(),
     projectName: $('projectName').value.trim(),
-    shootDate:   $('shootDate').value,
-    days:        Math.max(1, parseInt($('shootDays').value)  || 1),
+    shootDate:    $('shootDate').value,
+    shootLocation: $('shootLocation').value.trim(),
+    quoteExpiry:  $('quoteExpiry').value,
+    days:         Math.max(1, parseInt($('shootDays').value)  || 1),
     recorders:   Math.max(1, parseInt($('recorders').value)  || 1),
     booms:       Math.max(0, parseInt($('booms').value)      || 0),
     lavs:        Math.max(0, parseInt($('lavCount').value)   || 0),
@@ -1076,7 +1086,8 @@ function buildGear(v, c) {
 // ── Render ──
 function renderQuote(v, calc) {
   const { lines, grandTotal, dayRate } = calc;
-  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const dateStr   = v.shootDate    ? new Date(v.shootDate    + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const expiryStr = v.quoteExpiry  ? new Date(v.quoteExpiry  + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null;
   const market = MARKETS.find(m => m.id === v.yourCity);
 
   let h = '';
@@ -1092,7 +1103,7 @@ function renderQuote(v, calc) {
 
   h += `<div class="q-block"><div class="q-block-title">Prepared For</div>
     <div class="q-line"><div class="q-line-left"><div class="q-line-name">${esc(v.clientName || '—')}</div><div class="q-line-sub">${esc(v.clientEmail || '')}</div></div></div>
-    <div class="q-line"><div class="q-line-left"><div class="q-line-name">${esc(v.projectName || 'Untitled Project')}</div><div class="q-line-sub">${dateStr}${v.days > 1 ? ' · ' + v.days + '-day production' : ''}</div></div></div>
+    <div class="q-line"><div class="q-line-left"><div class="q-line-name">${esc(v.projectName || 'Untitled Project')}</div><div class="q-line-sub">${dateStr}${v.days > 1 ? ' · ' + v.days + '-day production' : ''}${v.shootLocation ? ' · ' + esc(v.shootLocation) : ''}</div></div></div>
   </div>`;
 
   h += `<div class="q-block"><div class="q-block-title">Services &amp; Equipment</div>`;
@@ -1129,6 +1140,8 @@ function renderQuote(v, calc) {
   h += `<div class="q-block"><div class="q-block-title">Gear Manifest</div>`;
   for (const g of gear) h += `<div class="gear-item ${g.extra ? 'gear-extra' : ''}">${esc(g.label)} ${g.extra ? '<span class="gear-tag">add\'l</span>' : ''}</div>`;
   h += `</div>`;
+
+  if (expiryStr) h += `<div style="font-size:11px;color:var(--muted);text-align:right;margin-top:8px;margin-bottom:-4px">Quote valid until ${expiryStr}</div>`;
 
   h += `<div class="q-terms">
     <strong>Terms</strong><br>
@@ -1189,7 +1202,11 @@ function buildPlainText() {
   const contact = [v.yourPhone, v.yourEmail, market?.name].filter(Boolean).join('  ·  ');
   if (contact) t += `${contact}\n`;
   t += `\nLOCATION AUDIO SERVICES. QUOTE\n${D}\n`;
-  t += `Client:   ${v.clientName || '—'}\nEmail:    ${v.clientEmail || '—'}\nProject:  ${v.projectName || '—'}\nDate:     ${dateStr}\nDays:     ${v.days}\n${D}\n\nSERVICES\n\n`;
+  t += `Client:   ${v.clientName || '—'}\nEmail:    ${v.clientEmail || '—'}\nProject:  ${v.projectName || '—'}\nDate:     ${dateStr}\nDays:     ${v.days}\n`;
+  if (v.shootLocation) t += `Location: ${v.shootLocation}\n`;
+  const expiryStrPT = v.quoteExpiry ? new Date(v.quoteExpiry + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null;
+  if (expiryStrPT) t += `Valid until: ${expiryStrPT}\n`;
+  t += `${D}\n\nSERVICES\n\n`;
 
   for (const ln of lines) {
     const qStr = ln.kind === 'labor' || ln.kind === 'kit' ? `${ln.qty}d × ${fmt(ln.unitRate)}` : `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
@@ -1229,11 +1246,14 @@ function buildReceiptHTML(v, calc) {
   h += '</div>';
 
   // Project
+  const expiryStrRH = v.quoteExpiry ? new Date(v.quoteExpiry + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null;
   h += '<div class="rcpt-proj">';
   h += `<div class="rcpt-proj-cell"><span class="rcpt-proj-lbl">Client</span>${esc(v.clientName || '—')}</div>`;
   h += `<div class="rcpt-proj-cell"><span class="rcpt-proj-lbl">Project</span>${esc(v.projectName || '—')}</div>`;
   h += `<div class="rcpt-proj-cell"><span class="rcpt-proj-lbl">Date</span>${dateStr}</div>`;
   h += `<div class="rcpt-proj-cell"><span class="rcpt-proj-lbl">Days</span>${v.days}</div>`;
+  if (v.shootLocation) h += `<div class="rcpt-proj-cell" style="grid-column:span 2"><span class="rcpt-proj-lbl">Location</span>${esc(v.shootLocation)}</div>`;
+  if (expiryStrRH)     h += `<div class="rcpt-proj-cell" style="grid-column:span 2"><span class="rcpt-proj-lbl">Quote Valid Until</span>${expiryStrRH}</div>`;
   h += '</div>';
 
   // Services
@@ -1287,6 +1307,9 @@ function buildReceiptText() {
   t += `Client:   ${v.clientName  || '—'}\n`;
   t += `Project:  ${v.projectName || '—'}\n`;
   t += `Date:     ${dateStr}${v.days > 1 ? '  ·  ' + v.days + ' days' : ''}\n`;
+  if (v.shootLocation) t += `Location: ${v.shootLocation}\n`;
+  const expiryStrRT = v.quoteExpiry ? new Date(v.quoteExpiry + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null;
+  if (expiryStrRT) t += `Valid until: ${expiryStrRT}\n`;
   t += D + '\n\nSERVICES\n\n';
   for (const ln of lines) {
     const q = ln.kind === 'labor' || ln.kind === 'kit' ? `${ln.qty}d × ${fmt(ln.unitRate)}` : `${ln.qty} × ${fmt(ln.unitRate)} × ${ln.days}d`;
@@ -1306,7 +1329,8 @@ function downloadReceiptPDF() {
   const calc = calcLines(v);
   const { lines, grandTotal, dayRate } = calc;
   const market  = MARKETS.find(m => m.id === v.yourCity);
-  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const dateStr     = v.shootDate   ? new Date(v.shootDate   + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const expiryStrD  = v.quoteExpiry ? new Date(v.quoteExpiry + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null;
   const gear    = buildGear(v, calc);
   const e = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const f = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -1349,6 +1373,8 @@ function downloadReceiptPDF() {
   body += `<div class="proj-cell"><div class="lbl">Project</div>${e(v.projectName || '—')}</div>`;
   body += `<div class="proj-cell"><div class="lbl">Date</div>${dateStr}</div>`;
   body += `<div class="proj-cell"><div class="lbl">Days</div>${v.days}</div>`;
+  if (v.shootLocation) body += `<div class="proj-cell" style="grid-column:span 2"><div class="lbl">Location</div>${e(v.shootLocation)}</div>`;
+  if (expiryStrD)      body += `<div class="proj-cell"><div class="lbl">Quote Valid Until</div>${expiryStrD}</div>`;
   body += '</div>';
 
   body += '<div class="section"><div class="section-title">Services</div>';
@@ -1416,7 +1442,8 @@ function generatePDFBlob() {
   const { lines, grandTotal, dayRate } = calc;
   const gear = buildGear(v, calc);
   const f = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-  const dateStr = v.shootDate ? new Date(v.shootDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const dateStr    = v.shootDate   ? new Date(v.shootDate   + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '—';
+  const expiryStrP = v.quoteExpiry ? new Date(v.quoteExpiry + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : null;
   const W = 612, margin = 48, right = W - margin, col = right - margin;
   let y = 52;
 
@@ -1464,6 +1491,16 @@ function generatePDFBlob() {
   doc.text(dateStr, margin + 190, y);
   doc.text(String(v.days), margin + 360, y);
   y += 14;
+  if (v.shootLocation || expiryStrP) {
+    ss(7.5, true, '#888888');
+    if (v.shootLocation) doc.text('LOCATION', margin, y);
+    if (expiryStrP)      doc.text('QUOTE VALID UNTIL', margin + 260, y);
+    y += 11;
+    ss(11, false, '#111111');
+    if (v.shootLocation) doc.text(v.shootLocation, margin, y);
+    if (expiryStrP)      doc.text(expiryStrP, margin + 260, y);
+    y += 14;
+  }
   doc.setDrawColor('#dddddd'); doc.line(margin, y, right, y); y += 16;
 
   ss(7.5, true, '#888888'); doc.text('SERVICES', margin, y); y += 13;
@@ -1615,8 +1652,9 @@ function toggleSection(bodyId, labelId) {
 
 function resetForm() {
   if (!confirm('Reset the form?')) return;
-  ['clientName','clientEmail','projectName'].forEach(id => $(id).value = '');
+  ['clientName','clientEmail','projectName','shootLocation'].forEach(id => $(id).value = '');
   $('shootDate').value = new Date().toISOString().split('T')[0];
+  $('quoteExpiry').value = '';
   $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
   $('lavCount').value='2';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
