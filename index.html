@@ -525,7 +525,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         <input class="rate-input" type="text" inputmode="numeric" id="rateUtility" value="700" oninput="saveRates();recalc()">
       </div>
       <div class="rate-row rate-row-extra">
-        <div class="rate-label">Transportation<span>$0.70/mi · IRS rate</span></div>
+        <div class="rate-label">Transportation<span>$0.725/mi · IRS rate</span></div>
         <input type="text" inputmode="numeric" id="transMiles" placeholder="mi" oninput="recalc()" style="background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--blue);font-family:var(--mono);font-size:13px;padding:5px 4px;text-align:center;outline:none;width:100%">
         <div id="transTotal" class="rate-input" style="color:var(--muted);pointer-events:none">$0</div>
       </div>
@@ -1045,7 +1045,7 @@ function calcLines(v) {
   if (v.qtyBoomOp > 0)  lines.push({ name: `Boom Operator ×${v.qtyBoomOp}`, qty: v.qtyBoomOp, days: v.days, unitRate: v.rateBoomOp, total: v.qtyBoomOp * v.rateBoomOp * v.days, kind: 'extra' });
   if (v.qtyUtility > 0)     lines.push({ name: `Utility / A2 ×${v.qtyUtility}`, qty: v.qtyUtility, days: v.days, unitRate: v.rateUtility, total: v.qtyUtility * v.rateUtility * v.days, kind: 'extra' });
   if (v.qtyExpendables > 0) lines.push({ name: `Expendables ×${v.qtyExpendables}`, qty: v.qtyExpendables, days: v.days, unitRate: v.rateExpendables, total: v.qtyExpendables * v.rateExpendables * v.days, kind: 'extra' });
-  const transTotal = Math.round(v.transMiles * 0.70 * 100) / 100;
+  const transTotal = Math.round(v.transMiles * 0.725 * 100) / 100;
   if ($('transTotal')) $('transTotal').textContent = transTotal > 0 ? fmt(transTotal) : '$0';
   if (transTotal > 0)       lines.push({ name: `Transportation (${v.transMiles} mi)`, qty: 1, days: 1, unitRate: transTotal, total: transTotal, kind: 'extra' });
   if (v.rateParking > 0)    lines.push({ name: 'Parking', qty: 1, days: 1, unitRate: v.rateParking, total: v.rateParking, kind: 'extra' });
