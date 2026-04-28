@@ -225,7 +225,7 @@ header { grid-area: hdr; position: sticky; top: 0; z-index: 100; background: var
 .market-notes { font-size: 12px; color: var(--muted); line-height: 1.6; }
 .tips-list { display: flex; flex-direction: column; gap: 6px; }
 .tip-item { display: flex; gap: 8px; font-size: 12px; color: var(--text); }
-.tip-item::before { content: '💪'; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+.tip-item::before { content: '📋'; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
 .apply-btn-wrap { padding-top: 4px; }
 .market-empty { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; }
 
@@ -642,7 +642,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
     <div class="market-panel-hdr">
       <div>
         <div class="market-panel-title">📊 Market Rate Guide</div>
-        <div class="market-panel-sub">Community rate benchmarks by city.<br>Know the floor. Don't work below it.</div>
+        <div class="market-panel-sub">Community-reported rate data by market.<br>Know your value. Price accordingly.</div>
       </div>
       <button class="market-close" onclick="closeMarket()">✕</button>
     </div>
@@ -692,120 +692,120 @@ const MARKETS = [
     floor: 1200, std: 1600, top: 2500,
     laborFloor: 750, laborStd: 950, kitFloor: 450, kitStd: 650,
     union: 'IATSE Local 695. union scale $2,200–$3,000+/day (labor + kit)',
-    notes: 'Largest production market in the US. Streaming, studio, and commercial money is real. $1,600/day is a solid working rate. Non-union commercial pushes $1,100–$1,200 for labor alone. Indie productions that can\'t meet market rate are not your problem.',
-    tips: ['Non-union commercial labor runs $1,100–$1,200. Narrative/doc starts at $950', 'Kit rental is always a separate line item on union and studio work', 'Boom op is a separate hire on scripted productions. Don\'t absorb that cost', 'OT after 10hrs is non-negotiable. Get it in writing before call time']
+    notes: 'Largest production market in the US. Streaming, studio, and commercial money is real. Community surveys place $1,600/day as a solid working rate. Non-union commercial labor is commonly reported at $1,100–$1,200. Indie productions typically operate on tighter budgets.',
+    tips: ['Non-union commercial labor commonly reported at $1,100–$1,200. Narrative/doc typically starts at $950', 'Kit rental is reported as a separate line item on union and studio work in this market', 'Boom op is typically a separate hire and billed separately on scripted productions', 'Experienced mixers in this market report getting OT terms confirmed in writing before call time']
   },
   {
     id: 'new-york', name: 'New York City, NY', tier: 1, tierLabel: 'Major Market',
     floor: 1250, std: 1600, top: 2400,
     laborFloor: 750, laborStd: 950, kitFloor: 500, kitStd: 650,
     union: 'IATSE Local 52. union scale $2,000–$2,800+/day (labor + kit)',
-    notes: 'One of the highest-rate markets in the country. Non-commercial labor runs $900–$950/10hr; non-union commercial pushes $1,150/10hr. Timecode is never included in the base package. Always à la carte.',
-    tips: ['Non-union commercial labor starts at $1,150. Know what type of job you\'re on', 'Timecode boxes and slates are always billed separately. Never bundle them', 'Kit rental is always separate on union and studio jobs', 'Out-of-town productions come here because they have the budget. Hold your rate']
+    notes: 'One of the highest-rate markets in the country. Non-commercial labor is commonly reported at $900–$950/10hr; non-union commercial at $1,150/10hr. Timecode is typically billed as a separate line item in this market.',
+    tips: ['Non-union commercial labor commonly reported starting at $1,150. Job type affects rate', 'Timecode boxes and slates are typically billed as separate line items in this market', 'Kit rental is reported as a separate line item on union and studio jobs', 'Out-of-town productions in this market are reported to have strong budgets']
   },
   {
     id: 'atlanta', name: 'Atlanta, GA', tier: 2, tierLabel: 'Growth Market',
     floor: 900, std: 1200, top: 1800,
     laborFloor: 550, laborStd: 750, kitFloor: 350, kitStd: 450,
     union: 'IATSE Local 479. active on major studio and streaming productions',
-    notes: 'Georgia tax incentives bring real studio money. Marvel, Netflix, HBO. They all shoot here. If a production has a GA tax credit, they have a full budget. The "we\'re a small production" pitch is usually a negotiating tactic.',
-    tips: ['Studio and streaming productions in ATL have LA-level budgets. Charge accordingly', 'GA tax credit productions: if they qualified, they have the money', 'Reality TV is heavy here. Know your day rate before they lock you in', 'Out-of-town crews can\'t replace your local knowledge. Price that in']
+    notes: 'Georgia tax incentives bring major studio production — Marvel, Netflix, HBO. Productions with a GA tax credit typically have full budgets. Community surveys reflect this in the reported rates for studio and streaming work.',
+    tips: ['Studio and streaming productions in ATL are reported to carry LA-level budgets', 'GA tax credit productions have met budget thresholds to qualify — rates reflect that', 'Reality TV is a significant part of this market. Experienced mixers confirm rates upfront', 'Local knowledge of ATL locations and logistics is a factor experienced mixers report pricing in']
   },
   {
     id: 'chicago', name: 'Chicago, IL', tier: 2, tierLabel: 'Established Market',
     floor: 1100, std: 1500, top: 1900,
     laborFloor: 650, laborStd: 900, kitFloor: 450, kitStd: 600,
     union: 'IATSE Local 476',
-    notes: 'Strong commercial and narrative market with an established rate culture. Top mixers in this market are holding $900 labor / $600 kit as the standard. That is the floor to build from, not a ceiling.',
-    tips: ['$900/$600 is where established Chicago mixers are. Don\'t go below it', 'Commercial jobs carry more budget. Push toward $1,000+ labor on spots', 'Timecode is always à la carte. Never bundle it into the base package', 'Streaming productions shooting in IL pay at or near LA rate']
+    notes: 'Strong commercial and narrative market with an established rate culture. Community surveys report $900 labor / $600 kit as the standard for established mixers in this market.',
+    tips: ['$900/$600 is the community-reported standard for established Chicago mixers', 'Commercial jobs in this market are reported to support $1,000+ labor on spots', 'Timecode is typically billed as a separate line item in this market', 'Streaming productions shooting in IL are reported to pay at or near LA rates']
   },
   {
     id: 'new-orleans', name: 'New Orleans, LA', tier: 2, tierLabel: 'Incentive Market',
     floor: 850, std: 1100, top: 1600,
     laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
     union: 'IATSE Local 478',
-    notes: 'Louisiana tax incentives drive major studio production year-round. Out-of-town productions cannot replace your local knowledge. Permits, locations, contacts, and climate. That expertise has real value.',
-    tips: ['If they flew a producer down from LA, they have a LA-sized budget', 'Local knowledge of NOLA locations and logistics is genuinely irreplaceable. Price it', 'Heat, humidity, and location access are real cost factors', 'Don\'t race to the bottom to beat out-of-town crews. You know this city, they don\'t']
+    notes: 'Louisiana tax incentives drive major studio production year-round. Local knowledge of permits, locations, contacts, and climate conditions is a distinct advantage that experienced mixers report factoring into their rates.',
+    tips: ['Productions that flew a producer from LA are reported to carry LA-level budgets', 'Local NOLA location and logistics knowledge is a differentiator experienced mixers report pricing in', 'Heat, humidity, and location access are real operational factors in this market', 'Local crew expertise is reported as a meaningful advantage over out-of-town crews']
   },
   {
     id: 'san-francisco', name: 'San Francisco / Bay Area', tier: 2, tierLabel: 'Tech Market',
     floor: 1100, std: 1500, top: 2200,
     laborFloor: 675, laborStd: 925, kitFloor: 425, kitStd: 575,
     union: 'IATSE Local 16',
-    notes: 'One of the highest costs of living in the country. Tech company video budgets are a rounding error compared to their operating budgets. "Startup" is not an excuse. They have investor money. Charge LA rates minimum.',
-    tips: ['Tech clients spend more on lunch than your day rate. Don\'t undercharge', '"We\'re a startup" does not mean no budget. They have Series A or B funding', 'SF cost of living demands LA-tier rates. Don\'t settle for less', 'Corporate and branded content dominates. These clients pay well']
+    notes: 'One of the highest costs of living in the country. Tech company video budgets are typically a small fraction of their operating budgets. Community surveys in this market reflect rates comparable to LA.',
+    tips: ['Tech clients in this market are reported to have strong production budgets', 'Startup funding rounds typically include budget for professional video production', 'SF cost of living is among the highest in the country — community surveys reflect LA-tier rates', 'Corporate and branded content is the dominant work type and is reported to pay well']
   },
   {
     id: 'austin', name: 'Austin, TX', tier: 2, tierLabel: 'Growing Market',
     floor: 850, std: 1100, top: 1600,
     laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
     union: 'Mostly non-union. some IATSE work on larger productions',
-    notes: 'Austin is no longer a cheap market. Cost of living has risen sharply and your rates should reflect that. SXSW, F1, and tech brands bring real money. Music industry clients will always push for low. That\'s their culture, not your problem.',
-    tips: ['SXSW and F1 season: charge premium rates. Demand is at its peak', 'Tech and branded content clients in Austin have real budgets', 'Music industry low-ball offers are a culture, not a budget constraint. You can say no', 'Austin costs have risen. Your rates should too']
+    notes: 'Austin\'s cost of living has risen significantly. SXSW, F1, and tech brands bring strong production budgets. Music industry work typically operates on tighter budgets — community surveys reflect the difference by job type.',
+    tips: ['SXSW and F1 season sees peak demand — community surveys show higher rates during this period', 'Tech and branded content clients in Austin are reported to have strong production budgets', 'Music industry work is reported to carry tighter budgets than commercial or tech work in this market', 'Austin cost of living increases are reflected in community-reported rates over recent years']
   },
   {
     id: 'dallas', name: 'Dallas / Fort Worth, TX', tier: 3, tierLabel: 'Regional Market',
     floor: 800, std: 1050, top: 1500,
     laborFloor: 500, laborStd: 650, kitFloor: 300, kitStd: 400,
     union: 'Mostly non-union market',
-    notes: 'Strong corporate and commercial market. DFW has some of the largest corporate HQs in the country. Those companies have real video production budgets. Many producers here aren\'t used to seeing itemized audio quotes. Educate them.',
-    tips: ['Corporate HQ clients have real budgets. Don\'t guess low', 'An itemized quote showing labor + kit teaches producers what they\'re actually paying for', 'Commercial work pays better than corporate event video. Prioritize it', 'Out-of-town studio productions should match their home market rate, not the local corporate floor']
+    notes: 'Strong corporate and commercial market. DFW is home to some of the largest corporate HQs in the country with real video production budgets. Itemized audio quotes are less common here — presenting one clearly communicates professional value.',
+    tips: ['Corporate HQ clients in this market are reported to have real production budgets', 'An itemized quote showing labor + kit clearly communicates what professional audio services include', 'Commercial work is reported to pay better than corporate event video in this market', 'Out-of-town studio productions typically reflect their home market rates']
   },
   {
     id: 'miami', name: 'Miami / South Florida', tier: 3, tierLabel: 'Regional Market',
     floor: 850, std: 1100, top: 1600,
     laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
     union: 'IATSE Local 500',
-    notes: 'Miami is a gateway market for Latin American and international productions. Those productions often have solid budgets and are accustomed to paying professional rates. Music video work trends low. Know the difference.',
-    tips: ['International productions coming through Miami often have real budgets. Hold your rate', 'Spanish-language production is a major part of the market. Understand the landscape', 'Music video will always push for less. Kit rental is your floor, minimum', 'Reality TV production in Miami is heavy. Lock in your rate before you\'re locked in']
+    notes: 'Miami is a gateway market for Latin American and international productions. These productions often carry solid budgets and are accustomed to professional rates. Music video work typically operates at lower budgets — community surveys reflect the difference.',
+    tips: ['International productions coming through Miami are reported to carry strong budgets', 'Spanish-language production is a significant and growing part of this market', 'Music video work is reported to carry tighter budgets than commercial or narrative work here', 'Reality TV is a significant work type in Miami — experienced mixers report confirming rates upfront']
   },
   {
     id: 'seattle', name: 'Seattle, WA', tier: 3, tierLabel: 'Regional Market',
     floor: 950, std: 1250, top: 1800,
     laborFloor: 575, laborStd: 775, kitFloor: 375, kitStd: 475,
     union: 'IATSE Local 488',
-    notes: 'Seattle has a high cost of living and a strong tech economy. Amazon, Microsoft, and outdoor brands are the primary clients. All well-funded. Streaming productions (especially Amazon) pay at or above LA rates.',
-    tips: ['Amazon and streaming productions pay LA scale. Hold that rate', 'Tech clients spend more on equipment than your day rate. Don\'t undersell', 'Outdoor and adventure work involves real risk and terrain. Price it accordingly', 'Don\'t let Pacific Northwest indie culture drive your rate below what the market supports']
+    notes: 'Seattle has a high cost of living and a strong tech economy. Amazon, Microsoft, and outdoor brands are the primary clients. Streaming productions — especially Amazon — are reported to pay at or above LA rates.',
+    tips: ['Amazon and streaming productions in this market are reported to pay LA scale', 'Tech clients in Seattle are reported to have strong production budgets', 'Outdoor and adventure work involves real logistical challenges — experienced mixers report pricing these in', 'Community surveys in this market reflect rates above what indie productions typically offer']
   },
   {
     id: 'nashville', name: 'Nashville, TN', tier: 3, tierLabel: 'Regional Market',
     floor: 750, std: 950, top: 1400,
     laborFloor: 475, laborStd: 600, kitFloor: 275, kitStd: 350,
     union: 'Mostly non-union market',
-    notes: 'Nashville is growing fast and rates should reflect it. The music industry has always pushed for low budgets. That\'s a culture, not a financial reality. Branded content, corporate, and TV production pay better. Pick your clients accordingly.',
-    tips: ['Music industry low-ball is a habit, not a budget constraint. You can walk', 'Branded content and corporate clients in Nashville pay significantly better', 'Nashville growth means demand for professional crew is up. Use that leverage', 'Don\'t normalize music-industry rates as your standard. They\'re the exception']
+    notes: 'Nashville is growing fast and community surveys reflect that growth. Music industry work typically carries tighter budgets. Branded content, corporate, and TV production are reported to pay better — and are a growing part of the market.',
+    tips: ['Music industry work is reported to carry tighter budgets than branded or corporate work here', 'Branded content and corporate clients in Nashville are reported to pay significantly better', 'Nashville\'s growth has increased demand for experienced professional crew', 'Community surveys show branded and TV work paying well above music industry rates in this market']
   },
   {
     id: 'boston', name: 'Boston, MA', tier: 3, tierLabel: 'Regional Market',
     floor: 950, std: 1250, top: 1800,
     laborFloor: 575, laborStd: 775, kitFloor: 375, kitStd: 475,
     union: 'IATSE Local 481',
-    notes: 'Boston has a strong academic, medical, and commercial production ecosystem. Pharma and biotech clients have substantial video budgets. New England productions often pull from the Boston crew base. Your local availability has value.',
-    tips: ['Pharma and biotech clients have real budgets and take production quality seriously', 'Academic work pays lower. Know when a project is worth your rate', 'New England weather is genuinely unpredictable. Kill fees belong in every deal', 'Boston is a regional hub. Your crew availability has leverage']
+    notes: 'Boston has a strong academic, medical, and commercial production ecosystem. Pharma and biotech clients are reported to have substantial video budgets. New England productions frequently draw from the Boston crew base.',
+    tips: ['Pharma and biotech clients are reported to have strong budgets and high production standards', 'Academic work is reported to carry more modest budgets than pharma or commercial work', 'New England weather is genuinely unpredictable — experienced mixers report kill fees as standard', 'Boston serves as a regional crew hub — local availability is a reported factor in rate discussions']
   },
   {
     id: 'philadelphia', name: 'Philadelphia, PA', tier: 3, tierLabel: 'Regional Market',
     floor: 850, std: 1100, top: 1600,
     laborFloor: 525, laborStd: 675, kitFloor: 325, kitStd: 425,
     union: 'IATSE Local 752',
-    notes: 'Productions choose Philly over NYC to save on location costs. Not crew costs. That location saving doesn\'t come out of your rate. Pharma and medical clients are a strong, well-funded segment of this market.',
-    tips: ['A production saving money on Philly locations still has a full crew budget', 'You are not subsidizing their location decision. Hold your rate', 'Pharma and medical production is strong and reliable in this market', 'Proximity to NYC means you can compete for NYC-rate productions. Don\'t undersell']
+    notes: 'Productions choose Philly over NYC primarily to save on location costs — community surveys reflect that crew rates remain consistent with the broader regional market. Pharma and medical clients are a strong, well-funded segment here.',
+    tips: ['Productions saving on Philly location costs are reported to carry full crew budgets', 'Location cost savings are reported as separate from crew rate expectations in this market', 'Pharma and medical production is a strong and reliable work segment in Philadelphia', 'Proximity to NYC is reflected in community-reported rates for this market']
   },
   {
     id: 'denver', name: 'Denver / Colorado', tier: 3, tierLabel: 'Regional Market',
     floor: 800, std: 1050, top: 1500,
     laborFloor: 500, laborStd: 650, kitFloor: 300, kitStd: 400,
     union: 'Mostly non-union market',
-    notes: 'Outdoor brands, ski industry, adventure sports, and a growing tech scene. Colorado productions often involve remote locations and challenging conditions. That difficulty has a price and you should charge it.',
-    tips: ['Outdoor and adventure brands pay well for authentic on-location expertise', 'Altitude, terrain, extreme weather, and remote access are all billable factors', 'Denver\'s tech scene is growing. Corporate and branded content pays well', 'Travel time to mountain locations is work time. Bill it']
+    notes: 'Outdoor brands, ski industry, adventure sports, and a growing tech scene. Colorado productions often involve remote locations and challenging conditions — community surveys reflect these operational factors in reported rates.',
+    tips: ['Outdoor and adventure brands are reported to pay well for on-location expertise', 'Altitude, terrain, extreme weather, and remote access are operational factors experienced mixers report pricing in', 'Denver\'s tech scene is growing — corporate and branded content is reported to pay well', 'Travel time to mountain locations is typically factored into rates by experienced mixers in this market']
   },
   {
     id: 'hawaii', name: 'Hawaii', tier: 2, tierLabel: 'Premium Location Market',
     floor: 1200, std: 1600, top: 2400,
     laborFloor: 750, laborStd: 950, kitFloor: 450, kitStd: 650,
     union: 'IATSE Local 665',
-    notes: 'If a production is shooting in Hawaii, they have the budget. Period. Your local knowledge of locations, permits, vendors, and logistics is genuinely irreplaceable. No mainland crew can substitute for it. That scarcity is your leverage and you should use it.',
-    tips: ['Charge a location premium. You are not interchangeable with mainland crew', 'Gear transport costs from the mainland often exceed your day rate. Remind them of that', 'Local permits access, vendor relationships, and climate knowledge have real value', 'If they\'re shooting in Hawaii, they budgeted for Hawaii. Hold your rate']
+    notes: 'Productions shooting in Hawaii typically carry strong budgets. Local knowledge of locations, permits, vendors, and logistics is a distinct advantage — community surveys reflect this in Hawaii\'s reported rates.',
+    tips: ['A location premium is commonly reported by experienced mixers working in Hawaii', 'Gear transport costs from the mainland are a real factor — experienced mixers report this is reflected in rates', 'Local permits access, vendor relationships, and climate knowledge are reported differentiators in this market', 'Community surveys for Hawaii reflect budgets consistent with a premium location market']
   },
 ];
 
@@ -854,7 +854,7 @@ function populateCitySelects() {
 function renderMarketCard() {
   const id = $('marketCitySelect').value;
   const wrap = $('marketCardWrap');
-  if (!id) { wrap.innerHTML = '<div class="market-empty">Select a city above to see rate guidance and hold-the-line tips.</div>'; return; }
+  if (!id) { wrap.innerHTML = '<div class="market-empty">Select a city above to see community-reported rate data and market insights.</div>'; return; }
   const m = MARKETS.find(x => x.id === id);
   if (!m) return;
   const tierClass = m.tier === 1 ? 'badge-t1' : m.tier === 2 ? 'badge-t2' : 'badge-t3';
@@ -871,7 +871,7 @@ function renderMarketCard() {
           <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);margin-bottom:8px">Package Day Rate (Labor + Kit)</div>
           <div class="rate-range-grid">
             <div class="rate-range-cell">
-              <div class="rate-range-label">Floor. Do Not Go Below</div>
+              <div class="rate-range-label">Reported Low</div>
               <div class="rate-range-val rate-floor">${fmtK(m.floor)}</div>
             </div>
             <div class="rate-range-cell">
@@ -904,7 +904,7 @@ function renderMarketCard() {
         <div class="market-notes">${m.notes}</div>
 
         <div>
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);margin-bottom:8px">Hold the Line 💪</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.7px;color:var(--muted);margin-bottom:8px">What Mixers Report 📋</div>
           <div class="tips-list">
             ${m.tips.map(t => `<div class="tip-item">${t}</div>`).join('')}
           </div>
