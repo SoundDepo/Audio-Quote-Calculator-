@@ -1654,7 +1654,8 @@ function resetForm() {
   if (!confirm('Reset the form?')) return;
   ['clientName','clientEmail','projectName','shootLocation'].forEach(id => $(id).value = '');
   $('shootDate').value = new Date().toISOString().split('T')[0];
-  $('quoteExpiry').value = '';
+  const _re = new Date(); _re.setDate(_re.getDate() + 30);
+  $('quoteExpiry').value = _re.toISOString().split('T')[0];
   $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
   $('lavCount').value='2';
   $('qtyRecorder').value='0'; $('qtyWireless').value='0'; $('qtyHop').value='0';
@@ -1707,6 +1708,8 @@ populateCitySelects();
 loadRates();
 loadProfile();
 $('shootDate').value = new Date().toISOString().split('T')[0];
+const _exp = new Date(); _exp.setDate(_exp.getDate() + 30);
+$('quoteExpiry').value = _exp.toISOString().split('T')[0];
 recalc();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
