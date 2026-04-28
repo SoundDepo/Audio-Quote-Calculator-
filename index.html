@@ -420,7 +420,7 @@ footer { grid-area: foot; position: sticky; bottom: 0; z-index: 100; background:
         </div>
         <div class="field">
           <label>Days <span style="font-size:10px;color:var(--muted)">(rates multiply per day)</span></label>
-          <input type="number" id="shootDays" value="1" min="1" autocomplete="off" oninput="recalc()" onchange="recalc()">
+          <select id="shootDays" onchange="recalc()"></select>
         </div>
       </div>
       <div class="field">
@@ -1701,6 +1701,7 @@ const qtyOpts = Array.from({length: 11}, (_, i) => `<option value="${i}">${i}</o
 const qtyOptsIFB = Array.from({length: 26}, (_, i) => `<option value="${i}">${i}</option>`).join('');
 QTY_IDS.forEach(id => { const el = $(id); if (el) el.innerHTML = qtyOpts; });
 $('qtyIFB').innerHTML = qtyOptsIFB;
+$('shootDays').innerHTML = Array.from({length: 30}, (_, i) => `<option value="${i+1}">${i+1} day${i>0?'s':''}</option>`).join('');
 document.querySelectorAll('.rate-input').forEach(el => {
   el.addEventListener('focus', function() { const len = this.value.length; this.setSelectionRange(len, len); });
 });
