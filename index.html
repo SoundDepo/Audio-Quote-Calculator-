@@ -1649,7 +1649,7 @@ function toggleSection(bodyId, labelId) {
 function resetForm() {
   if (!confirm('Reset the form?')) return;
   ['clientName','clientEmail','projectName','shootLocation'].forEach(id => $(id).value = '');
-  $('shootDate').value = new Date().toISOString().split('T')[0];
+  $('shootDate').value = '';
   const _re = new Date(); _re.setDate(_re.getDate() + 30);
   $('quoteExpiry').value = _re.toISOString().split('T')[0];
   $('shootDays').value='1'; $('recorders').value='1'; $('booms').value='1';
@@ -1703,7 +1703,7 @@ document.querySelectorAll('.rate-input').forEach(el => {
 populateCitySelects();
 loadRates();
 loadProfile();
-$('shootDate').value = new Date().toISOString().split('T')[0];
+$('shootDate').value = '';
 const _exp = new Date(); _exp.setDate(_exp.getDate() + 30);
 $('quoteExpiry').value = _exp.toISOString().split('T')[0];
 recalc();
